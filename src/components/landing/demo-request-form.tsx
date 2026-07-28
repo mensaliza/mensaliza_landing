@@ -163,11 +163,6 @@ export function DemoRequestForm() {
             compromisso.
           </p>
         </div>
-        <LoginLink
-          variant="outline"
-          size="lg"
-          className="w-full sm:w-auto"
-        />
       </div>
     );
   }
