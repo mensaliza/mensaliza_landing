@@ -1,0 +1,255 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-07-27T18:42:57.116Z",
+  "title": "Design System: Mensaliza",
+  "extensions": {
+    "colorMeta": {
+      "brand-orange": {
+        "role": "primary",
+        "displayName": "Brand Orange",
+        "canonical": "oklch(0.68 0.19 55)",
+        "tonalRamp": [
+          "oklch(0.25 0.08 55)",
+          "oklch(0.35 0.12 55)",
+          "oklch(0.45 0.15 55)",
+          "oklch(0.55 0.17 55)",
+          "oklch(0.68 0.19 55)",
+          "oklch(0.78 0.16 55)",
+          "oklch(0.88 0.10 55)",
+          "oklch(0.95 0.04 55)"
+        ]
+      },
+      "page-bg": {
+        "role": "neutral",
+        "displayName": "Page Background",
+        "canonical": "oklch(0.99 0 0)",
+        "tonalRamp": [
+          "oklch(0.18 0 0)",
+          "oklch(0.28 0 0)",
+          "oklch(0.42 0 0)",
+          "oklch(0.55 0 0)",
+          "oklch(0.70 0 0)",
+          "oklch(0.82 0 0)",
+          "oklch(0.90 0 0)",
+          "oklch(0.99 0 0)"
+        ]
+      },
+      "ink": {
+        "role": "neutral",
+        "displayName": "Ink",
+        "canonical": "oklch(0.18 0 0)",
+        "tonalRamp": [
+          "oklch(0.12 0 0)",
+          "oklch(0.18 0 0)",
+          "oklch(0.28 0 0)",
+          "oklch(0.38 0 0)",
+          "oklch(0.48 0 0)",
+          "oklch(0.58 0 0)",
+          "oklch(0.72 0 0)",
+          "oklch(0.88 0 0)"
+        ]
+      },
+      "status-late": {
+        "role": "tertiary",
+        "displayName": "Status Late",
+        "canonical": "oklch(0.52 0.2 25)",
+        "tonalRamp": [
+          "oklch(0.22 0.10 25)",
+          "oklch(0.32 0.14 25)",
+          "oklch(0.42 0.17 25)",
+          "oklch(0.52 0.2 25)",
+          "oklch(0.62 0.18 25)",
+          "oklch(0.72 0.14 25)",
+          "oklch(0.85 0.08 25)",
+          "oklch(0.94 0.03 25)"
+        ]
+      }
+    },
+    "typographyMeta": {
+      "display": {
+        "displayName": "Display",
+        "purpose": "Hero headline only — emotional hook, text-wrap balance."
+      },
+      "headline": {
+        "displayName": "Headline",
+        "purpose": "Section titles via SectionHeading."
+      },
+      "title": {
+        "displayName": "Title",
+        "purpose": "Feature cards, step titles, FAQ triggers."
+      },
+      "body": {
+        "displayName": "Body",
+        "purpose": "Prose and descriptions; max 65–75ch line length."
+      },
+      "label": {
+        "displayName": "Label",
+        "purpose": "Status chips and micro-labels; min 11px on mobile."
+      }
+    },
+    "shadows": [],
+    "motion": [
+      {
+        "name": "transition-standard",
+        "value": "all 150ms ease",
+        "purpose": "Button and link state changes only."
+      },
+      {
+        "name": "reduced-motion",
+        "value": "0.01ms",
+        "purpose": "All animations and transitions collapse under prefers-reduced-motion."
+      }
+    ],
+    "breakpoints": [
+      {
+        "name": "sm",
+        "value": "640px"
+      },
+      {
+        "name": "md",
+        "value": "768px"
+      },
+      {
+        "name": "lg",
+        "value": "1024px"
+      }
+    ]
+  },
+  "components": [
+    {
+      "name": "Primary Button (Demo CTA)",
+      "kind": "button",
+      "refersTo": "button-primary",
+      "description": "Main conversion action — Agendar demonstração. Orange only.",
+      "html": "<a href=\"#agendar-demo\" class=\"ds-btn-primary\">Agendar demonstração<svg class=\"ds-btn-icon\" xmlns=\"http://www.w3.org/2000/svg\" width=\"16\" height=\"16\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M5 12h14\"/><path d=\"m12 5 7 7-7 7\"/></svg></a>",
+      "css": ".ds-btn-primary { display: inline-flex; align-items: center; justify-content: center; gap: 0.375rem; height: 2.25rem; padding: 0 1rem; font-family: Geist, ui-sans-serif, system-ui, sans-serif; font-size: 0.875rem; font-weight: 500; color: oklch(0.99 0 0); background: oklch(0.68 0.19 55); border: 1px solid transparent; border-radius: 0.5rem; text-decoration: none; transition: background 150ms ease; cursor: pointer; } .ds-btn-primary:hover { background: oklch(0.68 0.19 55 / 0.8); } .ds-btn-primary:focus-visible { outline: none; border-color: oklch(0.68 0.19 55); box-shadow: 0 0 0 3px oklch(0.68 0.19 55 / 0.5); } .ds-btn-primary:active { transform: translateY(1px); } .ds-btn-icon { flex-shrink: 0; }"
+    },
+    {
+      "name": "Outline Button",
+      "kind": "button",
+      "refersTo": "button-outline",
+      "description": "Secondary action — Entrar or alternate CTA.",
+      "html": "<button type=\"button\" class=\"ds-btn-outline\">Entrar</button>",
+      "css": ".ds-btn-outline { display: inline-flex; align-items: center; justify-content: center; height: 2.25rem; padding: 0 1rem; font-family: Geist, ui-sans-serif, system-ui, sans-serif; font-size: 0.875rem; font-weight: 500; color: oklch(0.18 0 0); background: oklch(0.99 0 0); border: 1px solid oklch(0.88 0 0); border-radius: 0.5rem; cursor: pointer; transition: background 150ms ease, color 150ms ease; } .ds-btn-outline:hover { background: oklch(0.955 0 0); } .ds-btn-outline:focus-visible { outline: none; box-shadow: 0 0 0 3px oklch(0.68 0.19 55 / 0.5); }"
+    },
+    {
+      "name": "Ghost Link Button",
+      "kind": "button",
+      "refersTo": "button-ghost",
+      "description": "In-page navigation — Ver como funciona.",
+      "html": "<a href=\"#como-funciona\" class=\"ds-btn-ghost\">Ver como funciona →</a>",
+      "css": ".ds-btn-ghost { display: inline-flex; align-items: center; height: 2.25rem; padding: 0 1rem; font-family: Geist, ui-sans-serif, system-ui, sans-serif; font-size: 0.875rem; font-weight: 500; color: oklch(0.18 0 0); background: transparent; border: 1px solid transparent; border-radius: 0.5rem; text-decoration: none; transition: color 150ms ease; } .ds-btn-ghost:hover { color: oklch(0.68 0.19 55); background: transparent; } .ds-btn-ghost:focus-visible { outline: none; box-shadow: 0 0 0 3px oklch(0.68 0.19 55 / 0.5); }"
+    },
+    {
+      "name": "Secondary Chip",
+      "kind": "chip",
+      "refersTo": "chip-secondary",
+      "description": "Neutral badge — month label, section micro-labels.",
+      "html": "<span class=\"ds-chip-secondary\">Julho</span>",
+      "css": ".ds-chip-secondary { display: inline-flex; align-items: center; height: 1.25rem; padding: 0.125rem 0.5rem; font-family: Geist, ui-sans-serif, system-ui, sans-serif; font-size: 0.75rem; font-weight: 500; color: oklch(0.18 0 0); background: oklch(0.955 0 0); border: 1px solid transparent; border-radius: 9999px; white-space: nowrap; }"
+    },
+    {
+      "name": "Status Chip (Paid)",
+      "kind": "chip",
+      "refersTo": "chip-secondary",
+      "description": "Brand-orange paid status — always includes text label.",
+      "html": "<span class=\"ds-chip-paid\">Pago</span>",
+      "css": ".ds-chip-paid { display: inline-flex; align-items: center; padding: 0.125rem 0.5rem; font-family: Geist, ui-sans-serif, system-ui, sans-serif; font-size: 0.6875rem; font-weight: 500; color: oklch(0.68 0.19 55); background: oklch(0.68 0.19 55 / 0.15); border: 1px solid transparent; border-radius: 9999px; }"
+    },
+    {
+      "name": "Bordered Card",
+      "kind": "card",
+      "refersTo": "card-surface",
+      "description": "Default content container — flat border, no shadow.",
+      "html": "<div class=\"ds-card\"><p class=\"ds-card-body\">Conteúdo do card com borda simples.</p></div>",
+      "css": ".ds-card { background: oklch(1 0 0); border: 1px solid oklch(0.88 0 0); border-radius: 0.7rem; padding: 1.5rem; } .ds-card-body { margin: 0; font-family: Geist, ui-sans-serif, system-ui, sans-serif; font-size: 1rem; line-height: 1.625; color: oklch(0.42 0 0); }"
+    },
+    {
+      "name": "Feature Highlight Card",
+      "kind": "card",
+      "refersTo": "card-surface",
+      "description": "Core feature card with orange brand tint and border.",
+      "html": "<div class=\"ds-card-feature\"><h3 class=\"ds-card-feature-title\">Cobrança automática via WhatsApp</h3><p class=\"ds-card-feature-body\">Mensagem personalizada no dia do vencimento.</p></div>",
+      "css": ".ds-card-feature { background: oklch(0.68 0.19 55 / 0.03); border: 1px solid oklch(0.68 0.19 55 / 0.35); border-radius: 0.7rem; padding: 1.5rem; } .ds-card-feature-title { margin: 0 0 0.5rem; font-family: Manrope, Geist, ui-sans-serif, sans-serif; font-size: 1.125rem; font-weight: 600; color: oklch(0.18 0 0); } .ds-card-feature-body { margin: 0; font-family: Geist, ui-sans-serif, system-ui, sans-serif; font-size: 1rem; line-height: 1.625; color: oklch(0.42 0 0); }"
+    },
+    {
+      "name": "Site Navigation Link",
+      "kind": "nav",
+      "refersTo": "button-ghost",
+      "description": "Desktop header nav — muted default, foreground on hover.",
+      "html": "<nav class=\"ds-nav\" aria-label=\"Navegação principal\"><a href=\"/#funcionalidades\" class=\"ds-nav-link\">Funcionalidades</a><a href=\"/#precos\" class=\"ds-nav-link\">Preços</a></nav>",
+      "css": ".ds-nav { display: flex; gap: 1.5rem; align-items: center; } .ds-nav-link { font-family: Geist, ui-sans-serif, system-ui, sans-serif; font-size: 0.875rem; color: oklch(0.42 0 0); text-decoration: none; transition: color 150ms ease; } .ds-nav-link:hover { color: oklch(0.18 0 0); } .ds-nav-link:focus-visible { outline: none; border-radius: 0.25rem; box-shadow: 0 0 0 3px oklch(0.68 0.19 55 / 0.5); }"
+    },
+    {
+      "name": "WhatsApp Preview Bubble",
+      "kind": "custom",
+      "refersTo": "card-surface",
+      "description": "Signature hero artifact — automated billing message preview.",
+      "html": "<div class=\"ds-wa-preview\"><div class=\"ds-wa-header\"><span class=\"ds-wa-dot\" aria-hidden=\"true\"></span><span class=\"ds-wa-label\">Automação Mensaliza</span></div><div class=\"ds-wa-bubble\">Oi, Julia! Sua mensalidade vence hoje.</div><div class=\"ds-wa-link-bubble\">mensaliza.app/p/julia</div></div>",
+      "css": ".ds-wa-preview { background: oklch(1 0 0); border: 1px solid oklch(0.88 0 0); border-radius: 0.7rem; padding: 1rem; font-family: Geist, ui-sans-serif, system-ui, sans-serif; } .ds-wa-header { display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.5rem; } .ds-wa-dot { width: 6px; height: 6px; border-radius: 50%; background: oklch(0.68 0.19 55); } .ds-wa-label { font-size: 0.75rem; font-weight: 500; color: oklch(0.42 0 0); } .ds-wa-bubble { font-size: 0.875rem; line-height: 1.5; padding: 0.75rem; border: 1px solid oklch(0.88 0 0); border-radius: 0.7rem; margin-bottom: 0.5rem; } .ds-wa-link-bubble { font-size: 0.875rem; font-weight: 600; color: oklch(0.68 0.19 55); background: oklch(0.68 0.19 55 / 0.08); padding: 0.75rem; border-radius: 0.7rem; }"
+    }
+  ],
+  "narrative": {
+    "northStar": "The Alívio Desk",
+    "overview": "Mensaliza's marketing site should feel like a calm, organized workspace where billing stops being a personal burden. The visual language is humano, organizado, aliviador — direct and empathetic without debt-collector aggression or enterprise fintech coldness. Surfaces are clean and legible; orange is the only brand color; product artifacts do more work than abstract icon grids. WhatsApp is a channel, not a brand color.",
+    "keyCharacteristics": [
+      "Single-accent discipline: Brand orange carries logo, CTAs, focus, accents, and atmosphere. Neutrals stay chroma 0.",
+      "Flat tonal layering: Depth comes from borders and muted section bands, not drop shadows.",
+      "Artifact-first proof: Hero and feature sections show real product flows.",
+      "Mobile-first conversion: Sticky header + bottom demo bar on small screens.",
+      "Accessible status: Paid/late/sent states always pair color with text labels."
+    ],
+    "rules": [
+      {
+        "name": "The One-Voice Rule",
+        "body": "Orange is brand and action. There is no second brand accent. Channel names (WhatsApp, Pix) are copy/icons only — never platform colors.",
+        "section": "colors"
+      },
+      {
+        "name": "The Tinted-Section Rule",
+        "body": "On bg-muted sections, never use default muted-foreground at full strength for body copy — darken to ~72% foreground opacity or use ink directly.",
+        "section": "colors"
+      },
+      {
+        "name": "The Balance Rule",
+        "body": "Apply text-wrap: balance on h1–h3; text-wrap: pretty on long prose blocks.",
+        "section": "typography"
+      },
+      {
+        "name": "The No-Shout Rule",
+        "body": "Display heading max ≤ 3.35rem on this landing. Letter-spacing never tighter than −0.04em.",
+        "section": "typography"
+      },
+      {
+        "name": "The No Ghost Card Rule",
+        "body": "Never combine border: 1px solid with a soft wide drop shadow on the same element.",
+        "section": "elevation"
+      },
+      {
+        "name": "The Flat-By-Default Rule",
+        "body": "Surfaces rest flat. Elevation is semantic (white card on muted band), not decorative.",
+        "section": "elevation"
+      }
+    ],
+    "dos": [
+      "Do use brand orange for identity, trust accents, automation cues, and conversion CTAs.",
+      "Do show concrete product artifacts instead of abstract feature icon grids.",
+      "Do keep section radii at rounded-xl (≈12px) and button radii at rounded-lg (8px).",
+      "Do pair every status color with a Portuguese text label.",
+      "Do respect prefers-reduced-motion: reduce.",
+      "Do maintain ≥4.5:1 body text contrast on tinted bg-muted sections.",
+      "Do lead with relief-oriented copy — design should feel aliviador, not cobrança agressiva."
+    ],
+    "donts": [
+      "Don't use green of any kind as a brand, accent, atmosphere, or status token — including WhatsApp green. WhatsApp is copy/channel only.",
+      "Don't use generic SaaS landing templates: hero metrics, gradient text, cream paper backgrounds, uppercase eyebrow kickers on every section, identical icon-card grids.",
+      "Don't adopt aggressive collections or debt-recovery tone — Mensaliza removes embarrassment; it doesn't threaten clients.",
+      "Don't position visually as a payment gateway — money goes direct to the professional.",
+      "Don't use over-engineered enterprise billing UI patterns that imply complexity, contracts, or maquininha requirements.",
+      "Don't use 2026 AI landing tells: editorial serif drop caps, glassmorphism cards, diagonal stripe backgrounds, or insanely rounded 32px+ card radii.",
+      "Don't combine border + wide soft shadow on cards (ghost-card pattern).",
+      "Don't use side-stripe borders, gradient text, or decorative motion.",
+      "Don't use status colors as the only signal — always include text."
+    ]
+  }
+}
