@@ -1,5 +1,9 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono, Lexend } from "next/font/google";
+import { Analytics } from "@vercel/analytics/next"
+
+import { Toaster } from "@/components/ui/sonner";
+
 import "./globals.css";
 
 const lexend = Lexend({
@@ -52,6 +56,8 @@ export default function RootLayout({
           Pular para o conteúdo
         </a>
         {children}
+        <Toaster position="top-center" richColors={false} closeButton />
+        <Analytics />
       </body>
     </html>
   );

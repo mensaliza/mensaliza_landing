@@ -9,6 +9,8 @@ type DemoButtonProps = {
   size?: "default" | "sm" | "lg";
   variant?: "default" | "outline" | "secondary" | "ghost";
   showIcon?: boolean;
+  /** Pre-selects pricing tier in the demo form via ?assinantes= */
+  assinantes?: string;
 };
 
 export function DemoButton({
@@ -16,8 +18,9 @@ export function DemoButton({
   size = "lg",
   variant = "default",
   showIcon = true,
+  assinantes,
 }: DemoButtonProps) {
-  const demoLink = getDemoLinkProps();
+  const demoLink = getDemoLinkProps(assinantes);
 
   return (
     <Button

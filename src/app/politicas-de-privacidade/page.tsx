@@ -4,7 +4,7 @@ import Link from "next/link";
 import { LegalPageShell } from "@/components/landing/legal-page-shell";
 import { SiteFooter } from "@/components/landing/site-footer";
 import { SiteHeader } from "@/components/landing/site-header";
-import { ENTERPRISE_EMAIL } from "@/lib/site-urls";
+import { CONTACT_EMAIL } from "@/lib/site-urls";
 
 export const metadata: Metadata = {
   title: "Política de privacidade — Mensaliza",
@@ -214,7 +214,7 @@ export default function PoliticasDePrivacidadePage() {
           <p>
             <strong>Profissionais e visitantes:</strong> para exercer direitos
             relativos aos dados que controlamos, contate{" "}
-            <a href={`mailto:${ENTERPRISE_EMAIL}`}>{ENTERPRISE_EMAIL}</a>.
+            <a href={`mailto:${CONTACT_EMAIL}`}>{CONTACT_EMAIL}</a>.
           </p>
           <p>
             <strong>Assinantes/clientes finais:</strong> em regra, o pedido deve
@@ -247,7 +247,7 @@ export default function PoliticasDePrivacidadePage() {
           <p>
             Para dúvidas, solicitações de titulares ou comunicações sobre
             privacidade e proteção de dados, escreva para{" "}
-            <a href={`mailto:${ENTERPRISE_EMAIL}`}>{ENTERPRISE_EMAIL}</a> com o
+            <a href={`mailto:${CONTACT_EMAIL}`}>{CONTACT_EMAIL}</a> com o
             assunto “Privacidade / LGPD”.
           </p>
         </LegalPageShell>

@@ -4,11 +4,10 @@ export function isExternalUrl(url: string): boolean {
 
 export const APP_URL = process.env.NEXT_PUBLIC_APP_URL?.trim() ?? "";
 
-export const DEMO_URL =
-  process.env.NEXT_PUBLIC_DEMO_URL?.trim() || "/#agendar-demo";
-
-export const ENTERPRISE_EMAIL =
-  process.env.NEXT_PUBLIC_ENTERPRISE_EMAIL?.trim() || "contato@mensaliza.com";
+/** Inbox for demo requests and commercial contact (until contato@ is live). */
+export const CONTACT_EMAIL =
+  process.env.NEXT_PUBLIC_CONTACT_EMAIL?.trim() ||
+  "mensaliza.app@gmail.com";
 
 export function getAppLinkProps():
   | { href: string; target: "_blank"; rel: "noopener noreferrer" }
@@ -24,27 +23,20 @@ export function getAppLinkProps():
   };
 }
 
-export function getDemoLinkProps(): {
+export function getDemoHref(assinantes?: string): string {
+  if (assinantes) {
+    return `/?assinantes=${encodeURIComponent(assinantes)}#agendar-demo`;
+  }
+
+  return `/#agendar-demo`;
+}
+
+export function getDemoLinkProps(assinantes?: string): {
   href: string;
   target?: "_blank";
   rel?: "noopener noreferrer";
 } {
-  if (isExternalUrl(DEMO_URL)) {
-    return {
-      href: DEMO_URL,
-      target: "_blank",
-      rel: "noopener noreferrer",
-    };
-  }
+  const href = getDemoHref(assinantes);
 
-  return { href: DEMO_URL };
-}
-
-export function getEnterpriseMailtoHref(): string {
-  const params = new URLSearchParams({
-    subject: "Plano Enterprise — Mensaliza",
-    body: "Olá! Quero conversar sobre o plano Enterprise para a minha base de assinantes.",
-  });
-
-  return `mailto:${ENTERPRISE_EMAIL}?${params.toString()}`;
+  return { href };
 }

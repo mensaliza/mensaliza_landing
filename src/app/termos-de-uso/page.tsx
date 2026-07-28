@@ -4,7 +4,7 @@ import Link from "next/link";
 import { LegalPageShell } from "@/components/landing/legal-page-shell";
 import { SiteFooter } from "@/components/landing/site-footer";
 import { SiteHeader } from "@/components/landing/site-header";
-import { ENTERPRISE_EMAIL } from "@/lib/site-urls";
+import { CONTACT_EMAIL } from "@/lib/site-urls";
 
 export const metadata: Metadata = {
   title: "Termos de uso — Mensaliza",
@@ -240,7 +240,7 @@ export default function TermosDeUsoPage() {
           <h2>12. Contato</h2>
           <p>
             Dúvidas sobre estes Termos podem ser enviadas para{" "}
-            <a href={`mailto:${ENTERPRISE_EMAIL}`}>{ENTERPRISE_EMAIL}</a>.
+            <a href={`mailto:${CONTACT_EMAIL}`}>{CONTACT_EMAIL}</a>.
           </p>
         </LegalPageShell>
       </main>

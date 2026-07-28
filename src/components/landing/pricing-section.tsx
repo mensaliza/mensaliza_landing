@@ -1,6 +1,6 @@
 "use client";
 
-import { CheckIcon, MailIcon } from "lucide-react";
+import { CheckIcon } from "lucide-react";
 import { useId, useState } from "react";
 
 import { DemoButton } from "@/components/landing/demo-button";
@@ -9,12 +9,11 @@ import { SectionShell } from "@/components/landing/section-shell";
 import { Button } from "@/components/ui/button";
 import { Slider } from "@/components/ui/slider";
 import {
-  ENTERPRISE_EMAIL,
-  getEnterpriseMailtoHref,
   pricingEnterprise,
   pricingSharedFeatures,
   pricingTiers,
 } from "@/lib/landing-content";
+import { getDemoLinkProps } from "@/lib/site-urls";
 import { cn } from "@/lib/utils";
 
 const DEFAULT_TIER_INDEX = pricingTiers.findIndex((tier) => tier.popular);
@@ -25,7 +24,7 @@ function subscriberBubbleLabel(tier: (typeof pricingTiers)[number]) {
 }
 
 export function PricingSection() {
-  const enterpriseMailto = getEnterpriseMailtoHref();
+  const enterpriseDemoLink = getDemoLinkProps("200-plus");
   const sliderLabelId = useId();
   const [tierIndex, setTierIndex] = useState(INITIAL_INDEX);
   const selectedTier = pricingTiers[tierIndex] ?? pricingTiers[0];
@@ -146,16 +145,18 @@ export function PricingSection() {
                     nativeButton={false}
                     render={
                       <a
-                        href={enterpriseMailto}
-                        aria-label={`Enviar e-mail para ${ENTERPRISE_EMAIL}`}
+                        {...enterpriseDemoLink}
+                        aria-label="Agendar demonstração para o plano Enterprise"
                       />
                     }
                   >
-                    <MailIcon data-icon="inline-start" />
                     Falar sobre Enterprise
                   </Button>
                 ) : (
-                  <DemoButton className="w-full sm:w-auto" />
+                  <DemoButton
+                    className="w-full sm:w-auto"
+                    assinantes={selectedTier.id}
+                  />
                 )}
               </div>
             </div>
@@ -199,13 +200,12 @@ export function PricingSection() {
               nativeButton={false}
               render={
                 <a
-                  href={enterpriseMailto}
-                  aria-label={`Enviar e-mail para ${ENTERPRISE_EMAIL}`}
+                  {...enterpriseDemoLink}
+                  aria-label="Agendar demonstração para o plano Enterprise"
                 />
               }
             >
-              <MailIcon data-icon="inline-start" />
-              {ENTERPRISE_EMAIL}
+              Agendar demonstração
             </Button>
           </div>
 

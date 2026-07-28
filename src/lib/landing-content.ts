@@ -1,10 +1,9 @@
 export {
   APP_URL,
-  DEMO_URL,
-  ENTERPRISE_EMAIL,
+  CONTACT_EMAIL,
   getAppLinkProps,
+  getDemoHref,
   getDemoLinkProps,
-  getEnterpriseMailtoHref,
   isExternalUrl,
 } from "./site-urls";
 
@@ -266,12 +265,12 @@ export const videoScript = [
 ] as const;
 
 export const pricingSharedFeatures = [
+  "Dashboard financeiro",
   "Gestão de assinantes",
+  "Gestão de pagamentos",
   "Cobrança automática via WhatsApp",
   "Recebimento de comprovantes",
-  "Dashboard financeiro",
   "Previsão de recebimentos",
-  "Alertas de atraso",
 ] as const;
 
 export const pricingTiers = [
@@ -382,7 +381,7 @@ export const faqItems = [
   {
     question: "Como começo?",
     answer:
-      "Agende uma demonstração. Em poucos minutos você vê o sistema funcionando e tira todas as dúvidas antes de começar.",
+      "Agende uma demonstração e tire todas as dúvidas antes de começar. Em poucos minutos você vê o sistema funcionando.",
   },
 ] as const;
 
