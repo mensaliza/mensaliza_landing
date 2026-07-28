@@ -23,6 +23,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL("https://mensaliza.com.br"),
   title: "Mensaliza — Cobrança mensal automática via WhatsApp",
   description:
     "Organize assinantes, envie cobranças no dia certo pelo WhatsApp e aprove comprovantes — sem processar pagamentos.",
@@ -32,6 +33,21 @@ export const metadata: Metadata = {
       "Organize assinantes, envie cobranças no dia certo pelo WhatsApp e aprove comprovantes — sem processar pagamentos.",
     locale: "pt_BR",
     type: "website",
+    images: [
+      {
+        url: "/og.png",
+        width: 1200,
+        height: 630,
+        alt: "Mensaliza — Cobrança mensal automática via WhatsApp",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Mensaliza — Cobrança mensal automática via WhatsApp",
+    description:
+      "Organize assinantes, envie cobranças no dia certo pelo WhatsApp e aprove comprovantes — sem processar pagamentos.",
+    images: ["/og.png"],
   },
   // Official Dark Reader opt-out — keeps the light-only landing intact
   other: {
