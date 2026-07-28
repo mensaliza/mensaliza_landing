@@ -35,7 +35,7 @@ export const metadata: Metadata = {
     type: "website",
     images: [
       {
-        url: "/og.png",
+        url: "/og.jpeg",
         width: 1200,
         height: 630,
         alt: "Mensaliza — Cobrança mensal automática via WhatsApp",
@@ -47,7 +47,7 @@ export const metadata: Metadata = {
     title: "Mensaliza — Cobrança mensal automática via WhatsApp",
     description:
       "Organize assinantes, envie cobranças no dia certo pelo WhatsApp e aprove comprovantes — sem processar pagamentos.",
-    images: ["/og.png"],
+    images: ["/og.jpeg"],
   },
   // Official Dark Reader opt-out — keeps the light-only landing intact
   other: {
