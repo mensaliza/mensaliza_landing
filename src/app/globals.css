@@ -2,6 +2,8 @@
 @import "tw-animate-css";
 @import "shadcn/tailwind.css";
 
+/* Class-based dark only — never follows prefers-color-scheme.
+   Landing is light-only; do not add .dark to <html>. */
 @custom-variant dark (&:is(.dark *));
 
 @theme inline {
@@ -108,47 +110,6 @@
   --motion-header: 350ms var(--ease-out-quart);
 }
 
-.dark {
-  --primary: oklch(0.72 0.17 55);
-  --primary-foreground: oklch(0.16 0 0);
-  --brand: var(--primary);
-  --brand-foreground: var(--primary-foreground);
-
-  --background: oklch(0.16 0 0);
-  --foreground: oklch(0.96 0 0);
-  --card: oklch(0.19 0 0);
-  --card-foreground: oklch(0.96 0 0);
-  --popover: oklch(0.19 0 0);
-  --popover-foreground: oklch(0.96 0 0);
-  --secondary: oklch(0.24 0 0);
-  --secondary-foreground: oklch(0.96 0 0);
-  --muted: oklch(0.24 0 0);
-  --muted-foreground: oklch(0.72 0 0);
-  --accent: oklch(0.24 0 0);
-  --accent-foreground: oklch(0.96 0 0);
-  --border: oklch(0.28 0 0);
-  --input: oklch(0.28 0 0);
-  --ring: oklch(0.72 0.17 55);
-
-  --late: oklch(0.65 0.18 25);
-  --destructive: oklch(0.65 0.18 25);
-
-  --chart-1: oklch(0.72 0.17 55);
-  --chart-2: oklch(0.82 0.1 55);
-  --chart-3: oklch(0.72 0 0);
-  --chart-4: oklch(0.65 0.18 25);
-  --chart-5: oklch(0.68 0 0);
-
-  --sidebar: oklch(0.16 0 0);
-  --sidebar-foreground: oklch(0.96 0 0);
-  --sidebar-primary: oklch(0.72 0.17 55);
-  --sidebar-primary-foreground: oklch(0.16 0 0);
-  --sidebar-accent: oklch(0.24 0 0);
-  --sidebar-accent-foreground: oklch(0.96 0 0);
-  --sidebar-border: oklch(0.28 0 0);
-  --sidebar-ring: oklch(0.72 0.17 55);
-}
-
 @layer base {
   * {
     @apply border-border outline-ring/50;
@@ -158,6 +119,7 @@
   }
   html {
     @apply font-sans scroll-smooth overflow-x-clip;
+    color-scheme: light;
     font-kerning: normal;
     font-optical-sizing: auto;
   }
