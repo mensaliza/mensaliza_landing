@@ -20,7 +20,7 @@ export default function TermosDeUsoPage() {
         <LegalPageShell title="Termos de uso">
           <p>
             Estes Termos de Uso (“Termos”) regem o acesso e a utilização do site
-            mensaliza.com.br, do aplicativo web e demais interfaces do Mensaliza
+            mensaliza.com, do aplicativo web e demais interfaces do Mensaliza
             (em conjunto, a “Plataforma”), disponibilizados pela Mensaliza
             (“nós”, “nosso” ou “Mensaliza”).
           </p>
