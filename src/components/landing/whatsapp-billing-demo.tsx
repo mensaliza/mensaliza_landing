@@ -83,15 +83,56 @@ const SCENES: Scene[] = [
   },
 ];
 
-const ENTER_MS = 1200;
-const HOLD_MS = 2400;
-const EXIT_MS = 500;
-const GAP_MS = 220;
+const ENTER_MS = 900;
+const HOLD_MS = 2000;
+const RESET_MS = 520;
+const GAP_MS = 380;
 
 /** Proof scene: look at receipt, then reveal thank-you + scroll */
-const PROOF_RECEIPT_HOLD_MS = 2000;
-const PROOF_THANKS_ENTER_MS = 900;
-const PROOF_THANKS_HOLD_MS = 3200;
+const PROOF_RECEIPT_HOLD_MS = 1800;
+const PROOF_THANKS_ENTER_MS = 800;
+const PROOF_THANKS_HOLD_MS = 2800;
+
+type Reveal = {
+  scene: number;
+  bubbles: number;
+};
+
+type ChatItem =
+  | { type: "day"; id: string; day: string }
+  | { type: "bubble"; id: string; bubble: ChatBubble; stagger: number };
+
+function buildVisibleItems(reveal: Reveal): ChatItem[] {
+  const items: ChatItem[] = [];
+  let lastDay: string | null = null;
+
+  for (let sceneIndex = 0; sceneIndex <= reveal.scene; sceneIndex++) {
+    const scene = SCENES[sceneIndex];
+    const count =
+      sceneIndex < reveal.scene ? scene.bubbles.length : Math.max(0, reveal.bubbles);
+    if (count <= 0) continue;
+
+    if (scene.day !== lastDay) {
+      items.push({
+        type: "day",
+        id: `day-${scene.day}`,
+        day: scene.day,
+      });
+      lastDay = scene.day;
+    }
+
+    for (let bubbleIndex = 0; bubbleIndex < count; bubbleIndex++) {
+      items.push({
+        type: "bubble",
+        id: scene.bubbles[bubbleIndex].id,
+        bubble: scene.bubbles[bubbleIndex],
+        stagger: bubbleIndex,
+      });
+    }
+  }
+
+  return items;
+}
 
 export function WhatsappBillingDemo({ className }: { className?: string }) {
   const rootRef = useRef<HTMLDivElement>(null);
@@ -100,7 +141,8 @@ export function WhatsappBillingDemo({ className }: { className?: string }) {
   const [reducedMotion, setReducedMotion] = useState(false);
   const [sceneIndex, setSceneIndex] = useState(0);
   const [phase, setPhase] = useState<"enter" | "hold" | "exit">("enter");
-  const [visibleCount, setVisibleCount] = useState(2);
+  const [reveal, setReveal] = useState<Reveal>({ scene: 0, bubbles: 0 });
+  const [enteringIds, setEnteringIds] = useState<Set<string>>(new Set());
 
   useEffect(() => {
     const media = window.matchMedia("(prefers-reduced-motion: reduce)");
@@ -124,9 +166,11 @@ export function WhatsappBillingDemo({ className }: { className?: string }) {
 
   useEffect(() => {
     if (reducedMotion) {
-      setSceneIndex(2);
+      const last = SCENES.length - 1;
+      setSceneIndex(last);
       setPhase("hold");
-      setVisibleCount(SCENES[2].bubbles.length);
+      setReveal({ scene: last, bubbles: SCENES[last].bubbles.length });
+      setEnteringIds(new Set());
       return;
     }
 
@@ -140,62 +184,89 @@ export function WhatsappBillingDemo({ className }: { className?: string }) {
         timer = window.setTimeout(resolve, ms);
       });
 
-    const runStandardScene = async (index: number) => {
-      setSceneIndex(index);
-      setVisibleCount(SCENES[index].bubbles.length);
+    const revealBatch = (next: Reveal, ids: string[]) => {
+      setReveal(next);
+      setEnteringIds(new Set(ids));
       setPhase("enter");
+    };
+
+    const idsForScene = (index: number, fromBubble: number, toBubble: number) => {
+      const scene = SCENES[index];
+      const ids: string[] = [];
+      const previousDay = index > 0 ? SCENES[index - 1].day : null;
+      if (fromBubble === 0 && scene.day !== previousDay) {
+        ids.push(`day-${scene.day}`);
+      }
+      for (let i = fromBubble; i < toBubble; i++) {
+        ids.push(scene.bubbles[i].id);
+      }
+      return ids;
+    };
+
+    const runStandardScene = async (index: number) => {
+      const scene = SCENES[index];
+      setSceneIndex(index);
+      revealBatch(
+        { scene: index, bubbles: scene.bubbles.length },
+        idsForScene(index, 0, scene.bubbles.length)
+      );
       await wait(ENTER_MS);
       if (cancelled) return;
 
       setPhase("hold");
+      setEnteringIds(new Set());
       await wait(HOLD_MS);
-      if (cancelled) return;
-
-      setPhase("exit");
-      await wait(EXIT_MS);
-      if (cancelled) return;
-
-      await wait(GAP_MS);
     };
 
     const runProofScene = async (index: number) => {
       setSceneIndex(index);
-      setVisibleCount(1);
-      setPhase("enter");
+
+      revealBatch({ scene: index, bubbles: 1 }, idsForScene(index, 0, 1));
       await wait(ENTER_MS);
       if (cancelled) return;
 
-      // Let the receipt sit on screen before thank-you + scroll
       setPhase("hold");
+      setEnteringIds(new Set());
       await wait(PROOF_RECEIPT_HOLD_MS);
       if (cancelled) return;
 
-      setVisibleCount(2);
-      setPhase("enter");
+      revealBatch({ scene: index, bubbles: 2 }, idsForScene(index, 1, 2));
       await wait(PROOF_THANKS_ENTER_MS);
       if (cancelled) return;
 
       setPhase("hold");
+      setEnteringIds(new Set());
       await wait(PROOF_THANKS_HOLD_MS);
-      if (cancelled) return;
+    };
 
+    const resetConversation = async () => {
       setPhase("exit");
-      await wait(EXIT_MS);
+      setEnteringIds(new Set());
+      await wait(RESET_MS);
       if (cancelled) return;
 
+      setReveal({ scene: 0, bubbles: 0 });
+      setSceneIndex(0);
       await wait(GAP_MS);
     };
 
     const loop = async () => {
-      let index = 0;
       while (!cancelled) {
-        if (SCENES[index].id === "proof") {
-          await runProofScene(index);
-        } else {
-          await runStandardScene(index);
+        setReveal({ scene: 0, bubbles: 0 });
+        setEnteringIds(new Set());
+        setPhase("enter");
+
+        for (let index = 0; index < SCENES.length; index++) {
+          if (cancelled) return;
+          if (SCENES[index].id === "proof") {
+            await runProofScene(index);
+          } else {
+            await runStandardScene(index);
+          }
         }
-        if (cancelled) break;
-        index = (index + 1) % SCENES.length;
+
+        if (cancelled) return;
+        await resetConversation();
       }
     };
 
@@ -218,31 +289,25 @@ export function WhatsappBillingDemo({ className }: { className?: string }) {
       });
     };
 
-    // Keep receipt framed at the top until thank-you appears.
-    if (sceneIndex === 2 && visibleCount <= 1 && phase !== "exit") {
+    if (reveal.bubbles <= 0 && reveal.scene === 0) {
       scroller.scrollTop = 0;
       return;
     }
 
-    if (phase === "enter" && visibleCount <= 1) {
-      scroller.scrollTop = 0;
-    }
-
-    const delays =
-      sceneIndex === 2 && visibleCount > 1
-        ? [80, 280, 520]
-        : [180, 420, 720];
-
+    const delays = [60, 220, 480, 760];
     const timers = delays.map((ms) => window.setTimeout(scrollToEnd, ms));
 
     return () => {
       for (const timer of timers) window.clearTimeout(timer);
     };
-  }, [sceneIndex, phase, visibleCount, reducedMotion]);
+  }, [reveal, phase, reducedMotion]);
 
   const playing = inView && !reducedMotion;
-  const scene = SCENES[sceneIndex];
-  const visibleBubbles = scene.bubbles.slice(0, visibleCount);
+  const items = buildVisibleItems(
+    reducedMotion
+      ? { scene: SCENES.length - 1, bubbles: SCENES[SCENES.length - 1].bubbles.length }
+      : reveal
+  );
 
   return (
     <div
@@ -276,45 +341,38 @@ export function WhatsappBillingDemo({ className }: { className?: string }) {
             className="whatsapp-scroll relative min-h-0 flex-1 overflow-x-hidden overflow-y-auto px-2.5 py-3"
           >
             <div
-              key={scene.id}
               className={cn(
                 "whatsapp-scene flex min-h-full flex-col justify-end gap-2",
                 playing && `is-${phase}`,
                 !playing && "is-static"
               )}
             >
-              <div
-                className={cn(
-                  "whatsapp-day mx-auto rounded-full bg-black/5 px-2.5 py-0.5 text-[10px] font-medium text-foreground/50",
-                  playing && phase === "enter" && visibleCount === 1 && "is-entering"
-                )}
-              >
-                {scene.day}
-              </div>
-
-              {visibleBubbles.map((bubble, index) => {
-                const isNewBubble =
-                  playing &&
-                  phase === "enter" &&
-                  (scene.id !== "proof" || visibleCount === 1
-                    ? true
-                    : index === visibleCount - 1);
+              {items.map((item) => {
+                if (item.type === "day") {
+                  return (
+                    <div
+                      key={item.id}
+                      className={cn(
+                        "whatsapp-day mx-auto rounded-full bg-black/5 px-2.5 py-0.5 text-[10px] font-medium text-foreground/50",
+                        playing && enteringIds.has(item.id) && "is-entering"
+                      )}
+                    >
+                      {item.day}
+                    </div>
+                  );
+                }
 
                 return (
                   <div
-                    key={bubble.id}
+                    key={item.id}
                     className={cn(
                       "whatsapp-bubble flex w-full",
-                      bubble.side === "customer" ? "justify-end" : "justify-start",
-                      isNewBubble && "is-entering"
+                      item.bubble.side === "customer" ? "justify-end" : "justify-start",
+                      playing && enteringIds.has(item.id) && "is-entering"
                     )}
-                    style={
-                      {
-                        "--i": scene.id === "proof" && visibleCount > 1 ? 0 : index,
-                      } as CSSProperties
-                    }
+                    style={{ "--i": item.stagger } as CSSProperties}
                   >
-                    <BubbleContent bubble={bubble} />
+                    <BubbleContent bubble={item.bubble} />
                   </div>
                 );
               })}

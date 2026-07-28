@@ -38,8 +38,8 @@ type Subscriber = {
 const BASE_SUBSCRIBERS: Subscriber[] = [
   {
     id: "1",
-    name: "giovani carianii",
-    phone: "(22) 22222-2221",
+    name: "Giovani",
+    phone: "(22) 22222-2222",
     tags: [{ label: "Tennis", tone: "purple" }],
     payStatus: "open",
     billingDay: 10,
@@ -49,8 +49,8 @@ const BASE_SUBSCRIBERS: Subscriber[] = [
   },
   {
     id: "2",
-    name: "maria clara leveghim",
-    phone: "(19) 99898-8334",
+    name: "Maria Clara",
+    phone: "(55) 55555-5555",
     tags: [{ label: "Beach Tennis", tone: "blue" }],
     payStatus: "open",
     billingDay: 5,
@@ -60,8 +60,8 @@ const BASE_SUBSCRIBERS: Subscriber[] = [
   },
   {
     id: "3",
-    name: "lucas mendes oliveira",
-    phone: "(11) 98765-4321",
+    name: "Lucas",
+    phone: "(11) 11111-1111",
     tags: [{ label: "Tennis", tone: "purple" }],
     payStatus: "late",
     billingDay: 5,
@@ -71,8 +71,8 @@ const BASE_SUBSCRIBERS: Subscriber[] = [
   },
   {
     id: "4",
-    name: "julia fernandes",
-    phone: "(21) 97654-3210",
+    name: "Julia",
+    phone: "(22) 22222-2222",
     tags: [{ label: "Beach Tennis", tone: "blue" }],
     payStatus: "open",
     billingDay: 10,
@@ -82,9 +82,9 @@ const BASE_SUBSCRIBERS: Subscriber[] = [
   },
   {
     id: "5",
-    name: "ana beatriz costa",
-    phone: "(31) 96543-2109",
-    tags: [{ label: "DesakCraft", tone: "pink" }],
+    name: "Ana Beatriz",
+    phone: "(33) 33333-3333",
+    tags: [{ label: "Tennis", tone: "pink" }],
     payStatus: "open",
     billingDay: 10,
     situation: "inactive",
@@ -95,8 +95,8 @@ const BASE_SUBSCRIBERS: Subscriber[] = [
 
 const NEW_SUBSCRIBER: Subscriber = {
   id: "new",
-  name: "camila rodrigues",
-  phone: "(47) 98877-6655",
+  name: "Camila",
+  phone: "(44) 44444-4444",
   tags: [
     { label: "Tennis", tone: "purple" },
     { label: "Beach Tennis", tone: "blue" },

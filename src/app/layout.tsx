@@ -28,6 +28,10 @@ export const metadata: Metadata = {
     locale: "pt_BR",
     type: "website",
   },
+  // Official Dark Reader opt-out — keeps the light-only landing intact
+  other: {
+    "darkreader-lock": "darkreader-lock",
+  },
 };
 
 export default function RootLayout({
