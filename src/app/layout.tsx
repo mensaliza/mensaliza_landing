@@ -23,7 +23,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://mensaliza.com.br"),
+  metadataBase: new URL("https://mensaliza.com"),
   title: "Mensaliza — Cobrança mensal automática via WhatsApp",
   description:
     "Organize assinantes, envie cobranças no dia certo pelo WhatsApp e aprove comprovantes — sem processar pagamentos.",

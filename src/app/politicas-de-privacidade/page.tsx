@@ -21,7 +21,7 @@ export default function PoliticasDePrivacidadePage() {
           <p>
             Esta Política de Privacidade (“Política”) explica como o Mensaliza
             (“nós”, “nosso” ou “Mensaliza”) coleta, usa, armazena, compartilha e
-            protege dados pessoais no site mensaliza.com.br, no aplicativo web e
+            protege dados pessoais no site mensaliza.com, no aplicativo web e
             nos demais canais relacionados à Plataforma, em conformidade com a
             Lei Geral de Proteção de Dados (Lei nº 13.709/2018 — LGPD) e demais
             normas aplicáveis.
