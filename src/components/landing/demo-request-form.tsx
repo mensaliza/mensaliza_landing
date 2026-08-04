@@ -26,7 +26,7 @@ import { pricingTiers } from "@/lib/landing-content";
 import { cn } from "@/lib/utils";
 
 const DEFAULT_TIER =
-  pricingTiers.find((tier) => tier.popular)?.id ?? pricingTiers[0]?.id ?? "70";
+  pricingTiers.find((tier) => tier.popular)?.id ?? pricingTiers[0]?.id ?? "50";
 
 type FieldErrors = Partial<
   Record<"name" | "email" | "phone" | "subscribers" | "message" | "form", string>

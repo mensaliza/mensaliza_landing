@@ -24,7 +24,7 @@ function subscriberBubbleLabel(tier: (typeof pricingTiers)[number]) {
 }
 
 export function PricingSection() {
-  const enterpriseDemoLink = getDemoLinkProps("200-plus");
+  const enterpriseDemoLink = getDemoLinkProps("150-plus");
   const sliderLabelId = useId();
   const [tierIndex, setTierIndex] = useState(INITIAL_INDEX);
   const selectedTier = pricingTiers[tierIndex] ?? pricingTiers[0];

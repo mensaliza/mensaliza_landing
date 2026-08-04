@@ -275,19 +275,19 @@ export const pricingSharedFeatures = [
 
 export const pricingTiers = [
   {
-    id: "30",
-    subscribers: 30,
-    label: "30",
-    price: "R$ 49",
+    id: "25",
+    subscribers: 25,
+    label: "25",
+    price: "R$ 69",
     pricePeriod: "/ mês",
     custom: false,
     popular: false,
   },
   {
-    id: "70",
-    subscribers: 70,
-    label: "70",
-    price: "R$ 79",
+    id: "50",
+    subscribers: 50,
+    label: "50",
+    price: "R$ 109",
     pricePeriod: "/ mês",
     custom: false,
     popular: true,
@@ -296,7 +296,7 @@ export const pricingTiers = [
     id: "100",
     subscribers: 100,
     label: "100",
-    price: "R$ 99",
+    price: "R$ 139",
     pricePeriod: "/ mês",
     custom: false,
     popular: false,
@@ -305,15 +305,15 @@ export const pricingTiers = [
     id: "150",
     subscribers: 150,
     label: "150",
-    price: "R$ 129",
+    price: "R$ 199",
     pricePeriod: "/ mês",
     custom: false,
     popular: false,
   },
   {
-    id: "200-plus",
-    subscribers: 200,
-    label: "200+",
+    id: "150-plus",
+    subscribers: 151,
+    label: "150+",
     price: "Sob consulta",
     pricePeriod: null,
     custom: true,
@@ -324,7 +324,7 @@ export const pricingTiers = [
 export const pricingEnterprise = {
   name: "Enterprise",
   description:
-    "Acima de 200 assinantes ou necessidades sob medida. Vamos conversar.",
+    "Acima de 150 assinantes ou necessidades sob medida. Vamos conversar.",
 } as const;
 
 export const faqItems = [
