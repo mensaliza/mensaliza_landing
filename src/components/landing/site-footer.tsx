@@ -2,13 +2,13 @@ import Link from "next/link";
 
 import { Logo } from "@/components/logo";
 import { navLinks } from "@/lib/landing-content";
-import { getAppLinkProps, getDemoLinkProps } from "@/lib/site-urls";
+import { getDemoLinkProps, getLoginLinkProps } from "@/lib/site-urls";
 
 const footerLinkClassName =
   "inline-flex min-h-11 items-center text-sm text-muted-foreground transition-colors duration-150 hover:text-foreground focus-visible:rounded-sm focus-visible:outline-none focus-visible:ring-3 focus-visible:ring-ring/50";
 
 export function SiteFooter() {
-  const appLink = getAppLinkProps();
+  const loginLink = getLoginLinkProps();
   const demoLink = getDemoLinkProps();
 
   return (
@@ -43,11 +43,9 @@ export function SiteFooter() {
               Plataforma
             </p>
             <nav aria-label="Links da plataforma" className="flex flex-col">
-              {appLink ? (
-                <a {...appLink} className={footerLinkClassName}>
-                  Entrar
-                </a>
-              ) : null}
+              <a {...loginLink} className={footerLinkClassName}>
+                Entrar
+              </a>
               <a {...demoLink} className={footerLinkClassName}>
                 Agendar demonstração
               </a>

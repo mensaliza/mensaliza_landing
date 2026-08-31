@@ -1,7 +1,7 @@
 import { Suspense } from "react";
 
 import { DemoRequestForm } from "@/components/landing/demo-request-form";
-import { getAppLinkProps } from "@/lib/site-urls";
+import { getLoginLinkProps } from "@/lib/site-urls";
 
 function DemoFormFallback() {
   return (
@@ -13,7 +13,7 @@ function DemoFormFallback() {
 }
 
 export function CtaSection() {
-  const appLink = getAppLinkProps();
+  const loginLink = getLoginLinkProps();
 
   return (
     <section
@@ -35,17 +35,15 @@ export function CtaSection() {
           <DemoRequestForm />
         </Suspense>
 
-        {appLink ? (
-          <p className="text-center text-sm text-primary-foreground/75">
-            Já tem conta?{" "}
-            <a
-              {...appLink}
-              className="font-medium text-primary-foreground underline underline-offset-4 hover:text-primary-foreground/90"
-            >
-              Entrar
-            </a>
-          </p>
-        ) : null}
+        <p className="text-center text-sm text-primary-foreground/75">
+          Já tem conta?{" "}
+          <a
+            {...loginLink}
+            className="font-medium text-primary-foreground underline underline-offset-4 hover:text-primary-foreground/90"
+          >
+            Entrar
+          </a>
+        </p>
       </div>
     </section>
   );

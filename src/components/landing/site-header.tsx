@@ -3,8 +3,8 @@
 import { MenuIcon } from "lucide-react";
 import { useEffect, useState } from "react";
 
-import { DemoButton } from "@/components/landing/demo-button";
 import { LoginLink } from "@/components/landing/login-link";
+import { SignupButton } from "@/components/landing/signup-button";
 import { Logo } from "@/components/logo";
 import { Button } from "@/components/ui/button";
 import {
@@ -16,8 +16,9 @@ import {
   SheetTrigger,
 } from "@/components/ui/sheet";
 import { navLinks } from "@/lib/landing-content";
-import { getDemoLinkProps } from "@/lib/site-urls";
+import { getSignupLinkProps } from "@/lib/site-urls";
 import { cn } from "@/lib/utils";
+import Link from "next/link";
 
 type SiteHeaderProps = {
   /** When true, header starts flush/transparent over the hero and becomes a floating cell on scroll. */
@@ -27,7 +28,6 @@ type SiteHeaderProps = {
 export function SiteHeader({ blendWithHero = false }: SiteHeaderProps) {
   const [open, setOpen] = useState(false);
   const [atTop, setAtTop] = useState(blendWithHero);
-  const demoLink = getDemoLinkProps();
 
   useEffect(() => {
     if (!blendWithHero) {
@@ -60,41 +60,48 @@ export function SiteHeader({ blendWithHero = false }: SiteHeaderProps) {
         className={cn(
           "site-header-bar relative mx-auto flex w-full items-center justify-between gap-3 sm:gap-4",
           floating
-            ? "h-14 max-w-5xl rounded-2xl border border-border bg-background/95 px-3 backdrop-blur-sm sm:h-[3.75rem] sm:px-5"
+            ? "h-14 max-w-5xl rounded-2xl border border-border bg-background/95 px-3 backdrop-blur-sm sm:h-15 sm:px-5"
             : "h-16 max-w-6xl border border-transparent bg-transparent px-4 sm:px-6 lg:px-8"
         )}
       >
-        <a href="/" className="shrink-0 text-foreground" aria-label="Mensaliza — início">
-          <Logo size={floating ? "sm" : "md"} />
-        </a>
+        <div className="flex items-center gap-4">
+          <Link href="/" className="flex-none text-foreground" aria-label="Mensaliza — início">
+            <Logo size="sm" />
+          </Link>
 
-        <nav
-          aria-label="Navegação principal"
-          className="absolute left-1/2 hidden -translate-x-1/2 items-center gap-5 lg:flex xl:gap-7"
-        >
-          {navLinks.map((link) => (
-            <a
-              key={link.href}
-              href={link.href}
-              className="text-sm text-muted-foreground transition-colors hover:text-foreground"
-            >
-              {link.label}
-            </a>
-          ))}
-        </nav>
+          <nav
+            aria-label="Navegação principal"
+            className="hidden lg:flex items-end gap-4 xl:gap-5 mt-2"
+          >
+            {navLinks.map((link) => (
+              <Link
+                key={link.href}
+                href={link.href}
+                className="text-sm text-muted-foreground transition-colors hover:text-foreground"
+              >
+                {link.label}
+              </Link>
+            ))}
+          </nav>
+        </div>
 
         <div className="flex shrink-0 items-center gap-2 sm:gap-3">
-          <LoginLink className="hidden sm:inline-flex" />
-          <DemoButton size="sm" showIcon={false} className="hidden sm:inline-flex" />
+          <LoginLink variant="secondary" className="hidden sm:inline-flex" />
+          <SignupButton
+            size="sm"
+            showIcon={false}
+            label="Começar grátis"
+            className="hidden sm:inline-flex"
+          />
 
           <Sheet open={open} onOpenChange={setOpen}>
             <SheetTrigger
               render={
                 <Button
-                  variant="outline"
-                  size="icon"
+                  variant="ghost"
+                  size="icon-lg"
                   className={cn(
-                    "size-11 lg:hidden",
+                    "lg:hidden",
                     transparent && "border-border/70 bg-background/70"
                   )}
                   aria-label="Abrir menu"
@@ -125,7 +132,7 @@ export function SiteHeader({ blendWithHero = false }: SiteHeaderProps) {
                 ))}
               </nav>
               <div className="mt-auto flex flex-col gap-2 border-t p-4">
-                <LoginLink variant="outline" fullWidth />
+                <LoginLink variant="secondary" fullWidth />
                 <SheetClose
                   render={
                     <Button
@@ -133,18 +140,14 @@ export function SiteHeader({ blendWithHero = false }: SiteHeaderProps) {
                       nativeButton={false}
                       render={
                         <a
-                          {...demoLink}
-                          aria-label={
-                            demoLink.target === "_blank"
-                              ? "Agendar demonstração (abre em nova aba)"
-                              : "Agendar demonstração"
-                          }
+                          {...getSignupLinkProps()}
+                          aria-label="Começar grátis"
                         />
                       }
                     />
                   }
                 >
-                  Agendar demonstração
+                  Começar grátis
                 </SheetClose>
               </div>
             </SheetContent>

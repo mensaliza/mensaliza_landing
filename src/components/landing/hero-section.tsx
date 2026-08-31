@@ -2,8 +2,9 @@
 
 import type { CSSProperties } from "react";
 
-import { DemoButton } from "@/components/landing/demo-button";
+import { HeroAtmosphere } from "@/components/landing/hero-atmosphere";
 import { HeroMockupShowcase } from "@/components/landing/hero-mockup-showcase";
+import { SignupButton } from "@/components/landing/signup-button";
 import { Button } from "@/components/ui/button";
 
 export function HeroSection() {
@@ -12,20 +13,7 @@ export function HeroSection() {
       id="hero"
       className="relative -mt-16 overflow-hidden px-4 pt-28 pb-10 sm:px-6 sm:pt-32 sm:pb-12 lg:px-8 lg:pb-14 min-w-0 min-h-0"
     >
-      <div
-        aria-hidden
-        className="hero-atmosphere-layer pointer-events-none absolute inset-0 z-0"
-      >
-        <div className="hero-plains">
-          <div className="hero-plain" />
-          <div className="hero-plain hero-plain--2" />
-          <div className="hero-plain hero-plain--3" />
-        </div>
-        <div className="hero-atmosphere hero-atmosphere--header-left" />
-        <div className="hero-atmosphere hero-atmosphere--header-right" />
-        <div className="hero-atmosphere hero-atmosphere--side-left" />
-        <div className="hero-atmosphere hero-atmosphere--side-right" />
-      </div>
+      <HeroAtmosphere />
 
       <div className="relative z-10 mx-auto flex w-full max-w-4xl flex-col items-center gap-11 text-center lg:max-w-5xl lg:gap-14">
         <div className="flex flex-col items-center gap-6 sm:gap-7 lg:gap-8">
@@ -52,7 +40,7 @@ export function HeroSection() {
             style={{ "--hero-i": 3 } as CSSProperties}
           >
             <div className="flex w-full flex-col items-center gap-3 sm:w-auto sm:flex-row">
-              <DemoButton className="w-full sm:w-auto" />
+              <SignupButton className="w-full sm:w-auto" />
               <Button
                 variant="outline"
                 size="lg"

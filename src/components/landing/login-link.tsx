@@ -1,5 +1,5 @@
 import { Button } from "@/components/ui/button";
-import { getAppLinkProps } from "@/lib/site-urls";
+import { getLoginLinkProps } from "@/lib/site-urls";
 import { cn } from "@/lib/utils";
 
 type LoginLinkProps = {
@@ -15,11 +15,7 @@ export function LoginLink({
   variant = "ghost",
   fullWidth = false,
 }: LoginLinkProps) {
-  const appLink = getAppLinkProps();
-
-  if (!appLink) {
-    return null;
-  }
+  const loginLink = getLoginLinkProps();
 
   return (
     <Button
@@ -27,7 +23,7 @@ export function LoginLink({
       size={size}
       className={cn(fullWidth && "w-full", className)}
       nativeButton={false}
-      render={<a {...appLink} />}
+      render={<a {...loginLink} />}
     >
       Entrar
     </Button>

@@ -3,6 +3,7 @@ import { Geist, Geist_Mono, Lexend } from "next/font/google";
 import { Analytics } from "@vercel/analytics/next"
 import { SpeedInsights } from "@vercel/speed-insights/next"
 
+import { PostHogProvider } from "@/components/posthog-provider";
 import { Toaster } from "@/components/ui/sonner";
 
 import "./globals.css";
@@ -72,8 +73,10 @@ export default function RootLayout({
         >
           Pular para o conteúdo
         </a>
-        {children}
-        <Toaster position="top-center" richColors={false} closeButton />
+        <PostHogProvider>
+          {children}
+          <Toaster position="top-center" richColors={false} closeButton />
+        </PostHogProvider>
         <Analytics />
         <SpeedInsights />
       </body>

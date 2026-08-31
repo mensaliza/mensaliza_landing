@@ -22,11 +22,13 @@ import {
 } from "@/components/ui/native-select";
 import { Spinner } from "@/components/ui/spinner";
 import { Textarea } from "@/components/ui/textarea";
-import { pricingTiers } from "@/lib/landing-content";
+import { pricingTierOptionLabel, pricingTiers } from "@/lib/landing-content";
 import { cn } from "@/lib/utils";
 
 const DEFAULT_TIER =
-  pricingTiers.find((tier) => tier.popular)?.id ?? pricingTiers[0]?.id ?? "50";
+  pricingTiers.find((tier) => tier.popular)?.id ??
+  pricingTiers[0]?.id ??
+  "essential";
 
 type FieldErrors = Partial<
   Record<"name" | "email" | "phone" | "subscribers" | "message" | "form", string>
@@ -37,13 +39,6 @@ function resolveInitialTier(param: string | null): string {
     return param;
   }
   return DEFAULT_TIER;
-}
-
-function subscriberOptionLabel(tier: (typeof pricingTiers)[number]) {
-  if (tier.custom) {
-    return `${tier.label} assinantes — Enterprise`;
-  }
-  return `Até ${tier.label} assinantes`;
 }
 
 export function DemoRequestForm() {
@@ -285,7 +280,7 @@ export function DemoRequestForm() {
           >
             {pricingTiers.map((tier) => (
               <NativeSelectOption key={tier.id} value={tier.id}>
-                {subscriberOptionLabel(tier)}
+                {pricingTierOptionLabel(tier)}
               </NativeSelectOption>
             ))}
           </NativeSelect>

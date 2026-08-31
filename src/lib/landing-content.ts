@@ -4,6 +4,7 @@ export {
   getAppLinkProps,
   getDemoHref,
   getDemoLinkProps,
+  getLoginLinkProps,
   isExternalUrl,
 } from "./site-urls";
 
@@ -264,68 +265,80 @@ export const videoScript = [
   "Mensaliza. Cobrança automática. Sem constrangimento.",
 ] as const;
 
-export const pricingSharedFeatures = [
-  "Dashboard financeiro",
-  "Gestão de assinantes",
-  "Gestão de pagamentos",
-  "Cobrança automática via WhatsApp",
-  "Recebimento de comprovantes",
-  "Previsão de recebimentos",
-] as const;
+export const YEARLY_SAVINGS_PERCENT = 20;
 
 export const pricingTiers = [
   {
-    id: "25",
-    subscribers: 25,
-    label: "25",
-    price: "R$ 69",
-    pricePeriod: "/ mês",
-    custom: false,
+    id: "basic",
+    name: "Basic",
+    tagline: "Para começar",
+    maxSubscribers: 0,
+    priceMonthly: 4900,
+    priceYearly: 3900,
     popular: false,
+    custom: false,
   },
   {
-    id: "50",
-    subscribers: 50,
-    label: "50",
-    price: "R$ 109",
-    pricePeriod: "/ mês",
-    custom: false,
+    id: "essential",
+    name: "Essential",
+    tagline: "Para crescer",
+    maxSubscribers: 100,
+    priceMonthly: 9900,
+    priceYearly: 7900,
     popular: true,
-  },
-  {
-    id: "100",
-    subscribers: 100,
-    label: "100",
-    price: "R$ 139",
-    pricePeriod: "/ mês",
     custom: false,
-    popular: false,
   },
   {
-    id: "150",
-    subscribers: 150,
-    label: "150",
-    price: "R$ 199",
-    pricePeriod: "/ mês",
+    id: "business",
+    name: "Business",
+    tagline: "Para acelerar",
+    maxSubscribers: 150,
+    priceMonthly: 14900,
+    priceYearly: 11900,
+    popular: false,
     custom: false,
-    popular: false,
   },
   {
-    id: "150-plus",
-    subscribers: 151,
-    label: "150+",
-    price: "Sob consulta",
-    pricePeriod: null,
+    id: "scale",
+    name: "Scale",
+    tagline: "Para grandes operações",
+    maxSubscribers: 200,
+    priceMonthly: 19900,
+    priceYearly: 15900,
+    popular: false,
+    custom: false,
+  },
+  {
+    id: "enterprise",
+    name: "Enterprise",
+    tagline: "",
+    maxSubscribers: null,
+    priceMonthly: null,
+    priceYearly: null,
+    popular: false,
     custom: true,
-    popular: false,
   },
 ] as const;
+
+export const pricingPlans = pricingTiers.filter((tier) => !tier.custom);
 
 export const pricingEnterprise = {
   name: "Enterprise",
   description:
-    "Acima de 150 assinantes ou necessidades sob medida. Vamos conversar.",
+    "Mais de 200 assinantes ou necessidades sob medida. Vamos conversar.",
 } as const;
+
+export function pricingTierOptionLabel(
+  tier: (typeof pricingTiers)[number]
+): string {
+  if (tier.custom) {
+    return `${tier.name} — sob consulta`;
+  }
+  if (tier.maxSubscribers === 0) {
+    return `${tier.name} — gestão sem WhatsApp`;
+  }
+  return `${tier.name} — até ${tier.maxSubscribers} assinantes`;
+}
 
 export const faqItems = [
   {

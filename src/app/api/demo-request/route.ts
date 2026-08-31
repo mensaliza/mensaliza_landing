@@ -1,7 +1,12 @@
 import { NextResponse } from "next/server";
 import { Resend } from "resend";
 
-import { pricingTiers } from "@/lib/landing-content";
+import { pricingTierOptionLabel, pricingTiers } from "@/lib/landing-content";
+import {
+  captureException,
+  flushPostHog,
+  getDistinctIdFromRequest,
+} from "@/lib/posthog-server";
 import { CONTACT_EMAIL } from "@/lib/site-urls";
 
 export const runtime = "nodejs";
@@ -37,9 +42,7 @@ function escapeHtml(value: string): string {
 function tierLabel(id: string): string {
   const tier = pricingTiers.find((item) => item.id === id);
   if (!tier) return id;
-  return tier.custom
-    ? `${tier.label} assinantes (Enterprise)`
-    : `Até ${tier.label} assinantes`;
+  return pricingTierOptionLabel(tier);
 }
 
 export async function POST(request: Request) {
@@ -93,9 +96,18 @@ export async function POST(request: Request) {
     );
   }
 
+  const distinctId =
+    getDistinctIdFromRequest({ headers: request.headers }) ?? undefined;
+
   const apiKey = process.env.RESEND_API_KEY?.trim();
   if (!apiKey) {
     console.error("RESEND_API_KEY is not configured");
+    captureException(
+      new Error("RESEND_API_KEY is not configured"),
+      distinctId,
+      { source: "demo_request", stage: "config" },
+    );
+    await flushPostHog();
     return NextResponse.json(
       {
         error:
@@ -166,6 +178,11 @@ export async function POST(request: Request) {
 
   if (error) {
     console.error("Resend error:", error.message);
+    captureException(error, distinctId, {
+      source: "demo_request",
+      stage: "resend",
+    });
+    await flushPostHog();
     return NextResponse.json(
       {
         error:
