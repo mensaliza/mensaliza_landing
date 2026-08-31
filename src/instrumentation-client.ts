@@ -1,7 +1,4 @@
-"use client";
-
 import posthog from "posthog-js";
-import { PostHogProvider as PHProvider } from "@posthog/react";
 
 import {
   ANALYTICS_APP,
@@ -12,7 +9,7 @@ import {
 const POSTHOG_TOKEN = process.env.NEXT_PUBLIC_POSTHOG_PROJECT_TOKEN;
 const POSTHOG_HOST = process.env.NEXT_PUBLIC_POSTHOG_HOST;
 
-if (typeof window !== "undefined" && POSTHOG_TOKEN && POSTHOG_HOST) {
+if (POSTHOG_TOKEN && POSTHOG_HOST) {
   posthog.init(POSTHOG_TOKEN, {
     api_host: POSTHOG_PROXY_PATH,
     ui_host: getPostHogUiHost(POSTHOG_HOST),
@@ -33,8 +30,4 @@ if (typeof window !== "undefined" && POSTHOG_TOKEN && POSTHOG_HOST) {
   });
 
   posthog.register({ app: ANALYTICS_APP });
-}
-
-export function PostHogProvider({ children }: { children: React.ReactNode }) {
-  return <PHProvider client={posthog}>{children}</PHProvider>;
 }
