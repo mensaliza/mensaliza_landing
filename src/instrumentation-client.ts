@@ -14,6 +14,7 @@ if (POSTHOG_TOKEN && POSTHOG_HOST) {
     api_host: POSTHOG_PROXY_PATH,
     ui_host: getPostHogUiHost(POSTHOG_HOST),
     defaults: "2026-05-30",
+    capture_pageleave: true,
     capture_exceptions: true,
     tracing_headers: ["mensaliza.com", "www.mensaliza.com", "localhost"],
     session_recording: {

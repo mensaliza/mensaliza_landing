@@ -13,6 +13,10 @@ import {
   pricingEnterprise,
   pricingPlans,
 } from "@/lib/landing-content";
+import {
+  trackLandingCta,
+  trackLandingPricingIntervalChanged,
+} from "@/lib/landing-analytics";
 import { getDemoLinkProps } from "@/lib/site-urls";
 
 export function PricingSection() {
@@ -21,7 +25,7 @@ export function PricingSection() {
     useState<BillingInterval>("monthly");
 
   return (
-    <SectionShell id="precos" tinted>
+    <SectionShell id="precos" tinted analyticsSection="precos">
       <div className="flex flex-col gap-10">
         <SectionHeading
           align="center"
@@ -34,9 +38,11 @@ export function PricingSection() {
           <div className="flex flex-col items-center gap-3">
             <Tabs
               value={billingInterval}
-              onValueChange={(value) =>
-                setBillingInterval(value as BillingInterval)
-              }
+              onValueChange={(value) => {
+                const interval = value as BillingInterval;
+                setBillingInterval(interval);
+                trackLandingPricingIntervalChanged(interval);
+              }}
             >
               <TabsList
                 aria-label="Período de cobrança"
@@ -98,6 +104,12 @@ export function PricingSection() {
                 <a
                   {...enterpriseDemoLink}
                   aria-label="Agendar demonstração para o plano Enterprise"
+                  onClick={() =>
+                    trackLandingCta({
+                      cta: "demo",
+                      location: "pricing_enterprise",
+                    })
+                  }
                 />
               }
             >

@@ -16,6 +16,7 @@ import {
   SheetTrigger,
 } from "@/components/ui/sheet";
 import { navLinks } from "@/lib/landing-content";
+import { trackLandingCta, trackLandingNavClicked } from "@/lib/landing-analytics";
 import { getSignupLinkProps } from "@/lib/site-urls";
 import { cn } from "@/lib/utils";
 import Link from "next/link";
@@ -78,6 +79,12 @@ export function SiteHeader({ blendWithHero = false }: SiteHeaderProps) {
                 key={link.href}
                 href={link.href}
                 className="text-sm text-muted-foreground transition-colors hover:text-foreground"
+                onClick={() =>
+                  trackLandingNavClicked({
+                    target_section: link.href.replace("/#", ""),
+                    source: "header",
+                  })
+                }
               >
                 {link.label}
               </Link>
@@ -86,12 +93,13 @@ export function SiteHeader({ blendWithHero = false }: SiteHeaderProps) {
         </div>
 
         <div className="flex shrink-0 items-center gap-2 sm:gap-3">
-          <LoginLink variant="secondary" className="hidden sm:inline-flex" />
+          <LoginLink variant="secondary" className="hidden sm:inline-flex" location="header" />
           <SignupButton
             size="sm"
             showIcon={false}
             label="Começar grátis"
             className="hidden sm:inline-flex"
+            location="header"
           />
 
           <Sheet open={open} onOpenChange={setOpen}>
@@ -124,6 +132,12 @@ export function SiteHeader({ blendWithHero = false }: SiteHeaderProps) {
                         className={cn(
                           "rounded-lg px-3 py-2 text-sm font-medium text-foreground transition-colors hover:bg-muted"
                         )}
+                        onClick={() =>
+                          trackLandingNavClicked({
+                            target_section: link.href.replace("/#", ""),
+                            source: "header_mobile",
+                          })
+                        }
                       />
                     }
                   >
@@ -132,7 +146,7 @@ export function SiteHeader({ blendWithHero = false }: SiteHeaderProps) {
                 ))}
               </nav>
               <div className="mt-auto flex flex-col gap-2 border-t p-4">
-                <LoginLink variant="secondary" fullWidth />
+                <LoginLink variant="secondary" fullWidth location="header_mobile" />
                 <SheetClose
                   render={
                     <Button
@@ -142,6 +156,12 @@ export function SiteHeader({ blendWithHero = false }: SiteHeaderProps) {
                         <a
                           {...getSignupLinkProps()}
                           aria-label="Começar grátis"
+                          onClick={() =>
+                            trackLandingCta({
+                              cta: "signup",
+                              location: "header_mobile",
+                            })
+                          }
                         />
                       }
                     />

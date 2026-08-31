@@ -1,4 +1,10 @@
+"use client";
+
 import { Button } from "@/components/ui/button";
+import {
+  trackLandingCta,
+  type LandingCtaLocation,
+} from "@/lib/landing-analytics";
 import { getLoginLinkProps } from "@/lib/site-urls";
 import { cn } from "@/lib/utils";
 
@@ -7,6 +13,7 @@ type LoginLinkProps = {
   size?: "default" | "sm" | "lg";
   variant?: "default" | "outline" | "secondary" | "ghost";
   fullWidth?: boolean;
+  location: LandingCtaLocation;
 };
 
 export function LoginLink({
@@ -14,6 +21,7 @@ export function LoginLink({
   size = "sm",
   variant = "ghost",
   fullWidth = false,
+  location,
 }: LoginLinkProps) {
   const loginLink = getLoginLinkProps();
 
@@ -23,7 +31,17 @@ export function LoginLink({
       size={size}
       className={cn(fullWidth && "w-full", className)}
       nativeButton={false}
-      render={<a {...loginLink} />}
+      render={
+        <a
+          {...loginLink}
+          onClick={() =>
+            trackLandingCta({
+              cta: "login",
+              location,
+            })
+          }
+        />
+      }
     >
       Entrar
     </Button>

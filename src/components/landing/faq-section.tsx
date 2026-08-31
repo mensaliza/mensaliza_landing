@@ -9,10 +9,11 @@ import {
   AccordionTrigger,
 } from "@/components/ui/accordion";
 import { essentialFaqItems } from "@/lib/landing-content";
+import { trackLandingFaqExpanded } from "@/lib/landing-analytics";
 
 export function FaqSection() {
   return (
-    <SectionShell id="faq" tinted>
+    <SectionShell id="faq" tinted analyticsSection="faq">
       <div className="grid gap-10 lg:grid-cols-[minmax(0,0.9fr)_minmax(0,1.1fr)] lg:items-start lg:gap-16">
         <SectionHeading
           title="Perguntas que todo mundo faz antes de agendar"
@@ -20,7 +21,17 @@ export function FaqSection() {
           className="lg:sticky lg:top-28"
         />
 
-        <Accordion hiddenUntilFound className="flex w-full flex-col gap-2">
+        <Accordion
+          hiddenUntilFound
+          className="flex w-full flex-col gap-2"
+          onValueChange={(value) => {
+            if (!value || Array.isArray(value)) return;
+            const item = essentialFaqItems.find((faq) => faq.question === value);
+            if (item) {
+              trackLandingFaqExpanded(item.question);
+            }
+          }}
+        >
           {essentialFaqItems.map((item) => (
             <AccordionItem
               key={item.question}

@@ -4,8 +4,10 @@ import type { CSSProperties } from "react";
 
 import { HeroAtmosphere } from "@/components/landing/hero-atmosphere";
 import { HeroMockupShowcase } from "@/components/landing/hero-mockup-showcase";
+import { SectionViewTracker } from "@/components/landing/section-view-tracker";
 import { SignupButton } from "@/components/landing/signup-button";
 import { Button } from "@/components/ui/button";
+import { trackLandingCta } from "@/lib/landing-analytics";
 
 export function HeroSection() {
   return (
@@ -13,6 +15,7 @@ export function HeroSection() {
       id="hero"
       className="relative -mt-16 overflow-hidden px-4 pt-28 pb-10 sm:px-6 sm:pt-32 sm:pb-12 lg:px-8 lg:pb-14 min-w-0 min-h-0"
     >
+      <SectionViewTracker section="hero" />
       <HeroAtmosphere />
 
       <div className="relative z-10 mx-auto flex w-full max-w-4xl flex-col items-center gap-11 text-center lg:max-w-5xl lg:gap-14">
@@ -40,13 +43,23 @@ export function HeroSection() {
             style={{ "--hero-i": 3 } as CSSProperties}
           >
             <div className="flex w-full flex-col items-center gap-3 sm:w-auto sm:flex-row">
-              <SignupButton className="w-full sm:w-auto" />
+              <SignupButton className="w-full sm:w-auto" location="hero" />
               <Button
                 variant="outline"
                 size="lg"
                 className="w-full bg-background font-medium sm:w-auto"
                 nativeButton={false}
-                render={<a href="/#como-funciona" />}
+                render={
+                  <a
+                    href="/#como-funciona"
+                    onClick={() =>
+                      trackLandingCta({
+                        cta: "how_it_works",
+                        location: "hero",
+                      })
+                    }
+                  />
+                }
               >
                 Ver como funciona
               </Button>

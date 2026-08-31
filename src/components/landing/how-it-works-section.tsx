@@ -9,6 +9,7 @@ import { SectionShell } from "@/components/landing/section-shell";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { clientSteps, professionalSteps } from "@/lib/landing-content";
+import { trackLandingHowItWorksTabChanged } from "@/lib/landing-analytics";
 import { cn } from "@/lib/utils";
 
 type WorkflowTab = "professional" | "client";
@@ -75,7 +76,7 @@ export function HowItWorksSection() {
   const [activeTab, setActiveTab] = useState<WorkflowTab>("professional");
 
   return (
-    <SectionShell id="como-funciona">
+    <SectionShell id="como-funciona" analyticsSection="como_funciona">
       <div className="flex flex-col gap-12">
         <Reveal>
           <SectionHeading
@@ -89,7 +90,11 @@ export function HowItWorksSection() {
         <Reveal delay={80}>
           <Tabs
             value={activeTab}
-            onValueChange={(value) => setActiveTab(value as WorkflowTab)}
+            onValueChange={(value) => {
+              const tab = value as WorkflowTab;
+              setActiveTab(tab);
+              trackLandingHowItWorksTabChanged(tab);
+            }}
             className="flex flex-col gap-8 sm:gap-10"
           >
             <TabsList className="mx-auto grid h-auto! w-full max-w-md grid-cols-2 rounded-full bg-muted p-1">

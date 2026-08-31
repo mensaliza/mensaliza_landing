@@ -1,7 +1,13 @@
+"use client";
+
 import Link from "next/link";
 
 import { Logo } from "@/components/logo";
 import { navLinks } from "@/lib/landing-content";
+import {
+  trackLandingCta,
+  trackLandingNavClicked,
+} from "@/lib/landing-analytics";
 import { getDemoLinkProps, getLoginLinkProps } from "@/lib/site-urls";
 
 const footerLinkClassName =
@@ -31,7 +37,17 @@ export function SiteFooter() {
             </p>
             <nav aria-label="Links do rodapé" className="flex flex-col">
               {navLinks.map((link) => (
-                <a key={link.href} href={link.href} className={footerLinkClassName}>
+                <a
+                  key={link.href}
+                  href={link.href}
+                  className={footerLinkClassName}
+                  onClick={() =>
+                    trackLandingNavClicked({
+                      target_section: link.href.replace("/#", ""),
+                      source: "footer",
+                    })
+                  }
+                >
                   {link.label}
                 </a>
               ))}
@@ -43,10 +59,28 @@ export function SiteFooter() {
               Plataforma
             </p>
             <nav aria-label="Links da plataforma" className="flex flex-col">
-              <a {...loginLink} className={footerLinkClassName}>
+              <a
+                {...loginLink}
+                className={footerLinkClassName}
+                onClick={() =>
+                  trackLandingCta({
+                    cta: "login",
+                    location: "footer",
+                  })
+                }
+              >
                 Entrar
               </a>
-              <a {...demoLink} className={footerLinkClassName}>
+              <a
+                {...demoLink}
+                className={footerLinkClassName}
+                onClick={() =>
+                  trackLandingCta({
+                    cta: "demo",
+                    location: "footer",
+                  })
+                }
+              >
                 Agendar demonstração
               </a>
             </nav>

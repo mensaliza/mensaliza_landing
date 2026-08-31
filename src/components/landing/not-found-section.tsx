@@ -51,7 +51,7 @@ export function NotFoundSection() {
               <ArrowLeftIcon data-icon="inline-start" />
               Voltar ao início
             </Button>
-            <SignupButton className="min-h-11 w-full px-4 sm:w-auto" />
+            <SignupButton className="min-h-11 w-full px-4 sm:w-auto" location="not_found" />
           </div>
         </div>
       </div>

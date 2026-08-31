@@ -2,7 +2,7 @@
 
 import { CheckIcon, XIcon } from "lucide-react";
 
-import { Button } from "@/components/ui/button";
+import { SignupButton } from "@/components/landing/signup-button";
 import {
   Card,
   CardContent,
@@ -11,7 +11,6 @@ import {
 } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
-import { getSignupLinkProps } from "@/lib/site-urls";
 import { cn } from "@/lib/utils";
 
 export type BillingInterval = "monthly" | "yearly";
@@ -105,10 +104,6 @@ export function PlanPricingCard({
   const displayPrice = isYearly ? priceYearly : priceMonthly;
   const yearlyTotal =
     isYearly && displayPrice != null ? displayPrice * 12 : null;
-  const signupLink = getSignupLinkProps({
-    plan: slug,
-    interval: billingInterval,
-  });
 
   return (
     <div className="relative h-full">
@@ -139,7 +134,7 @@ export function PlanPricingCard({
         <CardContent className="space-y-4 pt-2">
           <div>
             {isYearly && priceMonthly != null ? (
-              <p className="text-sm font-medium text-foreground/50 tabular-nums">
+              <p className="font-heading text-sm font-medium text-foreground/50 tabular-nums">
                 <span className="sr-only">Preço no plano mensal: </span>
                 <s className="decoration-foreground/40">
                   {formatCurrencyFromCents(priceMonthly)}
@@ -147,7 +142,7 @@ export function PlanPricingCard({
               </p>
             ) : null}
             <div className="flex items-end gap-1">
-              <span className="text-3xl font-semibold tracking-tight tabular-nums">
+              <span className="font-heading text-3xl font-semibold tracking-tight tabular-nums">
                 {displayPrice != null
                   ? formatCurrencyFromCents(displayPrice)
                   : "—"}
@@ -194,23 +189,14 @@ export function PlanPricingCard({
         </CardContent>
 
         <CardFooter className="mt-auto border-0 bg-transparent pt-2">
-          <Button
+          <SignupButton
             className="w-full"
             variant={popular ? "default" : "outline"}
-            nativeButton={false}
-            render={
-              <a
-                {...signupLink}
-                aria-label={
-                  signupLink.target === "_blank"
-                    ? `Começar agora no plano ${name} (abre em nova aba)`
-                    : `Começar agora no plano ${name}`
-                }
-              />
-            }
-          >
-            Começar agora
-          </Button>
+            showIcon={false}
+            location="pricing_plan"
+            plan={slug}
+            billingInterval={billingInterval}
+          />
         </CardFooter>
       </Card>
     </div>

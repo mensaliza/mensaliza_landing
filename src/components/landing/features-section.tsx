@@ -25,7 +25,7 @@ const iconMap = {
 
 export function FeaturesSection() {
   return (
-    <SectionShell id="funcionalidades" >
+    <SectionShell id="funcionalidades" analyticsSection="funcionalidades">
       <div className="flex flex-col gap-16 sm:gap-20">
         <Reveal>
           <SectionHeading

@@ -3,6 +3,7 @@ import { Resend } from "resend";
 
 import { pricingTierOptionLabel, pricingTiers } from "@/lib/landing-content";
 import {
+  captureEvent,
   captureException,
   flushPostHog,
   getDistinctIdFromRequest,
@@ -191,6 +192,17 @@ export async function POST(request: Request) {
       { status: 502 }
     );
   }
+
+  captureEvent({
+    distinctId: distinctId ?? email,
+    event: "landing_demo_request_received",
+    properties: {
+      tier: subscribers,
+      has_phone: phone.length > 0,
+      has_message: message.length > 0,
+    },
+  });
+  await flushPostHog();
 
   return NextResponse.json({ ok: true, id: data?.id ?? null });
 }

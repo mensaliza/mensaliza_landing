@@ -39,7 +39,7 @@ function ComparisonCell({
 
 export function ReliefSection() {
   return (
-    <SectionShell tinted>
+    <SectionShell id="comparativo" tinted analyticsSection="comparativo">
       <div className="flex flex-col gap-12">
         <Reveal>
           <SectionHeading

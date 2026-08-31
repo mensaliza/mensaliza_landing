@@ -1,6 +1,10 @@
+"use client";
+
 import { Suspense } from "react";
 
 import { DemoRequestForm } from "@/components/landing/demo-request-form";
+import { SectionViewTracker } from "@/components/landing/section-view-tracker";
+import { trackLandingCta } from "@/lib/landing-analytics";
 import { getLoginLinkProps } from "@/lib/site-urls";
 
 function DemoFormFallback() {
@@ -18,8 +22,9 @@ export function CtaSection() {
   return (
     <section
       id="agendar-demo"
-      className="scroll-mt-24 bg-primary px-4 py-20 text-primary-foreground sm:px-6 sm:py-24 lg:px-8 lg:py-28"
+      className="relative scroll-mt-24 bg-primary px-4 py-20 text-primary-foreground sm:px-6 sm:py-24 lg:px-8 lg:py-28"
     >
+      <SectionViewTracker section="agendar_demo" />
       <div className="mx-auto flex w-full max-w-xl flex-col gap-8">
         <div className="flex flex-col gap-4 text-center">
           <h2 className="text-[clamp(1.875rem,3vw,2.75rem)] leading-[1.15] font-semibold tracking-[-0.02em] text-balance">
@@ -40,6 +45,12 @@ export function CtaSection() {
           <a
             {...loginLink}
             className="font-medium text-primary-foreground underline underline-offset-4 hover:text-primary-foreground/90"
+            onClick={() =>
+              trackLandingCta({
+                cta: "login",
+                location: "cta_section",
+              })
+            }
           >
             Entrar
           </a>

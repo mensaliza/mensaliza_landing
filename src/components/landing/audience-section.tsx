@@ -6,7 +6,7 @@ import { audienceSectionFooter, personas } from "@/lib/landing-content";
 
 export function AudienceSection() {
   return (
-    <SectionShell id="para-quem-e">
+    <SectionShell id="para-quem-e" analyticsSection="para_quem_e">
       <div className="flex flex-col gap-12">
         <Reveal>
           <SectionHeading

@@ -2,11 +2,10 @@
 
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
-import { useEffect, useId, useState, type FormEvent } from "react";
+import { useEffect, useId, useRef, useState, type FormEvent } from "react";
 import { toast } from "sonner";
 import { CheckIcon } from "lucide-react";
 
-import { LoginLink } from "@/components/landing/login-link";
 import { Button } from "@/components/ui/button";
 import {
   Field,
@@ -23,6 +22,14 @@ import {
 import { Spinner } from "@/components/ui/spinner";
 import { Textarea } from "@/components/ui/textarea";
 import { pricingTierOptionLabel, pricingTiers } from "@/lib/landing-content";
+import {
+  getUtmSourceFromSearchParams,
+  identifyLandingDemoLead,
+  trackLandingDemoFormFailed,
+  trackLandingDemoFormStarted,
+  trackLandingDemoFormSubmitted,
+  trackLandingDemoFormSucceeded,
+} from "@/lib/landing-analytics";
 import { cn } from "@/lib/utils";
 
 const DEFAULT_TIER =
@@ -56,6 +63,7 @@ export function DemoRequestForm() {
   const [errors, setErrors] = useState<FieldErrors>({});
   const [submitting, setSubmitting] = useState(false);
   const [submitted, setSubmitted] = useState(false);
+  const hasTrackedFormStart = useRef(false);
 
   useEffect(() => {
     const fromUrl = searchParams.get("assinantes");
@@ -63,6 +71,16 @@ export function DemoRequestForm() {
       setSubscribers(fromUrl);
     }
   }, [searchParams]);
+
+  function trackFormStarted() {
+    if (hasTrackedFormStart.current) return;
+
+    hasTrackedFormStart.current = true;
+    trackLandingDemoFormStarted({
+      preselected_tier: subscribers,
+      utm_source: getUtmSourceFromSearchParams(searchParams),
+    });
+  }
 
   function validate(): FieldErrors {
     const next: FieldErrors = {};
@@ -89,9 +107,21 @@ export function DemoRequestForm() {
     const nextErrors = validate();
     setErrors(nextErrors);
     if (Object.keys(nextErrors).length > 0) {
+      const firstField = Object.keys(nextErrors)[0];
+      trackLandingDemoFormFailed({
+        error_type: "validation",
+        field: firstField,
+      });
       return;
     }
 
+    const formPayload = {
+      tier: subscribers,
+      has_phone: phone.trim().length > 0,
+      has_message: message.trim().length > 0,
+    };
+
+    trackLandingDemoFormSubmitted(formPayload);
     setSubmitting(true);
 
     try {
@@ -121,10 +151,21 @@ export function DemoRequestForm() {
         } else {
           setErrors({ form: messageText });
         }
+        trackLandingDemoFormFailed({
+          error_type: "api",
+          field: payload?.field,
+        });
         toast.error(messageText);
         return;
       }
 
+      trackLandingDemoFormSucceeded(formPayload);
+      identifyLandingDemoLead({
+        email: email.trim(),
+        name: name.trim(),
+        subscribers_tier: subscribers,
+        has_phone: formPayload.has_phone,
+      });
       setSubmitted(true);
       setErrors({});
       toast.success("Pedido enviado. Retornamos em breve.");
@@ -132,6 +173,7 @@ export function DemoRequestForm() {
       const messageText =
         "Falha de conexão. Verifique a internet e tente de novo.";
       setErrors({ form: messageText });
+      trackLandingDemoFormFailed({ error_type: "network" });
       toast.error(messageText);
     } finally {
       setSubmitting(false);
@@ -185,6 +227,7 @@ export function DemoRequestForm() {
             autoComplete="name"
             value={name}
             onChange={(event) => setName(event.target.value)}
+            onFocus={trackFormStarted}
             onBlur={() => {
               if (name.trim().length > 0 && name.trim().length < 2) {
                 setErrors((prev) => ({ ...prev, name: "Informe seu nome." }));
