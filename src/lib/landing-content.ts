@@ -26,28 +26,10 @@ export const trustBullets = [
 
 export const heroMockups = {
   dashboard: {
-    src: "/images/dashboard-white.png",
+    src: "/images/dashboard-new.png",
     alt: "Painel do Mensaliza com base de assinantes, pendências de cobrança e ações do dia",
     width: 2880,
-    height: 1614,
-  },
-  subscribers: {
-    src: "/images/subscribers.png",
-    alt: "Base de assinantes do Mensaliza com cadastro de assinantes, status ativo / inativo, data de vencimento e histórico de pagamentos",
-    width: 5016,
-    height: 2462,
-  },
-  laptop: {
-    src: "/images/laptop_mockup.png",
-    alt: "Painel do Mensaliza com base de assinantes, pendências de cobrança e ações do dia",
-    width: 3880,
-    height: 2400,
-  },
-  phone: {
-    src: "/images/phone_mockup.png",
-    alt: "Link de cobrança no celular do cliente com envio de comprovante",
-    width: 1385,
-    height: 2676,
+    height: 1600,
   },
 } as const;
 

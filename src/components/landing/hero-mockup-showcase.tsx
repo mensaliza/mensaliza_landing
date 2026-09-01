@@ -91,7 +91,7 @@ export function HeroMockupShowcase() {
             <figure className="hero-browser relative overflow-hidden rounded-xl border border-border bg-white">
               <div
                 aria-hidden
-                className="flex items-center gap-3 border-b border-border/80 bg-[#f6f6f6] px-3 py-2.5 sm:gap-4 sm:px-4 sm:py-3"
+                className="flex items-center gap-3 border-b border-border/80 bg-[#f6f6f6] px-3 py-2 sm:gap-4 sm:px-4 sm:py-2.5"
               >
                 <div className="flex shrink-0 items-center gap-1.5">
                   <span className="size-2.5 rounded-full bg-[#ff5f57] sm:size-3" />
@@ -124,7 +124,7 @@ export function HeroMockupShowcase() {
                 <div className="hidden w-10 shrink-0 sm:block" />
               </div>
 
-              <div className="relative aspect-[16/10] w-full overflow-hidden bg-white sm:aspect-[16/9.6]">
+              <div className="relative aspect-16/10 w-full overflow-hidden bg-white sm:aspect-[16/9.6] z-50">
                 <Image
                   src={heroMockups.dashboard.src}
                   alt={heroMockups.dashboard.alt}
@@ -132,7 +132,7 @@ export function HeroMockupShowcase() {
                   height={heroMockups.dashboard.height}
                   priority
                   sizes="(max-width: 640px) 100vw, (max-width: 1024px) 92vw, 54rem"
-                  className="h-full w-full select-none object-contain"
+                  className="h-full w-full select-none object-top"
                 />
               </div>
 
