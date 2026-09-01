@@ -2,6 +2,12 @@ export const ANALYTICS_APP = "landing" as const;
 
 export const POSTHOG_PROXY_PATH = "/ingest";
 
+export const POSTHOG_TRACING_HEADERS = [
+  "mensaliza.com",
+  "www.mensaliza.com",
+  "localhost",
+] as const;
+
 export function getPostHogToken() {
   return process.env.NEXT_PUBLIC_POSTHOG_PROJECT_TOKEN?.trim();
 }

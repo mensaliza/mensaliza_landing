@@ -43,8 +43,8 @@ export function captureEvent(input: {
       distinctId: input.distinctId,
       event: input.event,
       properties: {
-        app: ANALYTICS_APP,
         ...compactProperties(input.properties),
+        app: ANALYTICS_APP,
       },
     });
   } catch {
@@ -62,8 +62,8 @@ export function captureException(
     if (!client) return;
 
     client.captureException(error, distinctId, {
-      app: ANALYTICS_APP,
       ...compactProperties(properties),
+      app: ANALYTICS_APP,
     });
   } catch {
     // analytics must never break the product

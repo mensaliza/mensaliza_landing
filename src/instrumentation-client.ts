@@ -3,11 +3,14 @@ import posthog from "posthog-js";
 import {
   ANALYTICS_APP,
   POSTHOG_PROXY_PATH,
+  POSTHOG_TRACING_HEADERS,
+  getPostHogHost,
+  getPostHogToken,
   getPostHogUiHost,
 } from "@/lib/posthog-config";
 
-const POSTHOG_TOKEN = process.env.NEXT_PUBLIC_POSTHOG_PROJECT_TOKEN;
-const POSTHOG_HOST = process.env.NEXT_PUBLIC_POSTHOG_HOST;
+const POSTHOG_TOKEN = getPostHogToken();
+const POSTHOG_HOST = getPostHogHost();
 
 if (POSTHOG_TOKEN && POSTHOG_HOST) {
   posthog.init(POSTHOG_TOKEN, {
@@ -16,7 +19,7 @@ if (POSTHOG_TOKEN && POSTHOG_HOST) {
     defaults: "2026-05-30",
     capture_pageleave: true,
     capture_exceptions: true,
-    tracing_headers: ["mensaliza.com", "www.mensaliza.com", "localhost"],
+    tracing_headers: [...POSTHOG_TRACING_HEADERS],
     session_recording: {
       maskAllInputs: true,
       maskCapturedNetworkRequestFn: (request) => {
