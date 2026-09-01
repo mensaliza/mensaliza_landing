@@ -20,14 +20,14 @@ function ComparisonCell({
       <Icon
         aria-hidden
         className={cn(
-          "mt-0.5 size-4 shrink-0",
+          "size-4 shrink-0",
           variant === "with" ? "text-primary" : "text-muted-foreground/70"
         )}
         strokeWidth={2.5}
       />
       <span
         className={cn(
-          "text-sm leading-relaxed sm:text-base",
+          "mt-0.5 text-sm leading-relaxed sm:text-base",
           variant === "with" ? "text-foreground" : "text-foreground/72"
         )}
       >
@@ -39,12 +39,13 @@ function ComparisonCell({
 
 export function ReliefSection() {
   return (
-    <SectionShell id="comparativo" tinted analyticsSection="comparativo">
+    <SectionShell id="comparativo" labelledBy="comparativo-titulo" tinted analyticsSection="comparativo">
       <div className="flex flex-col gap-12">
         <Reveal>
           <SectionHeading
             align="center"
             eyebrow="Comparativo"
+            titleId="comparativo-titulo"
             title="Com Mensaliza vs sem Mensaliza"
             description="Veja a diferença objetiva na sua rotina de cobranças mensais."
             className="mx-auto"
@@ -55,41 +56,56 @@ export function ReliefSection() {
           <div className="overflow-hidden rounded-xl border border-border bg-card">
             {/* Desktop table */}
             <div className="hidden md:block">
-              <div
-                className="grid border-b border-border"
-                style={{ gridTemplateColumns: "minmax(7rem, .5fr) 1fr 1fr" }}
-              >
-                <div className="px-5 py-4 text-sm font-semibold text-foreground sm:px-6 sm:py-5">
-                  Dificuldade
-                </div>
-                <div className="border-l border-border px-5 py-4 text-sm font-semibold text-foreground sm:px-6 sm:py-5">
-                  Sem Mensaliza
-                </div>
-                <div className="border-l border-border bg-primary/3 px-5 py-4 text-sm font-semibold text-primary sm:px-6 sm:py-5">
-                  Com Mensaliza
-                </div>
-              </div>
-
-              {reliefComparison.map((item, index) => (
-                <div
-                  key={item.criterion}
-                  className={cn(
-                    "grid",
-                    index < reliefComparison.length - 1 && "border-b border-border"
-                  )}
-                  style={{ gridTemplateColumns: "minmax(7rem, .5fr) 1fr 1fr" }}
-                >
-                  <div className="px-5 py-5 text-sm font-semibold leading-snug text-foreground sm:px-6 sm:py-6 sm:text-base">
-                    {item.criterion}
-                  </div>
-                  <div className="border-l border-border px-5 py-5 sm:px-6 sm:py-6">
-                    <ComparisonCell variant="without">{item.before}</ComparisonCell>
-                  </div>
-                  <div className="border-l border-border bg-primary/3 px-5 py-5 sm:px-6 sm:py-6">
-                    <ComparisonCell variant="with">{item.after}</ComparisonCell>
-                  </div>
-                </div>
-              ))}
+              <table className="w-full border-collapse">
+                <caption className="sr-only">
+                  Comparativo da rotina de cobranças mensais com e sem Mensaliza
+                </caption>
+                <thead>
+                  <tr className="border-b border-border">
+                    <th
+                      scope="col"
+                      className="px-5 py-4 text-left text-sm font-semibold text-foreground sm:px-6 sm:py-5"
+                    >
+                      Dificuldade
+                    </th>
+                    <th
+                      scope="col"
+                      className="border-l border-border px-5 py-4 text-left text-sm font-semibold text-foreground sm:px-6 sm:py-5"
+                    >
+                      Sem Mensaliza
+                    </th>
+                    <th
+                      scope="col"
+                      className="border-l border-border bg-primary/3 px-5 py-4 text-left text-sm font-semibold text-primary sm:px-6 sm:py-5"
+                    >
+                      Com Mensaliza
+                    </th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {reliefComparison.map((item, index) => (
+                    <tr
+                      key={item.criterion}
+                      className={cn(
+                        index < reliefComparison.length - 1 && "border-b border-border"
+                      )}
+                    >
+                      <th
+                        scope="row"
+                        className="px-5 py-5 text-left text-sm font-semibold leading-snug text-foreground sm:px-6 sm:py-6 sm:text-base"
+                      >
+                        {item.criterion}
+                      </th>
+                      <td className="border-l border-border px-5 py-5 sm:px-6 sm:py-6">
+                        <ComparisonCell variant="without">{item.before}</ComparisonCell>
+                      </td>
+                      <td className="border-l border-border bg-primary/3 px-5 py-5 sm:px-6 sm:py-6">
+                        <ComparisonCell variant="with">{item.after}</ComparisonCell>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
             </div>
 
             {/* Mobile stacked rows */}

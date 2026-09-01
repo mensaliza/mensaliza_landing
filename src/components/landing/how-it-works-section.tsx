@@ -59,9 +59,9 @@ function StepCardGrid({
             </span>
           </div>
           <div className="flex flex-col gap-2">
-            <h4 className="text-lg font-semibold tracking-[-0.01em] text-balance">
+            <h3 className="text-lg font-semibold tracking-[-0.01em] text-balance">
               {item.title}
-            </h4>
+            </h3>
             <p className="max-w-[42ch] text-sm leading-relaxed text-muted-foreground text-pretty sm:text-[0.9375rem]">
               {item.description}
             </p>
@@ -76,11 +76,12 @@ export function HowItWorksSection() {
   const [activeTab, setActiveTab] = useState<WorkflowTab>("professional");
 
   return (
-    <SectionShell id="como-funciona" analyticsSection="como_funciona">
+    <SectionShell id="como-funciona" labelledBy="como-funciona-titulo" analyticsSection="como_funciona">
       <div className="flex flex-col gap-12">
         <Reveal>
           <SectionHeading
             align="center"
+            titleId="como-funciona-titulo"
             title="Do cadastro ao comprovante aprovado em poucos passos"
             description="Simples para você. Simples para o seu cliente."
             className="mx-auto"

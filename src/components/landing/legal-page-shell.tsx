@@ -2,18 +2,33 @@ import Link from "next/link";
 
 type LegalPageShellProps = {
   title: string;
+  breadcrumbLabel: string;
   children: React.ReactNode;
 };
 
-export function LegalPageShell({ title, children }: LegalPageShellProps) {
+export function LegalPageShell({
+  title,
+  breadcrumbLabel,
+  children,
+}: LegalPageShellProps) {
   return (
     <div className="mx-auto flex w-full max-w-3xl flex-col gap-8 px-4 py-16 sm:px-6 sm:py-20 lg:px-8">
-      <Link
-        href="/"
-        className="text-sm font-medium text-primary transition-colors hover:text-primary/80"
-      >
-        ← Voltar para a landing
-      </Link>
+      <nav aria-label="Breadcrumb">
+        <ol className="flex flex-wrap items-center gap-2 text-sm text-muted-foreground">
+          <li>
+            <Link
+              href="/"
+              className="font-medium text-primary transition-colors hover:text-primary/80"
+            >
+              Início
+            </Link>
+          </li>
+          <li aria-hidden="true">/</li>
+          <li aria-current="page" className="text-foreground">
+            {breadcrumbLabel}
+          </li>
+        </ol>
+      </nav>
       <header className="flex flex-col gap-3">
         <h1 className="text-3xl font-semibold tracking-tight text-balance sm:text-4xl">
           {title}

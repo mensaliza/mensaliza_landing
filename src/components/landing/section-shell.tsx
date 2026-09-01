@@ -4,12 +4,14 @@ import { cn } from "@/lib/utils";
 
 type SectionShellProps = React.ComponentProps<"section"> & {
   id?: string;
+  labelledBy?: string;
   tinted?: boolean;
   analyticsSection?: LandingSectionId;
 };
 
 export function SectionShell({
   id,
+  labelledBy,
   tinted = false,
   analyticsSection,
   className,
@@ -19,6 +21,7 @@ export function SectionShell({
   return (
     <section
       id={id}
+      aria-labelledby={labelledBy}
       className={cn(
         "relative scroll-mt-24 px-4 py-16 sm:px-6 sm:py-20 lg:px-8",
         tinted && "bg-linear-120 from-[#fdfbfb] to-[#ebedee] [&_.text-muted-foreground]:text-foreground/72",

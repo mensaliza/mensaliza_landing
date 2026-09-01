@@ -1,23 +1,32 @@
-import type { Metadata } from "next";
 import Link from "next/link";
 
 import { LegalPageShell } from "@/components/landing/legal-page-shell";
 import { SiteFooter } from "@/components/landing/site-footer";
 import { SiteHeader } from "@/components/landing/site-header";
+import { JsonLd } from "@/components/seo/json-ld";
 import { CONTACT_EMAIL } from "@/lib/site-urls";
+import { buildBreadcrumbJsonLd, buildPageMetadata } from "@/lib/seo";
 
-export const metadata: Metadata = {
-  title: "Termos de uso — Mensaliza",
+export const metadata = buildPageMetadata({
+  title: "Termos de uso",
+  openGraphTitle: "Termos de uso — Mensaliza",
   description:
     "Termos e condições de uso do site e da plataforma Mensaliza para cobrança mensal via WhatsApp.",
-};
+  path: "/termos-de-uso",
+});
+
+const breadcrumbJsonLd = buildBreadcrumbJsonLd([
+  { name: "Início", path: "/" },
+  { name: "Termos de uso", path: "/termos-de-uso" },
+]);
 
 export default function TermosDeUsoPage() {
   return (
     <>
+      <JsonLd data={breadcrumbJsonLd} />
       <SiteHeader />
       <main id="conteudo-principal">
-        <LegalPageShell title="Termos de uso">
+        <LegalPageShell title="Termos de uso" breadcrumbLabel="Termos de uso">
           <p>
             Estes Termos de Uso (“Termos”) regem o acesso e a utilização do site
             mensaliza.com, do aplicativo web e demais interfaces do Mensaliza

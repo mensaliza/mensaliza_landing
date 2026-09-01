@@ -25,11 +25,12 @@ const iconMap = {
 
 export function FeaturesSection() {
   return (
-    <SectionShell id="funcionalidades" analyticsSection="funcionalidades">
+    <SectionShell id="funcionalidades" labelledBy="funcionalidades-titulo" analyticsSection="funcionalidades">
       <div className="flex flex-col gap-16 sm:gap-20">
         <Reveal>
           <SectionHeading
             align="center"
+            titleId="funcionalidades-titulo"
             title="Do lembrete ao comprovante aprovado"
             description="Cobrança automática no WhatsApp e comprovantes centralizados — sem você processar pagamentos."
             className="mx-auto"

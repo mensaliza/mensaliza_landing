@@ -25,10 +25,11 @@ export function PricingSection() {
     useState<BillingInterval>("monthly");
 
   return (
-    <SectionShell id="precos" tinted analyticsSection="precos">
+    <SectionShell id="precos" labelledBy="precos-titulo" tinted analyticsSection="precos">
       <div className="flex flex-col gap-10">
         <SectionHeading
           align="center"
+          titleId="precos-titulo"
           title="Planos para cada tamanho de base"
           description="Escolha quantos assinantes você tem. O produto é o mesmo em todos os planos."
           className="mx-auto"

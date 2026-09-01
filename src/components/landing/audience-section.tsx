@@ -6,11 +6,12 @@ import { audienceSectionFooter, personas } from "@/lib/landing-content";
 
 export function AudienceSection() {
   return (
-    <SectionShell id="para-quem-e" analyticsSection="para_quem_e">
+    <SectionShell id="para-quem-e" labelledBy="para-quem-e-titulo" analyticsSection="para_quem_e">
       <div className="flex flex-col gap-12">
         <Reveal>
           <SectionHeading
             align="center"
+            titleId="para-quem-e-titulo"
             title="Para quem cobra mensalidade todo mês"
             description="Nutricionistas, psicólogas, professores, mentores e negócios por assinatura — quem tem assinantes e quer parar de cobrar na mão."
             className="mx-auto max-w-3xl"

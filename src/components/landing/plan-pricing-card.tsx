@@ -120,14 +120,14 @@ export function PlanPricingCard({
         )}
       >
         <CardHeader className="gap-y-0.5! pb-0">
-          <p
+          <h3
             className={cn(
               "text-sm font-semibold tracking-wide uppercase",
               popular && "text-primary"
             )}
           >
             {name}
-          </p>
+          </h3>
           <p className="text-sm text-foreground/72">{tagline}</p>
         </CardHeader>
 

@@ -13,9 +13,10 @@ import { trackLandingFaqExpanded } from "@/lib/landing-analytics";
 
 export function FaqSection() {
   return (
-    <SectionShell id="faq" tinted analyticsSection="faq">
+    <SectionShell id="faq" labelledBy="faq-titulo" tinted analyticsSection="faq">
       <div className="grid gap-10 lg:grid-cols-[minmax(0,0.9fr)_minmax(0,1.1fr)] lg:items-start lg:gap-16">
         <SectionHeading
+          titleId="faq-titulo"
           title="Perguntas que todo mundo faz antes de agendar"
           description="O essencial sobre cobrança, WhatsApp e comprovantes — sem surpresas."
           className="lg:sticky lg:top-28"

@@ -33,7 +33,7 @@ export function PersonaTile({ persona, tagline, icon, className }: PersonaTilePr
   return (
     <article
       className={cn(
-        "flex h-full flex-col gap-3 rounded-xl border border-border bg-card p-5 sm:p-6",
+        "bg-card flex h-full flex-col gap-3 rounded-xl border border-border p-5 sm:p-6",
         className
       )}
     >

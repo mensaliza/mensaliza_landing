@@ -1,23 +1,35 @@
-import type { Metadata } from "next";
 import Link from "next/link";
 
 import { LegalPageShell } from "@/components/landing/legal-page-shell";
 import { SiteFooter } from "@/components/landing/site-footer";
 import { SiteHeader } from "@/components/landing/site-header";
+import { JsonLd } from "@/components/seo/json-ld";
 import { CONTACT_EMAIL } from "@/lib/site-urls";
+import { buildBreadcrumbJsonLd, buildPageMetadata } from "@/lib/seo";
 
-export const metadata: Metadata = {
-  title: "Política de privacidade — Mensaliza",
+export const metadata = buildPageMetadata({
+  title: "Política de privacidade",
+  openGraphTitle: "Política de privacidade — Mensaliza",
   description:
     "Como o Mensaliza trata dados pessoais de profissionais, visitantes e assinantes, em conformidade com a LGPD.",
-};
+  path: "/politicas-de-privacidade",
+});
+
+const breadcrumbJsonLd = buildBreadcrumbJsonLd([
+  { name: "Início", path: "/" },
+  { name: "Política de privacidade", path: "/politicas-de-privacidade" },
+]);
 
 export default function PoliticasDePrivacidadePage() {
   return (
     <>
+      <JsonLd data={breadcrumbJsonLd} />
       <SiteHeader />
       <main id="conteudo-principal">
-        <LegalPageShell title="Política de privacidade">
+        <LegalPageShell
+          title="Política de privacidade"
+          breadcrumbLabel="Política de privacidade"
+        >
           <p>
             Esta Política de Privacidade (“Política”) explica como o Mensaliza
             (“nós”, “nosso” ou “Mensaliza”) coleta, usa, armazena, compartilha e
