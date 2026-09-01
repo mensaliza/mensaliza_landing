@@ -97,7 +97,7 @@ export function SiteHeader({ blendWithHero = false }: SiteHeaderProps) {
           <SignupButton
             size="sm"
             showIcon={false}
-            label="Começar grátis"
+            label="Começar"
             className="hidden sm:inline-flex"
             location="header"
           />
@@ -155,7 +155,7 @@ export function SiteHeader({ blendWithHero = false }: SiteHeaderProps) {
                       render={
                         <a
                           {...getSignupLinkProps()}
-                          aria-label="Começar grátis"
+                          aria-label="Começar"
                           onClick={() =>
                             trackLandingCta({
                               cta: "signup",
@@ -167,7 +167,7 @@ export function SiteHeader({ blendWithHero = false }: SiteHeaderProps) {
                     />
                   }
                 >
-                  Começar grátis
+                  Começar
                 </SheetClose>
               </div>
             </SheetContent>
