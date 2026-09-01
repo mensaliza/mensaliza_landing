@@ -135,7 +135,7 @@ export function ProofApprovalDemo({ className }: { className?: string }) {
             <p className="font-heading text-[13px] font-semibold tracking-[-0.01em] text-foreground sm:text-sm">
               Pagamentos
             </p>
-            <p className="text-[10px] text-foreground/45 sm:text-[11px]">
+            <p className="text-[11px] text-foreground/72 sm:text-[11px]">
               Comprovantes pendentes de aprovação
             </p>
           </div>
@@ -160,7 +160,7 @@ export function ProofApprovalDemo({ className }: { className?: string }) {
                 phase === "list-enter" && "is-entering"
               )}
             >
-              <div className="hidden grid-cols-[1.2fr_0.7fr_0.7fr_auto] gap-2 border-b border-border/60 px-3 py-2 text-[10px] font-medium text-foreground/45 sm:grid">
+              <div className="hidden grid-cols-[1.2fr_0.7fr_0.7fr_auto] gap-2 border-b border-border/60 px-3 py-2 text-[11px] font-medium text-foreground/72 sm:grid">
                 <span>Assinante</span>
                 <span>Valor</span>
                 <span>Status</span>
@@ -210,7 +210,7 @@ export function ProofApprovalDemo({ className }: { className?: string }) {
                     <p className="text-[12px] font-semibold text-foreground sm:text-[13px]">
                       Verificar comprovante
                     </p>
-                    <p className="text-[10px] text-foreground/45">
+                    <p className="text-[11px] text-foreground/72">
                       lucas mendes oliveira · R$ 400,00
                     </p>
                   </div>
@@ -302,14 +302,14 @@ function PaymentRow({
     >
       <div className="min-w-0">
         <p className="truncate text-[11px] font-semibold text-foreground sm:text-xs">{name}</p>
-        <p className="text-[10px] text-foreground/45 sm:hidden">{amount}</p>
+        <p className="text-[11px] text-foreground/72 sm:hidden">{amount}</p>
       </div>
       <p className="hidden text-[11px] font-medium tabular-nums text-foreground sm:block">
         {amount}
       </p>
       <span
         className={cn(
-          "hidden rounded-md px-1.5 py-0.5 text-[10px] font-medium sm:inline-flex",
+          "hidden rounded-md px-1.5 py-0.5 text-[11px] font-medium sm:inline-flex",
           pending
             ? "bg-primary/12 text-primary"
             : status === "Aprovado"
@@ -323,7 +323,7 @@ function PaymentRow({
         {action ? (
           <span
             className={cn(
-              "proof-verify-btn inline-flex items-center gap-1 rounded-lg border border-primary/30 bg-primary/10 px-2 py-1.5 text-[10px] font-semibold text-primary sm:text-[11px]",
+              "proof-verify-btn inline-flex items-center gap-1 rounded-lg border border-primary/30 bg-primary/10 px-2 py-1.5 text-[11px] font-semibold text-primary",
               pressing && "is-pressed"
             )}
           >
@@ -331,7 +331,7 @@ function PaymentRow({
             {action}
           </span>
         ) : (
-          <span className="text-[10px] text-foreground/35">—</span>
+          <span className="text-[11px] text-foreground/72">—</span>
         )}
       </div>
     </div>
@@ -342,8 +342,8 @@ function ProofReceiptCard() {
   return (
     <div className="overflow-hidden rounded-lg border border-border bg-muted/50">
       <div className="flex items-center justify-between border-b border-border/60 px-3 py-2">
-        <span className="text-[10px] font-semibold text-foreground/50">Comprovante Pix</span>
-        <span className="rounded bg-primary/10 px-1.5 py-0.5 text-[9px] font-semibold text-primary">
+        <span className="text-[11px] font-semibold text-foreground/72">Comprovante Pix</span>
+        <span className="rounded bg-primary/10 px-1.5 py-0.5 text-[11px] font-semibold text-primary">
           Enviado pelo cliente
         </span>
       </div>
@@ -355,11 +355,11 @@ function ProofReceiptCard() {
           <div className="h-2 w-1/2 rounded-full bg-foreground/10" />
         </div>
         <div className="rounded-md bg-card px-3 py-2.5">
-          <p className="text-[10px] text-foreground/45">Valor pago</p>
+          <p className="text-[11px] text-foreground/72">Valor pago</p>
           <p className="font-heading text-lg font-semibold tracking-[-0.02em] text-foreground">
             R$ 400,00
           </p>
-          <p className="mt-1 text-[10px] text-foreground/45">28/07/2026 · 10:41</p>
+          <p className="mt-1 text-[11px] text-foreground/72">28/07/2026 · 10:41</p>
         </div>
       </div>
     </div>

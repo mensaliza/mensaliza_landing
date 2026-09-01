@@ -21,7 +21,7 @@ function ComparisonCell({
         aria-hidden
         className={cn(
           "size-4 shrink-0",
-          variant === "with" ? "text-primary" : "text-muted-foreground/70"
+          variant === "with" ? "text-primary" : "text-muted-foreground"
         )}
         strokeWidth={2.5}
       />

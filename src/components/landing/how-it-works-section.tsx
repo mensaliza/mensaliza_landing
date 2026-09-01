@@ -37,10 +37,8 @@ function StepCardGrid({
       )}
     >
       {steps.map((item, index) => (
-        <Reveal
+        <li
           key={item.title}
-          as="li"
-          delay={index * 55}
           className="how-it-works-step landing-card-lift group flex flex-col gap-4 rounded-xl border border-border bg-card p-6 sm:p-7"
         >
           <div className="flex items-center justify-between gap-3">
@@ -66,7 +64,7 @@ function StepCardGrid({
               {item.description}
             </p>
           </div>
-        </Reveal>
+        </li>
       ))}
     </ol>
   );
@@ -98,16 +96,16 @@ export function HowItWorksSection() {
             }}
             className="flex flex-col gap-8 sm:gap-10"
           >
-            <TabsList className="mx-auto grid h-auto! w-full max-w-md grid-cols-2 rounded-full bg-muted p-1">
+            <TabsList className="mx-auto grid h-auto! w-full min-h-11 max-w-md grid-cols-2 rounded-full bg-muted p-1">
               <TabsTrigger
                 value="professional"
-                className="rounded-full px-4 py-2.5 text-sm font-medium transition-[color,background-color,box-shadow] duration-200 ease-[cubic-bezier(0.25,1,0.5,1)]"
+                className="min-h-11 rounded-full px-4 py-2.5 text-sm font-medium transition-[color,background-color] duration-200 ease-[cubic-bezier(0.25,1,0.5,1)]"
               >
                 Para o profissional
               </TabsTrigger>
               <TabsTrigger
                 value="client"
-                className="rounded-full px-4 py-2.5 text-sm font-medium transition-[color,background-color,box-shadow] duration-200 ease-[cubic-bezier(0.25,1,0.5,1)]"
+                className="min-h-11 rounded-full px-4 py-2.5 text-sm font-medium transition-[color,background-color] duration-200 ease-[cubic-bezier(0.25,1,0.5,1)]"
               >
                 Para o cliente
               </TabsTrigger>

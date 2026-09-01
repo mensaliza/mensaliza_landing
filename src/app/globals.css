@@ -57,7 +57,7 @@
 :root {
   /* Brand orange — sole accent: logo, CTAs, focus, accents */
   --primary: oklch(0.68 0.19 55);
-  --primary-foreground: oklch(0.99 0 0);
+  --primary-foreground: oklch(1 0 0);
   --brand: var(--primary);
   --brand-foreground: var(--primary-foreground);
 
@@ -97,7 +97,7 @@
   --sidebar: oklch(0.99 0 0);
   --sidebar-foreground: oklch(0.18 0 0);
   --sidebar-primary: oklch(0.68 0.19 55);
-  --sidebar-primary-foreground: oklch(0.99 0 0);
+  --sidebar-primary-foreground: oklch(1 0 0);
   --sidebar-accent: oklch(0.955 0 0);
   --sidebar-accent-foreground: oklch(0.18 0 0);
   --sidebar-border: oklch(0.88 0 0);
@@ -515,18 +515,10 @@
     transform: scale(0.98);
   }
 
-  .site-header-shell {
-    transition: padding var(--motion-header);
-  }
-
   .site-header-bar {
     transition:
-      height var(--motion-header),
-      max-width var(--motion-header),
       background-color var(--motion-header),
       border-color var(--motion-header),
-      border-radius var(--motion-header),
-      padding-inline var(--motion-header),
       backdrop-filter var(--motion-header);
   }
 

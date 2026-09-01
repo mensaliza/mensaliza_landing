@@ -9,7 +9,6 @@ import { CheckIcon } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
   Field,
-  FieldDescription,
   FieldError,
   FieldGroup,
   FieldLabel,
@@ -51,6 +50,12 @@ function resolveInitialTier(param: string | null): string {
 export function DemoRequestForm() {
   const searchParams = useSearchParams();
   const formId = useId();
+  const nameId = `${formId}-name`;
+  const emailId = `${formId}-email`;
+  const phoneId = `${formId}-phone`;
+  const subscribersId = `${formId}-subscribers`;
+  const messageId = `${formId}-message`;
+  const formErrorId = `${formId}-form-error`;
 
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
@@ -107,11 +112,24 @@ export function DemoRequestForm() {
     const nextErrors = validate();
     setErrors(nextErrors);
     if (Object.keys(nextErrors).length > 0) {
-      const firstField = Object.keys(nextErrors)[0];
+      const firstField = Object.keys(nextErrors)[0] as keyof FieldErrors;
       trackLandingDemoFormFailed({
         error_type: "validation",
         field: firstField,
       });
+      const fieldIds: Partial<Record<keyof FieldErrors, string>> = {
+        name: nameId,
+        email: emailId,
+        phone: phoneId,
+        subscribers: subscribersId,
+        message: messageId,
+      };
+      const focusId = fieldIds[firstField];
+      if (focusId) {
+        requestAnimationFrame(() => {
+          document.getElementById(focusId)?.focus();
+        });
+      }
       return;
     }
 
@@ -148,6 +166,9 @@ export function DemoRequestForm() {
           payload?.error ?? "Não foi possível enviar. Tente de novo.";
         if (payload?.field) {
           setErrors({ [payload.field]: messageText });
+          requestAnimationFrame(() => {
+            document.getElementById(`${formId}-${payload.field}`)?.focus();
+          });
         } else {
           setErrors({ form: messageText });
         }
@@ -204,13 +225,6 @@ export function DemoRequestForm() {
     );
   }
 
-  const nameId = `${formId}-name`;
-  const emailId = `${formId}-email`;
-  const phoneId = `${formId}-phone`;
-  const subscribersId = `${formId}-subscribers`;
-  const messageId = `${formId}-message`;
-  const formErrorId = `${formId}-form-error`;
-
   return (
     <form
       onSubmit={onSubmit}
@@ -220,7 +234,10 @@ export function DemoRequestForm() {
     >
       <FieldGroup className="gap-5">
         <Field data-invalid={errors.name ? true : undefined}>
-          <FieldLabel htmlFor={nameId}>Nome</FieldLabel>
+          <FieldLabel htmlFor={nameId}>
+            Nome{" "}
+            <span className="font-normal text-foreground/72">(obrigatório)</span>
+          </FieldLabel>
           <Input
             id={nameId}
             name="name"
@@ -239,6 +256,8 @@ export function DemoRequestForm() {
               }
             }}
             aria-invalid={errors.name ? true : undefined}
+            aria-required
+            required
             aria-describedby={errors.name ? `${nameId}-error` : undefined}
             disabled={submitting}
             className="h-11 bg-background text-base md:text-base"
@@ -250,7 +269,10 @@ export function DemoRequestForm() {
         </Field>
 
         <Field data-invalid={errors.email ? true : undefined}>
-          <FieldLabel htmlFor={emailId}>E-mail</FieldLabel>
+          <FieldLabel htmlFor={emailId}>
+            E-mail{" "}
+            <span className="font-normal text-foreground/72">(obrigatório)</span>
+          </FieldLabel>
           <Input
             id={emailId}
             name="email"
@@ -276,6 +298,8 @@ export function DemoRequestForm() {
               }
             }}
             aria-invalid={errors.email ? true : undefined}
+            aria-required
+            required
             aria-describedby={errors.email ? `${emailId}-error` : undefined}
             disabled={submitting}
             className="h-11 bg-background text-base md:text-base"
@@ -289,7 +313,7 @@ export function DemoRequestForm() {
         <Field data-invalid={errors.phone ? true : undefined}>
           <FieldLabel htmlFor={phoneId}>
             WhatsApp{" "}
-            <span className="font-normal text-muted-foreground">
+            <span className="font-normal text-foreground/72">
               (opcional)
             </span>
           </FieldLabel>
@@ -308,13 +332,18 @@ export function DemoRequestForm() {
         </Field>
 
         <Field data-invalid={errors.subscribers ? true : undefined}>
-          <FieldLabel htmlFor={subscribersId}>Base de assinantes</FieldLabel>
+          <FieldLabel htmlFor={subscribersId}>
+            Base de assinantes{" "}
+            <span className="font-normal text-foreground/72">(obrigatório)</span>
+          </FieldLabel>
           <NativeSelect
             id={subscribersId}
             name="subscribers"
             value={subscribers}
             onChange={(event) => setSubscribers(event.target.value)}
             aria-invalid={errors.subscribers ? true : undefined}
+            aria-required
+            required
             aria-describedby={
               errors.subscribers ? `${subscribersId}-error` : undefined
             }
@@ -337,7 +366,7 @@ export function DemoRequestForm() {
         <Field data-invalid={errors.message ? true : undefined}>
           <FieldLabel htmlFor={messageId}>
             Mensagem{" "}
-            <span className="font-normal text-muted-foreground">
+            <span className="font-normal text-foreground/72">
               (opcional)
             </span>
           </FieldLabel>
@@ -403,7 +432,7 @@ export function DemoRequestForm() {
             enviar, você concorda com a{" "}
             <Link
               href="/politicas-de-privacidade"
-              className="underline underline-offset-4 hover:text-foreground"
+              className="text-primary underline underline-offset-4 hover:text-foreground"
             >
               Política de privacidade
             </Link>

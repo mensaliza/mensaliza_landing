@@ -25,11 +25,11 @@ export default function Error({
         <h1 className="text-xl font-semibold tracking-tight">
           Algo deu errado
         </h1>
-        <p className="text-sm text-muted-foreground">
+        <p className="text-sm text-foreground/72">
           Não foi possível carregar esta página. Tente novamente.
         </p>
       </div>
-      <Button type="button" onClick={reset}>
+      <Button type="button" className="min-h-11" onClick={reset}>
         Tentar novamente
       </Button>
     </div>

@@ -30,7 +30,7 @@ export function CtaSection() {
           <h2 className="text-[clamp(1.875rem,3vw,2.75rem)] leading-[1.15] font-semibold tracking-[-0.02em] text-balance">
             Agende sua demonstração
           </h2>
-          <p className="mx-auto max-w-lg text-base leading-relaxed text-primary-foreground/85 text-pretty sm:text-lg">
+          <p className="mx-auto max-w-lg text-base leading-relaxed text-pretty sm:text-lg">
             Conte um pouco sobre sua base. Respondemos para marcar um horário —
             sem compromisso e sem cartão.
           </p>
@@ -40,11 +40,11 @@ export function CtaSection() {
           <DemoRequestForm />
         </Suspense>
 
-        <p className="text-center text-sm text-primary-foreground/75">
+        <p className="text-center text-sm">
           Já tem conta?{" "}
           <a
             {...loginLink}
-            className="font-medium text-primary-foreground underline underline-offset-4 hover:text-primary-foreground/90"
+            className="font-medium underline underline-offset-4 hover:opacity-80"
             onClick={() =>
               trackLandingCta({
                 cta: "login",

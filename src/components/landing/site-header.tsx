@@ -11,6 +11,7 @@ import {
   Sheet,
   SheetClose,
   SheetContent,
+  SheetDescription,
   SheetHeader,
   SheetTitle,
   SheetTrigger,
@@ -20,6 +21,9 @@ import { trackLandingCta, trackLandingNavClicked } from "@/lib/landing-analytics
 import { getSignupLinkProps } from "@/lib/site-urls";
 import { cn } from "@/lib/utils";
 import Link from "next/link";
+
+const headerLinkClassName =
+  "rounded-sm text-sm text-muted-foreground transition-colors hover:text-foreground focus-visible:outline-none focus-visible:ring-3 focus-visible:ring-ring/50";
 
 type SiteHeaderProps = {
   /** When true, header starts flush/transparent over the hero and becomes a floating cell on scroll. */
@@ -52,33 +56,34 @@ export function SiteHeader({ blendWithHero = false }: SiteHeaderProps) {
     <header
       data-at-top={transparent ? "true" : "false"}
       data-floating={floating ? "true" : "false"}
-      className={cn(
-        "site-header-shell sticky top-0 z-40 w-full",
-        floating ? "px-4 pt-3 sm:px-6 sm:pt-3.5" : "px-0 pt-0"
-      )}
+      className="sticky top-0 z-40 w-full px-4 pt-3 sm:px-6 sm:pt-3.5"
     >
       <div
         className={cn(
-          "site-header-bar relative mx-auto flex w-full items-center justify-between gap-3 sm:gap-4",
+          "site-header-bar relative mx-auto flex h-14 w-full max-w-5xl items-center justify-between gap-3 rounded-2xl border px-3 sm:px-5",
           floating
-            ? "h-14 max-w-5xl rounded-2xl border border-border bg-background/95 px-3 backdrop-blur-sm sm:h-15 sm:px-5"
-            : "h-16 max-w-6xl border border-transparent bg-transparent px-4 sm:px-6 lg:px-8"
+            ? "border-border bg-background/95 backdrop-blur-sm"
+            : "border-transparent bg-transparent"
         )}
       >
         <div className="flex items-center gap-4">
-          <Link href="/" className="flex-none text-foreground" aria-label="Mensaliza — início">
+          <Link
+            href="/"
+            className="flex-none rounded-sm text-foreground focus-visible:outline-none focus-visible:ring-3 focus-visible:ring-ring/50"
+            aria-label="Mensaliza — início"
+          >
             <Logo size="sm" />
           </Link>
 
           <nav
             aria-label="Navegação principal"
-            className="hidden lg:flex items-end gap-4 xl:gap-5 mt-2"
+            className="mt-2 hidden items-end gap-4 lg:flex xl:gap-5"
           >
             {navLinks.map((link) => (
               <Link
                 key={link.href}
                 href={link.href}
-                className="text-sm text-muted-foreground transition-colors hover:text-foreground"
+                className={headerLinkClassName}
                 onClick={() =>
                   trackLandingNavClicked({
                     target_section: link.href.replace("/#", ""),
@@ -93,12 +98,16 @@ export function SiteHeader({ blendWithHero = false }: SiteHeaderProps) {
         </div>
 
         <div className="flex shrink-0 items-center gap-2 sm:gap-3">
-          <LoginLink variant="secondary" className="hidden sm:inline-flex" location="header" />
+          <LoginLink
+            variant="secondary"
+            className="hidden min-h-8 px-3 sm:inline-flex"
+            location="header"
+          />
           <SignupButton
             size="sm"
             showIcon={false}
             label="Começar"
-            className="hidden sm:inline-flex"
+            className="hidden min-h-8 px-3 sm:inline-flex"
             location="header"
           />
 
@@ -109,7 +118,7 @@ export function SiteHeader({ blendWithHero = false }: SiteHeaderProps) {
                   variant="ghost"
                   size="icon-lg"
                   className={cn(
-                    "lg:hidden",
+                    "min-h-11 min-w-11 lg:hidden",
                     transparent && "border-border/70 bg-background/70"
                   )}
                   aria-label="Abrir menu"
@@ -121,6 +130,9 @@ export function SiteHeader({ blendWithHero = false }: SiteHeaderProps) {
             <SheetContent side="right" className="w-full max-w-xs">
               <SheetHeader>
                 <SheetTitle>Menu</SheetTitle>
+                <SheetDescription className="sr-only">
+                  Navegação do site Mensaliza
+                </SheetDescription>
               </SheetHeader>
               <nav className="flex flex-col gap-1 px-4" aria-label="Menu mobile">
                 {navLinks.map((link) => (
@@ -130,7 +142,7 @@ export function SiteHeader({ blendWithHero = false }: SiteHeaderProps) {
                       <a
                         href={link.href}
                         className={cn(
-                          "rounded-lg px-3 py-2 text-sm font-medium text-foreground transition-colors hover:bg-muted"
+                          "min-h-11 rounded-lg px-3 py-2.5 text-sm font-medium text-foreground transition-colors hover:bg-muted focus-visible:outline-none focus-visible:ring-3 focus-visible:ring-ring/50"
                         )}
                         onClick={() =>
                           trackLandingNavClicked({
@@ -146,11 +158,16 @@ export function SiteHeader({ blendWithHero = false }: SiteHeaderProps) {
                 ))}
               </nav>
               <div className="mt-auto flex flex-col gap-2 border-t p-4">
-                <LoginLink variant="secondary" fullWidth location="header_mobile" />
+                <LoginLink
+                  variant="secondary"
+                  fullWidth
+                  className="min-h-11"
+                  location="header_mobile"
+                />
                 <SheetClose
                   render={
                     <Button
-                      className="w-full"
+                      className="min-h-11 w-full"
                       nativeButton={false}
                       render={
                         <a

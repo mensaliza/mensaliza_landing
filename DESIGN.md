@@ -3,7 +3,7 @@ name: Mensaliza
 description: Cobrança mensal automática via WhatsApp — visual system for the marketing site
 colors:
   brand-orange: "oklch(0.68 0.19 55)"
-  brand-orange-foreground: "oklch(0.99 0 0)"
+  brand-orange-foreground: "oklch(1 0 0)"
   page-bg: "oklch(0.99 0 0)"
   ink: "oklch(0.18 0 0)"
   surface-muted: "oklch(0.955 0 0)"
@@ -60,7 +60,7 @@ components:
     textColor: "{colors.brand-orange-foreground}"
     rounded: "{rounded.lg}"
     padding: "0.625rem 1rem"
-    height: "2.25rem"
+    height: "2.75rem"
   button-primary-hover:
     backgroundColor: "oklch(0.68 0.19 55 / 0.8)"
     textColor: "{colors.brand-orange-foreground}"
@@ -115,7 +115,7 @@ True neutrals (chroma 0) with one deliberate accent — brand orange.
 ### Primary
 
 - **Brand Orange** (`oklch(0.68 0.19 55)`): Logo mark, demo/conversion CTAs, focus rings, trust accents, step numbers, feature highlights, atmospheric washes. The sole chromatic brand signal.
-- **Brand Orange Foreground** (`oklch(0.99 0 0)`): Text and icons on orange fills.
+- **Brand Orange Foreground** (`oklch(1 0 0)`): White text and icons on orange fills.
 
 ### Tertiary
 
@@ -184,9 +184,9 @@ No decorative shadow scale. The only shadow-like treatment is the skip-link focu
 
 ### Buttons
 
-- **Shape:** Gently rounded (8px / `rounded-lg`), height 36px at `lg` size.
-- **Primary (Demo CTA):** Brand orange background, white text, semibold. Label: "Agendar demonstração". Arrow icon optional on desktop; full-width on mobile bar.
-- **Hover / Focus:** Primary dims to 80% opacity; focus-visible ring in orange (`ring-3 ring-ring/50`). Active state: 1px translate-y press.
+- **Shape:** Gently rounded (8px / `rounded-lg`), height 44px at `lg` size (`h-11`).
+- **Primary (Demo CTA):** Brand orange background, white text, semibold. Label: "Começar agora" / "Agendar demonstração". Arrow icon optional on desktop; full-width on mobile bar.
+- **Hover / Focus:** Primary fill dims to 80% opacity; white label stays. Focus-visible ring in orange (`ring-3 ring-ring/50`). Active state: 1px translate-y press.
 - **Outline:** White/card background, soft border, muted hover fill. Used for "Entrar" secondary CTA.
 - **Ghost:** Transparent with muted hover. Used for in-page navigation links ("Ver como funciona →") with orange on hover.
 

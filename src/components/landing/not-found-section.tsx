@@ -11,7 +11,7 @@ export function NotFoundSection() {
   return (
     <section
       aria-labelledby="not-found-heading"
-      className="relative -mt-16 flex min-h-svh min-w-0 flex-col items-center justify-center overflow-hidden px-4 pt-28 pb-16 sm:px-6 sm:pt-32 sm:pb-20 lg:px-8"
+      className="relative -mt-[4.25rem] flex min-h-svh min-w-0 flex-col items-center justify-center overflow-hidden px-4 pt-28 pb-16 sm:px-6 sm:pt-32 sm:pb-20 lg:px-8"
     >
       <HeroAtmosphere fullViewport />
 
@@ -19,7 +19,7 @@ export function NotFoundSection() {
         <div className="flex flex-col items-center gap-6 sm:gap-7 lg:gap-8">
           <h1
             id="not-found-heading"
-            className="max-w-[16ch] font-heading text-[clamp(2.45rem,5.6vw,4rem)] leading-[1.05] font-semibold tracking-[-0.03em] text-balance sm:max-w-4xl"
+            className="max-w-[16ch] font-heading text-[clamp(2.35rem,5vw,3.35rem)] leading-[1.08] font-semibold tracking-[-0.02em] text-balance sm:max-w-4xl"
           >
             <span
               className="hero-line"

@@ -156,8 +156,8 @@ export function DashboardCardsDemo({ className }: { className?: string }) {
               className="flex items-center justify-between gap-3 rounded-lg border border-border bg-card px-3 py-2.5"
             >
               <div className="min-w-0">
-                <p className="truncate text-[10px] font-medium text-foreground/50">{item.title}</p>
-                <p className="truncate text-[11px] text-foreground/45">{item.subtitle}</p>
+                <p className="truncate text-[11px] font-medium text-foreground/72">{item.title}</p>
+                <p className="truncate text-[11px] text-foreground/72">{item.subtitle}</p>
               </div>
               <p className="shrink-0 font-heading text-sm font-semibold tracking-[-0.02em] text-foreground">
                 {item.value}
@@ -187,13 +187,13 @@ export function DashboardCardsDemo({ className }: { className?: string }) {
             )}
           >
             <div className="flex flex-col gap-1 px-4 pt-4 pb-3 sm:px-5 sm:pt-5 sm:pb-3.5">
-              <p className="text-[11px] font-medium text-foreground/50 sm:text-xs">
+              <p className="text-[11px] font-medium text-foreground/72 sm:text-xs">
                 {card.title}
               </p>
               <p className="dashboard-card-value font-heading text-2xl font-semibold tracking-[-0.02em] text-foreground sm:text-[1.75rem]">
                 {card.value}
               </p>
-              <p className="text-[11px] text-foreground/45 sm:text-xs">{card.subtitle}</p>
+              <p className="text-[11px] text-foreground/72 sm:text-xs">{card.subtitle}</p>
             </div>
 
             <div className="mx-3 mb-3 flex flex-col gap-2.5 rounded-lg bg-muted/70 px-3 py-3 sm:mx-4 sm:mb-4 sm:gap-3 sm:px-3.5 sm:py-3.5">
@@ -204,7 +204,7 @@ export function DashboardCardsDemo({ className }: { className?: string }) {
                     className="dashboard-card-row flex items-center justify-between gap-3 text-[11px] sm:text-xs"
                     style={{ "--i": index } as CSSProperties}
                   >
-                    <span className="text-foreground/50">{row.label}</span>
+                    <span className="text-foreground/72">{row.label}</span>
                     <span className="font-semibold tabular-nums text-foreground">
                       {row.value}
                     </span>
@@ -216,7 +216,7 @@ export function DashboardCardsDemo({ className }: { className?: string }) {
                 {card.links.map((link) => (
                   <span
                     key={link}
-                    className="inline-flex items-center gap-0.5 text-[11px] font-medium text-foreground/55 sm:text-xs"
+                    className="inline-flex items-center gap-0.5 text-[11px] font-medium text-foreground/72 sm:text-xs"
                   >
                     {link}
                     <ChevronRightIcon className="size-3" aria-hidden />

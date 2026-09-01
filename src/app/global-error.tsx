@@ -2,7 +2,10 @@
 
 import { useEffect } from "react";
 
+import { Button } from "@/components/ui/button";
 import { captureClientException } from "@/lib/analytics";
+
+import "./globals.css";
 
 export default function GlobalError({
   error,
@@ -20,23 +23,19 @@ export default function GlobalError({
 
   return (
     <html lang="pt-BR">
-      <body>
+      <body className="bg-background text-foreground antialiased">
         <div className="flex min-h-screen flex-col items-center justify-center gap-4 px-6 text-center">
           <div className="space-y-1">
             <h1 className="text-xl font-semibold tracking-tight">
               Algo deu errado
             </h1>
-            <p className="text-sm text-neutral-500">
+            <p className="text-sm text-foreground/72">
               Não foi possível carregar o Mensaliza. Tente novamente.
             </p>
           </div>
-          <button
-            type="button"
-            onClick={reset}
-            className="rounded-lg bg-orange-500 px-3 py-2 text-sm font-medium text-white"
-          >
+          <Button type="button" className="min-h-11" onClick={reset}>
             Tentar novamente
-          </button>
+          </Button>
         </div>
       </body>
     </html>

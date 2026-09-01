@@ -91,12 +91,12 @@ export function HeroMockupShowcase() {
             <figure className="hero-browser relative overflow-hidden rounded-xl border border-border bg-white">
               <div
                 aria-hidden
-                className="flex items-center gap-3 border-b border-border/80 bg-[#f6f6f6] px-3 py-2 sm:gap-4 sm:px-4 sm:py-2.5"
+                className="flex items-center gap-3 border-b border-border/80 bg-muted px-3 py-2 sm:gap-4 sm:px-4 sm:py-2.5"
               >
                 <div className="flex shrink-0 items-center gap-1.5">
-                  <span className="size-2.5 rounded-full bg-[#ff5f57] sm:size-3" />
-                  <span className="size-2.5 rounded-full bg-[#febc2e] sm:size-3" />
-                  <span className="size-2.5 rounded-full bg-[#28c840] sm:size-3" />
+                  <span className="size-2.5 rounded-full bg-foreground/35 sm:size-3" />
+                  <span className="size-2.5 rounded-full bg-foreground/25 sm:size-3" />
+                  <span className="size-2.5 rounded-full bg-foreground/15 sm:size-3" />
                 </div>
 
                 <div className="flex min-w-0 flex-1 items-center justify-center">
@@ -115,7 +115,7 @@ export function HeroMockupShowcase() {
                         strokeLinejoin="round"
                       />
                     </svg>
-                    <span className="truncate font-sans text-[11px] leading-none text-foreground/55 sm:text-xs">
+                    <span className="truncate font-sans text-[11px] leading-none text-foreground/72 sm:text-xs">
                       app.mensaliza.com
                     </span>
                   </div>

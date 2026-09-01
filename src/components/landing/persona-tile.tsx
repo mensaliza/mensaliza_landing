@@ -31,22 +31,14 @@ export function PersonaTile({ persona, tagline, icon, className }: PersonaTilePr
   const Icon = personaIcons[icon];
 
   return (
-    <article
-      className={cn(
-        "bg-card flex h-full flex-col gap-3 rounded-xl border border-border p-5 sm:p-6",
-        className
-      )}
-    >
-      <div className="flex items-center gap-3">
-        <div
-          className="flex size-9 shrink-0 items-center justify-center rounded-lg bg-primary/10 text-primary"
-          aria-hidden
-        >
-          <Icon className="size-4.5 stroke-2" />
-        </div>
-        <h3 className="min-w-0 text-base font-semibold tracking-[-0.01em] text-balance">{persona}</h3>
+    <article className={cn("flex min-w-0 flex-col gap-1.5", className)}>
+      <div className="flex items-center gap-2">
+        <Icon className="size-5 shrink-0 text-primary" strokeWidth={2} aria-hidden />
+        <h3 className="min-w-0 text-base font-semibold tracking-[-0.01em] text-balance">
+          {persona}
+        </h3>
       </div>
-      <p className="text-sm leading-relaxed text-muted-foreground text-pretty sm:text-base">
+      <p className="text-sm leading-relaxed text-foreground/72 text-pretty sm:text-base">
         {tagline}
       </p>
     </article>

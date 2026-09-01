@@ -41,7 +41,7 @@ export function SignupButton({
     <Button
       variant={variant}
       size={size}
-      className={cn("demo-cta-motion", className)}
+      className={cn("demo-cta-motion min-h-11", className)}
       nativeButton={false}
       render={
         <a

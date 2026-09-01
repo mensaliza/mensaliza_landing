@@ -13,14 +13,14 @@ export function HeroSection() {
   return (
     <section
       id="hero"
-      className="relative -mt-16 overflow-hidden px-4 pt-28 pb-10 sm:px-6 sm:pt-32 sm:pb-12 lg:px-8 lg:pb-14 min-w-0 min-h-0"
+      className="relative -mt-[4.25rem] overflow-hidden px-4 pt-28 pb-10 sm:px-6 sm:pt-32 sm:pb-12 lg:px-8 lg:pb-14 min-w-0 min-h-0"
     >
       <SectionViewTracker section="hero" />
       <HeroAtmosphere />
 
       <div className="relative z-10 mx-auto flex w-full max-w-4xl flex-col items-center gap-11 text-center lg:max-w-5xl lg:gap-14">
         <div className="flex flex-col items-center gap-6 sm:gap-7 lg:gap-8">
-          <h1 className="max-w-[20ch] font-heading text-[clamp(2.45rem,5.6vw,4rem)] leading-[1.05] font-semibold tracking-[-0.03em] text-balance sm:max-w-4xl">
+          <h1 className="max-w-[20ch] font-heading text-[clamp(2.35rem,5vw,3.35rem)] leading-[1.08] font-semibold tracking-[-0.02em] text-balance sm:max-w-4xl">
             <span
               className="hero-line"
               style={{ "--hero-i": 0 } as CSSProperties}

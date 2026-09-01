@@ -44,7 +44,9 @@ export default function Home() {
         <FaqSection />
         <CtaSection />
       </main>
-      <SiteFooter />
+      <div className="pb-24 lg:pb-0">
+        <SiteFooter />
+      </div>
     </>
   );
 }

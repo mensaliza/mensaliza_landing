@@ -47,23 +47,23 @@ export function PricingSection() {
             >
               <TabsList
                 aria-label="Período de cobrança"
-                className="mx-auto grid h-auto! w-fit grid-cols-2 rounded-full bg-muted p-0.5"
+                className="mx-auto grid h-auto! w-fit min-h-11 grid-cols-2 rounded-full bg-muted p-0.5"
               >
                 <TabsTrigger
                   value="monthly"
-                  className="rounded-full px-3 py-1.5 text-xs font-medium transition-[color,background-color,box-shadow] duration-200 ease-[cubic-bezier(0.25,1,0.5,1)]"
+                  className="min-h-11 rounded-full px-4 py-2 text-sm font-medium transition-[color,background-color] duration-200 ease-[cubic-bezier(0.25,1,0.5,1)]"
                 >
                   Mensal
                 </TabsTrigger>
                 <TabsTrigger
                   value="yearly"
-                  className="rounded-full px-3 py-1.5 text-xs font-medium transition-[color,background-color,box-shadow] duration-200 ease-[cubic-bezier(0.25,1,0.5,1)]"
+                  className="min-h-11 rounded-full px-4 py-2 text-sm font-medium transition-[color,background-color] duration-200 ease-[cubic-bezier(0.25,1,0.5,1)]"
                 >
                   Anual
                 </TabsTrigger>
               </TabsList>
             </Tabs>
-            <Badge variant="success">
+            <Badge variant="secondary">
               Economize {YEARLY_SAVINGS_PERCENT}% na cobrança anual
             </Badge>
           </div>
@@ -99,7 +99,7 @@ export function PricingSection() {
             <Button
               variant="outline"
               size="lg"
-              className="w-full shrink-0 sm:w-auto"
+              className="w-full shrink-0 min-h-11 sm:w-auto"
               nativeButton={false}
               render={
                 <a

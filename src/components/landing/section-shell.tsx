@@ -24,7 +24,7 @@ export function SectionShell({
       aria-labelledby={labelledBy}
       className={cn(
         "relative scroll-mt-24 px-4 py-16 sm:px-6 sm:py-20 lg:px-8",
-        tinted && "bg-linear-120 from-[#fdfbfb] to-[#ebedee] [&_.text-muted-foreground]:text-foreground/72",
+        tinted && "bg-muted [&_.text-muted-foreground]:text-foreground/72",
         className
       )}
       {...props}

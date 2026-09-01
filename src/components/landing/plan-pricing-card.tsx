@@ -134,7 +134,7 @@ export function PlanPricingCard({
         <CardContent className="space-y-4 pt-2">
           <div>
             {isYearly && priceMonthly != null ? (
-              <p className="font-heading text-sm font-medium text-foreground/50 tabular-nums">
+              <p className="font-heading text-sm font-medium text-foreground/72 tabular-nums">
                 <span className="sr-only">Preço no plano mensal: </span>
                 <s className="decoration-foreground/40">
                   {formatCurrencyFromCents(priceMonthly)}

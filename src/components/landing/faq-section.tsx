@@ -39,7 +39,7 @@ export function FaqSection() {
               value={item.question}
               className="rounded-xl border border-border/80 bg-background px-5 py-1"
             >
-              <AccordionTrigger className="py-4 text-left font-heading text-base font-semibold tracking-[-0.01em] hover:no-underline">
+              <AccordionTrigger className="min-h-11 py-4 text-left font-heading text-base font-semibold tracking-[-0.01em] hover:no-underline">
                 {item.question}
               </AccordionTrigger>
               <AccordionContent className="pb-4 leading-relaxed text-muted-foreground text-pretty">

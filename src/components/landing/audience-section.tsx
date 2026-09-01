@@ -19,26 +19,26 @@ export function AudienceSection() {
         </Reveal>
 
         <ul
-          className="grid list-none grid-cols-1 gap-4 p-0 sm:grid-cols-2 sm:gap-5 lg:grid-cols-3"
+          className="grid list-none grid-cols-1 gap-x-10 gap-y-4 sm:gap-y-8 p-0 sm:grid-cols-2 lg:grid-cols-3"
           aria-label="Profissões e negócios atendidos pelo Mensaliza"
         >
-          {personas.map((item, index) => (
-            <Reveal key={item.persona} as="li" delay={60 + index * 40} className="min-w-0">
+          {personas.map((item) => (
+            <li
+              key={item.persona}
+              className="min-w-0 border-t border-border pt-3 sm:pt-4"
+            >
               <PersonaTile
                 persona={item.persona}
                 tagline={item.tagline}
                 icon={item.icon}
-                className="h-full"
               />
-            </Reveal>
+            </li>
           ))}
         </ul>
 
-        <Reveal delay={120}>
-          <p className="mx-auto max-w-2xl text-center text-lg font-semibold leading-relaxed text-foreground text-balance">
-            {audienceSectionFooter}
-          </p>
-        </Reveal>
+        <p className="mx-auto max-w-2xl text-center text-lg font-semibold leading-relaxed text-foreground text-balance">
+          {audienceSectionFooter}
+        </p>
       </div>
     </SectionShell>
   );

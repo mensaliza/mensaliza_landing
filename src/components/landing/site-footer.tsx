@@ -22,7 +22,7 @@ export function SiteFooter() {
       <div className="mx-auto flex w-full max-w-6xl flex-col gap-12 sm:gap-14">
         <div className="grid gap-10 sm:gap-12 md:grid-cols-[1.5fr_1fr_1fr]">
           <div className="flex flex-col gap-4">
-            <Link href="/" className="w-fit text-foreground" aria-label="Mensaliza — início">
+            <Link href="/" className="w-fit rounded-sm text-foreground focus-visible:outline-none focus-visible:ring-3 focus-visible:ring-ring/50" aria-label="Mensaliza — início">
               <Logo size="sm" />
             </Link>
             <p className="max-w-xs text-sm leading-relaxed text-muted-foreground text-pretty">

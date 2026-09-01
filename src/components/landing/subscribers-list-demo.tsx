@@ -120,10 +120,13 @@ const PHASE_MS: Record<Phase, number> = {
 };
 
 const TAG_CLASS: Record<TagTone, string> = {
-  purple: "bg-[#ede9fe] text-[#6d28d9]",
-  blue: "bg-[#e8eefc] text-[#3b5bcc]",
-  pink: "bg-[#fce7f3] text-[#be185d]",
+  purple: "bg-muted text-foreground",
+  blue: "bg-primary/12 text-primary",
+  pink: "bg-secondary text-foreground",
 };
+
+const TABLE_COLS =
+  "grid-cols-[minmax(6.75rem,1.45fr)_minmax(5.5rem,1.15fr)_minmax(5rem,0.85fr)_4rem_5.75rem_1.5rem]";
 
 export function SubscribersListDemo({ className }: { className?: string }) {
   const rootRef = useRef<HTMLDivElement>(null);
@@ -233,21 +236,21 @@ export function SubscribersListDemo({ className }: { className?: string }) {
         <div className="subscribers-demo-toolbar flex flex-wrap items-center gap-1.5 border-b border-border/60 px-3 py-2 sm:gap-2 sm:px-3.5">
           <div className="flex min-w-0 flex-1 items-center gap-1.5 rounded-lg border border-border bg-background px-2 py-1 sm:px-2.5 sm:py-1.5">
             <SearchIcon className="size-3 shrink-0 text-foreground/40 sm:size-3.5" aria-hidden />
-            <span className="truncate text-[10px] text-foreground/45 sm:text-[11px]">
+            <span className="truncate text-[11px] text-foreground/72 sm:text-[11px]">
               Buscar por nome ou apelido...
             </span>
           </div>
           <div className="hidden items-center gap-1.5 md:flex">
-            <span className="rounded-lg border border-border bg-background px-2 py-1 text-[10px] font-medium text-foreground/55 sm:py-1.5 sm:text-[11px]">
+            <span className="rounded-lg border border-border bg-background px-2 py-1 text-[11px] font-medium text-foreground/72 sm:py-1.5">
               + Status
             </span>
-            <span className="rounded-lg border border-border bg-background px-2 py-1 text-[10px] font-medium text-foreground/55 sm:py-1.5 sm:text-[11px]">
+            <span className="rounded-lg border border-border bg-background px-2 py-1 text-[11px] font-medium text-foreground/72 sm:py-1.5">
               + Tags
             </span>
           </div>
           <span
             className={cn(
-              "inline-flex shrink-0 items-center gap-0.5 rounded-lg bg-primary px-2 py-1 text-[10px] font-semibold text-primary-foreground sm:gap-1 sm:px-2.5 sm:py-1.5 sm:text-[11px]",
+              "inline-flex shrink-0 items-center gap-0.5 rounded-lg bg-primary px-2 py-1 text-[11px] font-semibold text-primary-foreground sm:gap-1 sm:px-2.5 sm:py-1.5",
               ctaPulse && "subscribers-demo-cta-pulse"
             )}
           >
@@ -257,12 +260,16 @@ export function SubscribersListDemo({ className }: { className?: string }) {
         </div>
 
         <div className="subscribers-demo-table min-h-0 flex-1 overflow-hidden">
-          <div className="hidden grid-cols-[minmax(6.5rem,1.35fr)_minmax(4rem,0.85fr)_minmax(4rem,0.7fr)_3.75rem_4rem_4.5rem_1.5rem] gap-1.5 border-b border-border/50 px-3 py-1.5 text-[9px] font-medium text-foreground/45 sm:grid sm:px-3.5">
+          <div
+            className={cn(
+              "hidden gap-1.5 border-b border-border/50 px-3 py-1.5 text-[11px] font-medium text-foreground/72 sm:grid sm:px-3.5",
+              TABLE_COLS
+            )}
+          >
             <span>Assinante</span>
             <span>Tags</span>
             <span>Status</span>
             <span>Cobrança</span>
-            <span>Situação</span>
             <span>WhatsApp</span>
             <span className="sr-only">Ações</span>
           </div>
@@ -285,17 +292,22 @@ export function SubscribersListDemo({ className }: { className?: string }) {
                   )}
                   style={{ "--i": enterDelay } as CSSProperties}
                 >
-                  <div className="grid grid-cols-[1fr_auto] items-center gap-2 sm:grid-cols-[minmax(6.5rem,1.35fr)_minmax(4rem,0.85fr)_minmax(4rem,0.7fr)_3.75rem_4rem_4.5rem_1.5rem] sm:gap-1.5">
+                  <div
+                    className={cn(
+                      "grid items-center gap-1.5 max-sm:grid-cols-[1fr_auto] max-sm:gap-2",
+                      TABLE_COLS
+                    )}
+                  >
                     <div className="min-w-0">
                       <p className="truncate text-[11px] font-semibold leading-tight text-foreground">
                         {subscriber.name}
                       </p>
-                      <p className="truncate text-[10px] leading-tight text-foreground/45">
+                      <p className="truncate text-[11px] leading-tight text-foreground/72">
                         {subscriber.phone}
                       </p>
                     </div>
 
-                    <div className="hidden min-w-0 flex-wrap items-center gap-1 sm:flex">
+                    <div className="hidden min-w-0 flex-wrap items-center gap-1 sm:flex px-2">
                       {subscriber.tags.length === 0 ? (
                         <span className="text-[11px] text-foreground/35">—</span>
                       ) : (
@@ -303,7 +315,7 @@ export function SubscribersListDemo({ className }: { className?: string }) {
                           <span
                             key={tag.label}
                             className={cn(
-                              "rounded-full px-1.5 py-0.5 text-[9px] font-semibold leading-none",
+                              "rounded-full px-1.5 py-0.5 text-[11px] font-semibold leading-none text-nowrap",
                               TAG_CLASS[tag.tone]
                             )}
                           >
@@ -321,14 +333,9 @@ export function SubscribersListDemo({ className }: { className?: string }) {
                       />
                     </div>
 
-                    <span className="hidden text-[10px] text-foreground/60 sm:block">
+                    <span className="hidden text-[11px] text-foreground/72 sm:block">
                       Dia {subscriber.billingDay}
                     </span>
-
-                    <SituationBadge
-                      situation={subscriber.situation}
-                      className="hidden sm:inline-flex"
-                    />
 
                     <WhatsAppBadge
                       status={subscriber.whatsapp}
@@ -345,7 +352,7 @@ export function SubscribersListDemo({ className }: { className?: string }) {
           </ul>
         </div>
 
-        <div className="subscribers-demo-footer mt-auto flex items-center justify-between gap-2 border-t border-border/60 px-3 py-1.5 text-[10px] text-foreground/45 sm:px-3.5">
+        <div className="subscribers-demo-footer mt-auto flex items-center justify-between gap-2 border-t border-border/60 px-3 py-1.5 text-[11px] text-foreground/72 sm:px-3.5">
           <span>
             Mostrando {rows.length} de {rows.length} resultados
           </span>
@@ -359,15 +366,15 @@ export function SubscribersListDemo({ className }: { className?: string }) {
 function PayStatusBadge({ status }: { status: PayStatus }) {
   const late = status === "late";
   return (
-    <span className="inline-flex items-center gap-1 text-[10px] font-medium sm:text-[11px]">
+    <span className="inline-flex items-center gap-1 text-[11px] font-medium">
       <span
         className={cn(
           "size-1.5 shrink-0 rounded-full",
-          late ? "bg-late" : "bg-[#3b82f6]"
+          late ? "bg-late" : "bg-primary"
         )}
         aria-hidden
       />
-      <span className={late ? "text-late" : "text-foreground/65"}>
+      <span className={late ? "text-late" : "text-foreground/72"}>
         {late ? "Atrasado" : "Em aberto"}
       </span>
     </span>
@@ -385,10 +392,10 @@ function SituationBadge({
   return (
     <span
       className={cn(
-        "inline-flex items-center gap-1 rounded-md px-1.5 py-0.5 text-[10px] font-medium leading-none",
+        "inline-flex items-center gap-1 rounded-md px-1.5 py-0.5 text-[11px] font-medium leading-none",
         active
           ? "bg-primary/12 text-primary"
-          : "bg-muted text-foreground/55",
+          : "bg-muted text-foreground/72",
         className
       )}
     >
@@ -409,10 +416,10 @@ function WhatsAppBadge({
   return (
     <span
       className={cn(
-        "inline-flex items-center gap-1 rounded-md px-1.5 py-0.5 text-[10px] font-medium leading-none",
+        "inline-flex items-center gap-1 rounded-md px-1.5 py-0.5 text-[11px] font-medium leading-none",
         authorized
           ? "bg-primary/12 text-primary"
-          : "bg-muted text-foreground/55",
+          : "bg-muted text-foreground/72",
         className
       )}
     >

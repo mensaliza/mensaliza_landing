@@ -317,8 +317,8 @@ export function WhatsappBillingDemo({ className }: { className?: string }) {
       role="img"
     >
       <div className="relative flex h-full items-center justify-center py-1 sm:py-2">
-        <div className="whatsapp-phone flex h-full w-full max-w-[17.5rem] flex-col overflow-hidden rounded-[1.35rem] border border-border bg-[#ececec] shadow-[inset_0_0_0_1px_oklch(1_0_0/0.4)] sm:max-w-[18.5rem]">
-          <header className="flex shrink-0 items-center gap-2.5 border-b border-black/5 bg-[#f0f2f5] px-3 py-2.5">
+        <div className="whatsapp-phone flex h-full w-full max-w-[17.5rem] flex-col overflow-hidden rounded-[1.35rem] border border-border bg-muted sm:max-w-[18.5rem]">
+          <header className="flex shrink-0 items-center gap-2.5 border-b border-border bg-card px-3 py-2.5">
             <div className="flex size-8 shrink-0 items-center justify-center rounded-full bg-primary text-[11px] font-bold text-primary-foreground">
               M
             </div>
@@ -326,7 +326,7 @@ export function WhatsappBillingDemo({ className }: { className?: string }) {
               <p className="truncate text-[13px] font-semibold leading-tight text-foreground">
                 Mensaliza
               </p>
-              <p className="truncate text-[10px] leading-tight text-foreground/45">
+              <p className="truncate text-[11px] leading-tight text-foreground/72">
                 cobrança automática
               </p>
             </div>
@@ -353,7 +353,7 @@ export function WhatsappBillingDemo({ className }: { className?: string }) {
                     <div
                       key={item.id}
                       className={cn(
-                        "whatsapp-day mx-auto rounded-full bg-black/5 px-2.5 py-0.5 text-[10px] font-medium text-foreground/50",
+                        "whatsapp-day mx-auto rounded-full bg-foreground/5 px-2.5 py-0.5 text-[11px] font-medium text-foreground/72",
                         playing && enteringIds.has(item.id) && "is-entering"
                       )}
                     >
@@ -423,7 +423,7 @@ function BubbleContent({ bubble }: { bubble: ChatBubble }) {
               <p className="truncate text-[11px] font-semibold text-foreground">
                 Link de cobrança
               </p>
-              <p className="truncate text-[10px] text-foreground/50">
+              <p className="truncate text-[11px] text-foreground/72">
                 {bubble.text}
               </p>
             </div>
@@ -458,9 +458,9 @@ function BubbleMeta({
   outgoing?: boolean;
 }) {
   return (
-    <span className="mt-1 flex items-center justify-end gap-0.5 text-[9px] leading-none text-foreground/40">
+    <span className="mt-1 flex items-center justify-end gap-0.5 text-[11px] leading-none text-foreground/72">
       {time}
-      {outgoing ? <CheckCheckIcon className="size-3 text-primary/70" aria-hidden /> : null}
+      {outgoing ? <CheckCheckIcon className="size-3 text-primary" aria-hidden /> : null}
     </span>
   );
 }
@@ -470,8 +470,8 @@ function ReceiptMock() {
     <div className="relative aspect-[5/3.4] w-[8.25rem] overflow-hidden rounded-md bg-white sm:w-[9rem]">
       <div className="flex h-full flex-col gap-1 p-2">
         <div className="flex items-center justify-between">
-          <span className="text-[9px] font-semibold text-foreground/50">Comprovante Pix</span>
-          <span className="rounded bg-primary/10 px-1 py-0.5 text-[8px] font-semibold text-primary">
+          <span className="text-[11px] font-semibold text-foreground/72">Comprovante Pix</span>
+          <span className="rounded bg-primary/10 px-1 py-0.5 text-[11px] font-semibold text-primary">
             Enviado
           </span>
         </div>
@@ -481,7 +481,7 @@ function ReceiptMock() {
           <div className="h-1.5 w-2/5 rounded-full bg-foreground/10" />
         </div>
         <div className="mt-auto rounded-md bg-muted/80 px-2 py-1.5">
-          <p className="text-[8px] text-foreground/45">Valor</p>
+          <p className="text-[11px] text-foreground/72">Valor</p>
           <p className="font-heading text-[12px] font-semibold tracking-[-0.02em] text-foreground">
             R$ 400,00
           </p>

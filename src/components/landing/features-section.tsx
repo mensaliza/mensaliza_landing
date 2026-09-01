@@ -43,7 +43,7 @@ export function FeaturesSection() {
             const reversed = index % 2 === 1;
 
             return (
-              <Reveal key={feature.title} delay={index * 60}>
+              <Reveal key={feature.title}>
                 <div
                   className={cn(
                     "grid items-center gap-10 lg:grid-cols-2 lg:gap-16",

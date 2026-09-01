@@ -29,7 +29,7 @@ export function LoginLink({
     <Button
       variant={variant}
       size={size}
-      className={cn(fullWidth && "w-full", className)}
+      className={cn("min-h-11", fullWidth && "w-full", className)}
       nativeButton={false}
       render={
         <a
