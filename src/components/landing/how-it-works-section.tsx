@@ -10,7 +10,7 @@ import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { clientSteps, professionalSteps } from "@/lib/landing-content";
 import { trackLandingHowItWorksTabChanged } from "@/lib/landing-analytics";
-import { cn } from "@/lib/utils";
+import { cn } from "cn";
 
 type WorkflowTab = "professional" | "client";
 

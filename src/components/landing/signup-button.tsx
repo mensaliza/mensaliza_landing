@@ -9,7 +9,7 @@ import {
   type LandingCtaLocation,
 } from "@/lib/landing-analytics";
 import { getSignupLinkProps } from "@/lib/site-urls";
-import { cn } from "@/lib/utils";
+import { cn } from "cn";
 
 type SignupButtonProps = {
   className?: string;

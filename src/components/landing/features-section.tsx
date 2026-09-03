@@ -14,7 +14,7 @@ import { SectionShell } from "@/components/landing/section-shell";
 import { SubscribersListDemo } from "@/components/landing/subscribers-list-demo";
 import { WhatsappBillingDemo } from "@/components/landing/whatsapp-billing-demo";
 import { features } from "@/lib/landing-content";
-import { cn } from "@/lib/utils";
+import { cn } from "cn";
 
 const iconMap = {
   users: UsersIcon,

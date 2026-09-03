@@ -29,7 +29,7 @@ import {
   trackLandingDemoFormSubmitted,
   trackLandingDemoFormSucceeded,
 } from "@/lib/landing-analytics";
-import { cn } from "@/lib/utils";
+import { cn } from "cn";
 
 const DEFAULT_TIER =
   pricingTiers.find((tier) => tier.popular)?.id ??

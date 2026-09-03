@@ -19,7 +19,7 @@ import {
 import { navLinks } from "@/lib/landing-content";
 import { trackLandingCta, trackLandingNavClicked } from "@/lib/landing-analytics";
 import { getSignupLinkProps } from "@/lib/site-urls";
-import { cn } from "@/lib/utils";
+import { cn } from "cn";
 import Link from "next/link";
 import { useIsMobile } from "@/hooks/use-mobile";
 
@@ -58,7 +58,10 @@ export function SiteHeader({ blendWithHero = false }: SiteHeaderProps) {
     <header
       data-at-top={transparent ? "true" : "false"}
       data-floating={floating ? "true" : "false"}
-      className="sticky top-0 z-40 w-full px-4 pt-3 sm:px-6 sm:pt-3.5"
+      className={cn(
+        "z-40 w-full px-4 pt-3 sm:px-6 sm:pt-3.5",
+        blendWithHero ? "fixed top-0" : "sticky top-0"
+      )}
     >
       <div
         className={cn(

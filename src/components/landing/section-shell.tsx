@@ -1,6 +1,6 @@
 import { SectionViewTracker } from "@/components/landing/section-view-tracker";
 import type { LandingSectionId } from "@/lib/landing-analytics";
-import { cn } from "@/lib/utils";
+import { cn } from "cn";
 
 type SectionShellProps = React.ComponentProps<"section"> & {
   id?: string;

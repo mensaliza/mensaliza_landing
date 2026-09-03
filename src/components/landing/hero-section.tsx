@@ -13,7 +13,7 @@ export function HeroSection() {
   return (
     <section
       id="hero"
-      className="relative -mt-[4.25rem] overflow-hidden px-4 pt-28 pb-10 sm:px-6 sm:pt-32 sm:pb-12 lg:px-8 lg:pb-14 min-w-0 min-h-0"
+      className="relative overflow-hidden px-4 pt-28 pb-10 sm:px-6 sm:pt-32 sm:pb-12 lg:px-8 lg:pb-14 min-w-0 min-h-0"
     >
       <SectionViewTracker section="hero" />
       <HeroAtmosphere />

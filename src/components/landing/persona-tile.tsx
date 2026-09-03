@@ -9,7 +9,7 @@ import {
 } from "lucide-react";
 
 import { personas } from "@/lib/landing-content";
-import { cn } from "@/lib/utils";
+import { cn } from "cn";
 
 const personaIcons = {
   apple: AppleIcon,

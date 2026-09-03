@@ -4,7 +4,7 @@ import { SectionHeading } from "@/components/landing/section-heading";
 import { Reveal } from "@/components/landing/motion/reveal";
 import { SectionShell } from "@/components/landing/section-shell";
 import { reliefComparison } from "@/lib/landing-content";
-import { cn } from "@/lib/utils";
+import { cn } from "cn";
 
 function ComparisonCell({
   variant,

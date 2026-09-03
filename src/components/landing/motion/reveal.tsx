@@ -2,7 +2,7 @@
 
 import { useEffect, useRef, useState, type CSSProperties, type ElementType, type ReactNode } from "react";
 
-import { cn } from "@/lib/utils";
+import { cn } from "cn";
 
 type RevealProps = {
   children: ReactNode;

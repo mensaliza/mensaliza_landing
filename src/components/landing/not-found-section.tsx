@@ -11,7 +11,7 @@ export function NotFoundSection() {
   return (
     <section
       aria-labelledby="not-found-heading"
-      className="relative -mt-[4.25rem] flex min-h-svh min-w-0 flex-col items-center justify-center overflow-hidden px-4 pt-28 pb-16 sm:px-6 sm:pt-32 sm:pb-20 lg:px-8"
+      className="relative flex min-h-svh min-w-0 flex-col items-center justify-center overflow-hidden px-4 pt-28 pb-16 sm:px-6 sm:pt-32 sm:pb-20 lg:px-8"
     >
       <HeroAtmosphere fullViewport />
 

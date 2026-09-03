@@ -6,7 +6,7 @@ import {
   type LandingCtaLocation,
 } from "@/lib/landing-analytics";
 import { getLoginLinkProps } from "@/lib/site-urls";
-import { cn } from "@/lib/utils";
+import { cn } from "cn";
 
 type LoginLinkProps = {
   className?: string;

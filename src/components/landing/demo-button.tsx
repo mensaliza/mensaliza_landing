@@ -2,7 +2,7 @@ import { ArrowRightIcon } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import { getDemoLinkProps } from "@/lib/site-urls";
-import { cn } from "@/lib/utils";
+import { cn } from "cn";
 
 type DemoButtonProps = {
   className?: string;

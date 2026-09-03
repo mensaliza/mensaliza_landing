@@ -11,7 +11,7 @@ import {
 } from "react";
 
 import { heroMockups } from "@/lib/landing-content";
-import { cn } from "@/lib/utils";
+import { cn } from "cn";
 
 const TILT_MAX_X = 4.5;
 const TILT_MAX_Y = 5.5;
