@@ -2,7 +2,7 @@
 name: Mensaliza
 description: Cobrança mensal automática via WhatsApp — visual system for the marketing site
 colors:
-  brand-orange: "oklch(0.68 0.19 55)"
+  brand-orange: "oklch(0.68 0.211 40)" # hex: #FE5B0D
   brand-orange-foreground: "oklch(1 0 0)"
   page-bg: "oklch(0.99 0 0)"
   ink: "oklch(0.18 0 0)"
@@ -10,7 +10,6 @@ colors:
   ink-muted: "oklch(0.42 0 0)"
   border-soft: "oklch(0.88 0 0)"
   card-white: "oklch(1 0 0)"
-  status-late: "oklch(0.52 0.2 25)"
 typography:
   display:
     fontFamily: "Lexend, Geist, ui-sans-serif, system-ui, sans-serif"
@@ -62,7 +61,7 @@ components:
     padding: "0.625rem 1rem"
     height: "2.75rem"
   button-primary-hover:
-    backgroundColor: "oklch(0.68 0.19 55 / 0.8)"
+    backgroundColor: "oklch(0.68 0.211 40 / 0.8)"
     textColor: "{colors.brand-orange-foreground}"
     rounded: "{rounded.lg}"
   button-outline:
@@ -114,12 +113,8 @@ True neutrals (chroma 0) with one deliberate accent — brand orange.
 
 ### Primary
 
-- **Brand Orange** (`oklch(0.68 0.19 55)`): Logo mark, demo/conversion CTAs, focus rings, trust accents, step numbers, feature highlights, atmospheric washes. The sole chromatic brand signal.
+- **Brand Orange** (`#FE5B0D` / `oklch(0.68 0.211 40)`): Logo mark, demo/conversion CTAs, focus rings, trust accents, step numbers, feature highlights, atmospheric washes. The sole chromatic brand signal.
 - **Brand Orange Foreground** (`oklch(1 0 0)`): White text and icons on orange fills.
-
-### Tertiary
-
-- **Status Late** (`oklch(0.52 0.2 25)`): Overdue due dates and late badges only. Warm red-orange — visible but not aggressive collections red. Not a brand color.
 
 ### Neutral
 

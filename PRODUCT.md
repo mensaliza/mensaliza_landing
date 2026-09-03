@@ -47,6 +47,8 @@ Three words: **humano**, **organizado**, **aliviador**.
 
 Emotional goal: relief and predictability—*menos peso na consciência, mais previsibilidade no bolso*—plus trust that the professional stays in charge of money and relationships.
 
+Brand color: **`#FE5B0D`** (`oklch(0.68 0.211 40)`) — sole chromatic accent for logo, CTAs, focus rings, and atmospheric warmth. Neutrals stay chroma 0; never use WhatsApp green or a second brand accent.
+
 ## Anti-references
 
 - Generic SaaS landing templates: hero metrics, gradient text, cream paper backgrounds, uppercase eyebrow kickers on every section, identical icon-card grids.

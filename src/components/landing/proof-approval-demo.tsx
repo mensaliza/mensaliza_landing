@@ -224,7 +224,7 @@ export function ProofApprovalDemo({ className }: { className?: string }) {
                 </div>
 
                 <div className="grid grid-cols-2 gap-2 border-t border-border/70 px-3 py-3 sm:px-3.5">
-                  <span className="inline-flex h-9 items-center justify-center rounded-lg border border-late/30 bg-late/10 text-[12px] font-semibold text-late">
+                  <span className="inline-flex h-9 items-center justify-center rounded-lg border border-destructive/30 bg-destructive/10 text-[12px] font-semibold text-destructive">
                     Rejeitar
                   </span>
                   <span

@@ -326,9 +326,6 @@ export function WhatsappBillingDemo({ className }: { className?: string }) {
               <p className="truncate text-[13px] font-semibold leading-tight text-foreground">
                 Mensaliza
               </p>
-              <p className="truncate text-[11px] leading-tight text-foreground/72">
-                cobrança automática
-              </p>
             </div>
             <div className="flex items-center gap-2.5 text-foreground/40">
               <VideoIcon className="size-3.5" aria-hidden />

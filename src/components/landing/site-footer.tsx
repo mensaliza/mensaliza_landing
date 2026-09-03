@@ -23,7 +23,7 @@ export function SiteFooter() {
         <div className="grid gap-10 sm:gap-12 md:grid-cols-[1.5fr_1fr_1fr]">
           <div className="flex flex-col gap-4">
             <Link href="/" className="w-fit rounded-sm text-foreground focus-visible:outline-none focus-visible:ring-3 focus-visible:ring-ring/50" aria-label="Mensaliza — início">
-              <Logo size="sm" />
+              <Logo size="md" />
             </Link>
             <p className="max-w-xs text-sm leading-relaxed text-muted-foreground text-pretty">
               Cobrança mensal via WhatsApp e comprovantes em um só lugar — sem processar

@@ -23,7 +23,7 @@ export const OG_IMAGE = {
   alt: DEFAULT_TITLE,
 } as const;
 
-export const BRAND_THEME_COLOR = "#e87722";
+export const BRAND_THEME_COLOR = "#FE5B0D";
 
 const googleSiteVerification =
   process.env.NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION?.trim();

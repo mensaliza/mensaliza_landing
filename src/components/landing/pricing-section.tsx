@@ -25,7 +25,7 @@ export function PricingSection() {
     useState<BillingInterval>("monthly");
 
   return (
-    <SectionShell id="precos" labelledBy="precos-titulo" tinted analyticsSection="precos">
+    <SectionShell id="precos" labelledBy="precos-titulo" analyticsSection="precos">
       <div className="flex flex-col gap-10">
         <SectionHeading
           align="center"
@@ -44,26 +44,27 @@ export function PricingSection() {
                 setBillingInterval(interval);
                 trackLandingPricingIntervalChanged(interval);
               }}
+              className="w-full"
             >
               <TabsList
                 aria-label="Período de cobrança"
-                className="mx-auto grid h-auto! w-fit min-h-11 grid-cols-2 rounded-full bg-muted p-0.5"
+                className="mx-auto grid h-auto! w-full min-h-11 max-w-md grid-cols-2 rounded-full bg-muted p-1"
               >
                 <TabsTrigger
                   value="monthly"
-                  className="min-h-11 rounded-full px-4 py-2 text-sm font-medium transition-[color,background-color] duration-200 ease-[cubic-bezier(0.25,1,0.5,1)]"
+                  className="min-h-11 rounded-full px-4 py-2.5 text-sm font-medium transition-[color,background-color] duration-200 ease-[cubic-bezier(0.25,1,0.5,1)]"
                 >
                   Mensal
                 </TabsTrigger>
                 <TabsTrigger
                   value="yearly"
-                  className="min-h-11 rounded-full px-4 py-2 text-sm font-medium transition-[color,background-color] duration-200 ease-[cubic-bezier(0.25,1,0.5,1)]"
+                  className="min-h-11 rounded-full px-4 py-2.5 text-sm font-medium transition-[color,background-color] duration-200 ease-[cubic-bezier(0.25,1,0.5,1)]"
                 >
                   Anual
                 </TabsTrigger>
               </TabsList>
             </Tabs>
-            <Badge variant="secondary">
+            <Badge variant="default">
               Economize {YEARLY_SAVINGS_PERCENT}% na cobrança anual
             </Badge>
           </div>
