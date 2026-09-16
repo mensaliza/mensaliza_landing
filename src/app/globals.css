@@ -264,14 +264,14 @@
       oklch(0.995 0 0) 50%,
       oklch(0.9 0 0) 50%
     );
-    animation: hero-plain-slide 8s ease-in-out infinite alternate;
+    animation: hero-plain-slide 20s ease-in-out infinite alternate;
     will-change: transform;
   }
 
   .hero-plain--2 {
     opacity: 0.42;
     animation-direction: alternate-reverse;
-    animation-duration: 10s;
+    animation-duration: 26s;
     background-image: linear-gradient(
       -60deg,
       oklch(0.98 0 0) 50%,
@@ -281,7 +281,7 @@
 
   .hero-plain--3 {
     opacity: 0.34;
-    animation-duration: 13s;
+    animation-duration: 34s;
     background-image: linear-gradient(
       -60deg,
       oklch(1 0 0) 50%,
