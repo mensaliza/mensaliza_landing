@@ -65,19 +65,19 @@ export function SiteHeader({ blendWithHero = false }: SiteHeaderProps) {
     >
       <div
         className={cn(
-          "site-header-bar relative mx-auto flex w-full max-w-5xl items-center justify-between gap-3 rounded-2xl border px-3 sm:px-5 py-3",
+          "site-header-bar relative mx-auto flex w-full max-w-5xl items-center justify-between gap-3 rounded-2xl border px-3 sm:px-5 py-2 md:py-3",
           floating
             ? "border-border bg-background/95 backdrop-blur-sm"
             : "border-transparent bg-transparent"
         )}
       >
-        <div className="flex flex-1 items-end justify-between gap-12">
+        <div className="flex flex-1 items-center md:items-end justify-between gap-12">
           <Link
             href="/"
             className="flex-none rounded-sm text-foreground focus-visible:outline-none focus-visible:ring-3 focus-visible:ring-ring/50"
             aria-label="Mensaliza — início"
           >
-            <Logo size={isMobile ? "lg" : "md"} />
+            <Logo size={isMobile ? "md" : "md"} />
           </Link>
 
           <nav
@@ -122,7 +122,7 @@ export function SiteHeader({ blendWithHero = false }: SiteHeaderProps) {
                     variant="ghost"
                     size="icon-lg"
                     className={cn(
-                      "min-h-11 min-w-11 lg:hidden",
+                      "size-9 lg:hidden",
                       transparent && "border-border/70 bg-background/70"
                     )}
                     aria-label="Abrir menu"
