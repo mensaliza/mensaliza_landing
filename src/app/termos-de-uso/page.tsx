@@ -4,7 +4,7 @@ import { LegalPageShell } from "@/components/landing/legal-page-shell";
 import { SiteFooter } from "@/components/landing/site-footer";
 import { SiteHeader } from "@/components/landing/site-header";
 import { JsonLd } from "@/components/seo/json-ld";
-import { CONTACT_EMAIL } from "@/lib/site-urls";
+import { LEGAL_EMAIL, SUPPORT_EMAIL } from "@/lib/site-urls";
 import { buildBreadcrumbJsonLd, buildPageMetadata } from "@/lib/seo";
 
 export const metadata = buildPageMetadata({
@@ -88,7 +88,8 @@ export default function TermosDeUsoPage() {
             </li>
             <li>
               notificar imediatamente o Mensaliza em caso de suspeita de acesso
-              não autorizado.
+              não autorizado, pelo e-mail{" "}
+              <a href={`mailto:${SUPPORT_EMAIL}`}>{SUPPORT_EMAIL}</a>.
             </li>
           </ul>
 
@@ -106,11 +107,22 @@ export default function TermosDeUsoPage() {
             regularização, sem prejuízo das cobranças já devidas.
           </p>
           <p>
-            Você pode cancelar a assinatura a qualquer momento, conforme as
-            condições do plano, sem multa de fidelidade, salvo se houver
-            condição específica expressamente acordada por escrito. O
-            cancelamento não gera reembolso proporcional de períodos já
-            iniciados, salvo disposição legal ou comercial em contrário.
+            Você pode cancelar a assinatura a qualquer momento, pelo painel ou
+            pelo e-mail{" "}
+            <a href={`mailto:${SUPPORT_EMAIL}`}>{SUPPORT_EMAIL}</a>, sem multa de
+            fidelidade, salvo condição específica expressamente acordada por
+            escrito.
+          </p>
+          <p>
+            Se você contratar como consumidor, fora do estabelecimento comercial
+            (por exemplo, pelo site), pode desistir em até 7 dias a contar da
+            contratação, nos termos do art. 49 do Código de Defesa do Consumidor.
+            O pedido pode ser feito pelo mesmo e-mail de atendimento. Confirmamos
+            o recebimento e devolvemos os valores pagos nesse período, de forma
+            imediata e atualizada. Depois desse prazo, ou quando a relação não
+            for de consumo, o cancelamento não gera reembolso proporcional de
+            períodos já iniciados, salvo disposição legal ou comercial em
+            contrário.
           </p>
 
           <h2>4. Uso adequado da Plataforma</h2>
@@ -233,8 +245,9 @@ export default function TermosDeUsoPage() {
             Podemos suspender ou encerrar o acesso, com ou sem aviso prévio
             razoável conforme a gravidade, se houver violação destes Termos,
             risco à segurança, uso ilícito, inadimplência ou determinação legal.
-            Você pode encerrar o uso cancelando a assinatura e solicitando o
-            encerramento da conta pelos canais de suporte.
+            Você pode encerrar o uso cancelando a assinatura pelo painel ou
+            solicitando o encerramento da conta em{" "}
+            <a href={`mailto:${SUPPORT_EMAIL}`}>{SUPPORT_EMAIL}</a>.
           </p>
 
           <h2>11. Lei aplicável e foro</h2>
@@ -248,8 +261,12 @@ export default function TermosDeUsoPage() {
 
           <h2>12. Contato</h2>
           <p>
-            Dúvidas sobre estes Termos podem ser enviadas para{" "}
-            <a href={`mailto:${CONTACT_EMAIL}`}>{CONTACT_EMAIL}</a>.
+            Suporte, dúvidas sobre a conta, cancelamento e encerramento:{" "}
+            <a href={`mailto:${SUPPORT_EMAIL}`}>{SUPPORT_EMAIL}</a>.
+          </p>
+          <p>
+            Notificações sobre estes Termos e demais assuntos legais:{" "}
+            <a href={`mailto:${LEGAL_EMAIL}`}>{LEGAL_EMAIL}</a>.
           </p>
         </LegalPageShell>
       </main>

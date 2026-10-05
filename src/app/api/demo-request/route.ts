@@ -8,7 +8,7 @@ import {
   flushPostHog,
   getDistinctIdFromRequest,
 } from "@/lib/posthog-server";
-import { CONTACT_EMAIL } from "@/lib/site-urls";
+import { SUPPORT_EMAIL } from "@/lib/site-urls";
 
 export const runtime = "nodejs";
 
@@ -120,7 +120,7 @@ export async function POST(request: Request) {
 
   const from =
     process.env.RESEND_FROM_EMAIL?.trim() || "Mensaliza <onboarding@resend.dev>";
-  const to = CONTACT_EMAIL;
+  const to = SUPPORT_EMAIL;
   const subscribersLabel = tierLabel(subscribers);
   const subject = `Pedido de demonstração — ${name}`;
 

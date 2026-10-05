@@ -4,7 +4,7 @@ import { LegalPageShell } from "@/components/landing/legal-page-shell";
 import { SiteFooter } from "@/components/landing/site-footer";
 import { SiteHeader } from "@/components/landing/site-header";
 import { JsonLd } from "@/components/seo/json-ld";
-import { CONTACT_EMAIL } from "@/lib/site-urls";
+import { LEGAL_EMAIL, SUPPORT_EMAIL } from "@/lib/site-urls";
 import { buildBreadcrumbJsonLd, buildPageMetadata } from "@/lib/seo";
 
 export const metadata = buildPageMetadata({
@@ -52,6 +52,15 @@ export default function PoliticasDePrivacidadePage() {
             <strong>Não processamos pagamentos nem detemos fundos</strong>: o
             Pix ou transferência ocorre diretamente entre o profissional e o
             assinante.
+          </p>
+          <p>
+            O controlador dos dados de profissionais e visitantes é o Mensaliza,
+            responsável pelo site mensaliza.com e pelo aplicativo web. Suporte,
+            conta e cancelamento:{" "}
+            <a href={`mailto:${SUPPORT_EMAIL}`}>{SUPPORT_EMAIL}</a>. Privacidade,
+            LGPD e exercício de direitos do titular:{" "}
+            <a href={`mailto:${LEGAL_EMAIL}`}>{LEGAL_EMAIL}</a>, atendido pela
+            equipe do Mensaliza responsável por esses assuntos.
           </p>
           <p>Em regra:</p>
           <ul>
@@ -137,19 +146,24 @@ export default function PoliticasDePrivacidadePage() {
               cumprir obrigações legais, regulatórias e ordens de autoridades;
             </li>
             <li>
-              com consentimento, quando exigido — por exemplo, cookies não
-              essenciais ou comunicações de marketing opcionais.
+              com consentimento, quando exigido — por exemplo, comunicações de
+              marketing opcionais.
             </li>
           </ul>
 
           <h2>4. Cookies e tecnologias semelhantes</h2>
           <p>
-            O site e a Plataforma podem usar cookies e tecnologias similares para
-            funcionamento básico, preferências, medição de audiência e melhoria
-            da experiência. Quando exigido, solicitaremos consentimento para
-            cookies não essenciais. Você pode gerenciar cookies nas
-            configurações do navegador; a desativação de cookies essenciais pode
-            afetar o funcionamento do serviço.
+            O site e a Plataforma usam cookies e tecnologias similares para
+            funcionamento básico (sessão, segurança e preferências) e para medir
+            audiência e uso. A medição deste site usa o PostHog e o Vercel
+            Analytics. Esses registros podem incluir páginas visitadas, tipo de
+            dispositivo e identificadores gerados por essas ferramentas.
+          </p>
+          <p>
+            Não há um aviso separado para aceitar ou recusar cookies de
+            audiência. Você pode bloquear ou apagar cookies nas configurações do
+            navegador. Desativar cookies essenciais pode impedir o login e
+            outras funções da Plataforma.
           </p>
 
           <h2>5. Compartilhamento de dados</h2>
@@ -187,10 +201,12 @@ export default function PoliticasDePrivacidadePage() {
 
           <h2>6. Transferência internacional</h2>
           <p>
-            Alguns provedores podem processar dados fora do Brasil. Nesses casos,
-            adotamos salvaguardas previstas na LGPD (por exemplo, cláusulas
-            contratuais e avaliação do nível de proteção), sempre que a
-            transferência for necessária à operação do serviço.
+            Alguns provedores podem processar dados fora do Brasil. Hospedagem e
+            ferramentas de audiência, como as usadas neste site, podem tratar
+            dados inclusive nos Estados Unidos. Nesses casos, adotamos
+            salvaguardas previstas na LGPD (por exemplo, cláusulas contratuais e
+            avaliação do nível de proteção), sempre que a transferência for
+            necessária à operação do serviço.
           </p>
 
           <h2>7. Retenção</h2>
@@ -225,8 +241,13 @@ export default function PoliticasDePrivacidadePage() {
           </p>
           <p>
             <strong>Profissionais e visitantes:</strong> para exercer direitos
-            relativos aos dados que controlamos, contate{" "}
-            <a href={`mailto:${CONTACT_EMAIL}`}>{CONTACT_EMAIL}</a>.
+            relativos aos dados que controlamos, escreva para{" "}
+            <a href={`mailto:${LEGAL_EMAIL}`}>{LEGAL_EMAIL}</a>. Informe seu nome,
+            o e-mail da conta ou do contato, a descrição do pedido e, se
+            possível, um documento que confirme sua identidade. Responderemos de
+            imediato quando for possível; a declaração completa sobre o
+            tratamento, quando cabível, será enviada em até 15 dias, nos termos
+            do art. 19 da LGPD.
           </p>
           <p>
             <strong>Assinantes/clientes finais:</strong> em regra, o pedido deve
@@ -257,10 +278,15 @@ export default function PoliticasDePrivacidadePage() {
 
           <h2>12. Contato do encarregado / privacidade</h2>
           <p>
-            Para dúvidas, solicitações de titulares ou comunicações sobre
-            privacidade e proteção de dados, escreva para{" "}
-            <a href={`mailto:${CONTACT_EMAIL}`}>{CONTACT_EMAIL}</a> com o
-            assunto “Privacidade / LGPD”.
+            Privacidade, proteção de dados, pedidos de titulares e comunicações
+            da Autoridade Nacional de Proteção de Dados são recebidos pela equipe
+            do Mensaliza responsável por esses assuntos, no e-mail{" "}
+            <a href={`mailto:${LEGAL_EMAIL}`}>{LEGAL_EMAIL}</a>.
+          </p>
+          <p>
+            Dúvidas de suporte, conta, cobrança da assinatura do software ou uso
+            da Plataforma:{" "}
+            <a href={`mailto:${SUPPORT_EMAIL}`}>{SUPPORT_EMAIL}</a>.
           </p>
         </LegalPageShell>
       </main>

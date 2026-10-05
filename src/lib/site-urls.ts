@@ -4,10 +4,11 @@ export function isExternalUrl(url: string): boolean {
 
 export const APP_URL = process.env.NEXT_PUBLIC_APP_URL?.trim() ?? "";
 
-/** Inbox for demo requests and commercial contact (until contato@ is live). */
-export const CONTACT_EMAIL =
-  process.env.NEXT_PUBLIC_CONTACT_EMAIL?.trim() ||
-  "mensaliza.app@gmail.com";
+/** Customer support, account, cancellation, and demo requests. */
+export const SUPPORT_EMAIL = "atendimento@mensaliza.com";
+
+/** Legal notices, LGPD, data-subject rights, and the privacy team channel. */
+export const LEGAL_EMAIL = "contato@mensaliza.com";
 
 const DEFAULT_APP_ORIGIN = "https://app.mensaliza.com";
 

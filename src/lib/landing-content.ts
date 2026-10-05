@@ -1,6 +1,7 @@
 export {
   APP_URL,
-  CONTACT_EMAIL,
+  LEGAL_EMAIL,
+  SUPPORT_EMAIL,
   getAppLinkProps,
   getDemoHref,
   getDemoLinkProps,
@@ -366,12 +367,12 @@ export const faqItems = [
   {
     question: "Meus dados e os dos meus clientes estão seguros?",
     answer:
-      "Sim. Seus dados e os de seus assinantes são armazenados com segurança e não são compartilhados com terceiros.",
+      "Sim. Seus dados e os de seus assinantes são armazenados com medidas de segurança. O que tratamos, e com quem compartilhamos, está descrito na Política de privacidade.",
   },
   {
     question: "Posso cancelar quando quiser?",
     answer:
-      "Sim. Sem fidelidade, sem multa. Você cancela quando quiser pelo painel ou entrando em contato.",
+      "Sim. Sem fidelidade, sem multa. Você cancela quando quiser pelo painel ou pelo e-mail atendimento@mensaliza.com.",
   },
   {
     question: "Como começo?",

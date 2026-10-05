@@ -8,7 +8,11 @@ import {
   trackLandingCta,
   trackLandingNavClicked,
 } from "@/lib/landing-analytics";
-import { getDemoLinkProps, getLoginLinkProps } from "@/lib/site-urls";
+import {
+  SUPPORT_EMAIL,
+  getDemoLinkProps,
+  getLoginLinkProps,
+} from "@/lib/site-urls";
 
 const footerLinkClassName =
   "inline-flex min-h-11 items-center text-sm text-muted-foreground transition-colors duration-150 hover:text-foreground focus-visible:rounded-sm focus-visible:outline-none focus-visible:ring-3 focus-visible:ring-ring/50";
@@ -20,7 +24,7 @@ export function SiteFooter() {
   return (
     <footer className="border-t border-border bg-background px-4 py-16 text-foreground sm:px-6 sm:py-20 lg:px-8">
       <div className="mx-auto flex w-full max-w-6xl flex-col gap-12 sm:gap-14">
-        <div className="grid gap-10 sm:gap-12 md:grid-cols-[1.5fr_1fr_1fr]">
+        <div className="grid gap-10 sm:gap-12 md:grid-cols-2 lg:grid-cols-[1.4fr_1fr_1fr_1.15fr]">
           <div className="flex flex-col gap-4">
             <Link href="/" className="w-fit rounded-sm text-foreground focus-visible:outline-none focus-visible:ring-3 focus-visible:ring-ring/50" aria-label="Mensaliza — início">
               <Logo size="md" />
@@ -84,6 +88,22 @@ export function SiteFooter() {
                 Agendar demonstração
               </a>
             </nav>
+          </div>
+
+          <div className="flex flex-col gap-3">
+            <p className="font-heading text-sm font-semibold tracking-[-0.01em] text-foreground">
+              Suporte ao cliente
+            </p>
+            <p className="max-w-xs text-sm leading-relaxed text-muted-foreground text-pretty">
+              Dúvidas de conta, uso da plataforma ou cancelamento.
+            </p>
+            <a
+              href={`mailto:${SUPPORT_EMAIL}`}
+              aria-label={`Enviar e-mail para o suporte: ${SUPPORT_EMAIL}`}
+              className="inline-flex min-h-11 items-center text-sm font-medium text-foreground underline-offset-4 transition-colors duration-150 hover:underline focus-visible:rounded-sm focus-visible:outline-none focus-visible:ring-3 focus-visible:ring-ring/50"
+            >
+              {SUPPORT_EMAIL}
+            </a>
           </div>
         </div>
 
