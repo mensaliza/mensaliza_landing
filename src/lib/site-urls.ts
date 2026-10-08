@@ -7,8 +7,17 @@ export const APP_URL = process.env.NEXT_PUBLIC_APP_URL?.trim() ?? "";
 /** Customer support, account, cancellation, and demo requests. */
 export const SUPPORT_EMAIL = "atendimento@mensaliza.com";
 
+/** Public customer-support WhatsApp, shown as dialed in Brazil. */
+export const SUPPORT_WHATSAPP_DISPLAY = "+55 19 99264-7318";
+
+export const SUPPORT_WHATSAPP_URL = "https://wa.me/5519992647318";
+
 /** Legal notices, LGPD, data-subject rights, and the privacy team channel. */
 export const LEGAL_EMAIL = "contato@mensaliza.com";
+
+export const INSTAGRAM_HANDLE = "@mensaliza";
+
+export const INSTAGRAM_URL = "https://www.instagram.com/mensaliza";
 
 const DEFAULT_APP_ORIGIN = "https://app.mensaliza.com";
 

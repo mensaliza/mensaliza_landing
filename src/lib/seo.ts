@@ -6,6 +6,11 @@ import {
   pricingPlans,
   professionalSteps,
 } from "@/lib/landing-content";
+import {
+  INSTAGRAM_URL,
+  SUPPORT_EMAIL,
+  SUPPORT_WHATSAPP_DISPLAY,
+} from "@/lib/site-urls";
 
 export const SITE_URL = "https://mensaliza.com";
 export const SITE_NAME = "Mensaliza";
@@ -137,6 +142,15 @@ export function buildOrganizationJsonLd(): JsonLd {
     url: SITE_URL,
     logo: absoluteUrl(OG_IMAGE.url),
     description: DEFAULT_DESCRIPTION,
+    sameAs: [INSTAGRAM_URL],
+    contactPoint: {
+      "@type": "ContactPoint",
+      contactType: "customer support",
+      email: SUPPORT_EMAIL,
+      telephone: SUPPORT_WHATSAPP_DISPLAY,
+      areaServed: "BR",
+      availableLanguage: "Portuguese",
+    },
   };
 }
 

@@ -4,7 +4,12 @@ import { LegalPageShell } from "@/components/landing/legal-page-shell";
 import { SiteFooter } from "@/components/landing/site-footer";
 import { SiteHeader } from "@/components/landing/site-header";
 import { JsonLd } from "@/components/seo/json-ld";
-import { LEGAL_EMAIL, SUPPORT_EMAIL } from "@/lib/site-urls";
+import {
+  LEGAL_EMAIL,
+  SUPPORT_EMAIL,
+  SUPPORT_WHATSAPP_DISPLAY,
+  SUPPORT_WHATSAPP_URL,
+} from "@/lib/site-urls";
 import { buildBreadcrumbJsonLd, buildPageMetadata } from "@/lib/seo";
 
 export const metadata = buildPageMetadata({
@@ -57,7 +62,11 @@ export default function PoliticasDePrivacidadePage() {
             O controlador dos dados de profissionais e visitantes é o Mensaliza,
             responsável pelo site mensaliza.com e pelo aplicativo web. Suporte,
             conta e cancelamento:{" "}
-            <a href={`mailto:${SUPPORT_EMAIL}`}>{SUPPORT_EMAIL}</a>. Privacidade,
+            <a href={`mailto:${SUPPORT_EMAIL}`}>{SUPPORT_EMAIL}</a> ou{" "}
+            <a href={SUPPORT_WHATSAPP_URL} target="_blank" rel="noopener noreferrer">
+              WhatsApp {SUPPORT_WHATSAPP_DISPLAY}
+            </a>
+            . Privacidade, LGPD e exercício de direitos do titular:{" "}
             LGPD e exercício de direitos do titular:{" "}
             <a href={`mailto:${LEGAL_EMAIL}`}>{LEGAL_EMAIL}</a>, atendido pela
             equipe do Mensaliza responsável por esses assuntos.
@@ -286,7 +295,11 @@ export default function PoliticasDePrivacidadePage() {
           <p>
             Dúvidas de suporte, conta, cobrança da assinatura do software ou uso
             da Plataforma:{" "}
-            <a href={`mailto:${SUPPORT_EMAIL}`}>{SUPPORT_EMAIL}</a>.
+            <a href={`mailto:${SUPPORT_EMAIL}`}>{SUPPORT_EMAIL}</a> ou{" "}
+            <a href={SUPPORT_WHATSAPP_URL} target="_blank" rel="noopener noreferrer">
+              WhatsApp {SUPPORT_WHATSAPP_DISPLAY}
+            </a>
+            .
           </p>
         </LegalPageShell>
       </main>

@@ -1,7 +1,16 @@
+import {
+  SUPPORT_EMAIL,
+  SUPPORT_WHATSAPP_DISPLAY,
+} from "./site-urls";
+
 export {
   APP_URL,
+  INSTAGRAM_HANDLE,
+  INSTAGRAM_URL,
   LEGAL_EMAIL,
   SUPPORT_EMAIL,
+  SUPPORT_WHATSAPP_DISPLAY,
+  SUPPORT_WHATSAPP_URL,
   getAppLinkProps,
   getDemoHref,
   getDemoLinkProps,
@@ -372,7 +381,7 @@ export const faqItems = [
   {
     question: "Posso cancelar quando quiser?",
     answer:
-      "Sim. Sem fidelidade, sem multa. Você cancela quando quiser pelo painel ou pelo e-mail atendimento@mensaliza.com.",
+      `Sim. Sem fidelidade, sem multa. Você cancela quando quiser pelo painel, pelo e-mail ${SUPPORT_EMAIL} ou pelo WhatsApp ${SUPPORT_WHATSAPP_DISPLAY}.`,
   },
   {
     question: "Como começo?",
