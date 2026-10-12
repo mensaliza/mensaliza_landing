@@ -12,6 +12,15 @@ export const SUPPORT_WHATSAPP_DISPLAY = "+55 19 99264-7318";
 
 export const SUPPORT_WHATSAPP_URL = "https://wa.me/5519992647318";
 
+export const SUPPORT_WHATSAPP_DEFAULT_MESSAGE =
+  "Olá! Vim pelo site e gostaria de saber mais sobre o Mensaliza.";
+
+export function getWhatsAppHref(
+  message = SUPPORT_WHATSAPP_DEFAULT_MESSAGE,
+): string {
+  return `${SUPPORT_WHATSAPP_URL}?text=${encodeURIComponent(message)}`;
+}
+
 /** Legal notices, LGPD, data-subject rights, and the privacy team channel. */
 export const LEGAL_EMAIL = "contato@mensaliza.com";
 

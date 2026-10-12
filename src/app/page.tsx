@@ -10,6 +10,7 @@ import { PricingSection } from "@/components/landing/pricing-section";
 import { ReliefSection } from "@/components/landing/relief-section";
 import { SiteFooter } from "@/components/landing/site-footer";
 import { SiteHeader } from "@/components/landing/site-header";
+import { WhatsAppFloatingButton } from "@/components/landing/whatsapp-floating-button";
 import { JsonLd } from "@/components/seo/json-ld";
 import {
   buildHomeJsonLd,
@@ -47,6 +48,7 @@ export default function Home() {
       <div className="pb-24 lg:pb-0">
         <SiteFooter />
       </div>
+      <WhatsAppFloatingButton />
     </>
   );
 }
