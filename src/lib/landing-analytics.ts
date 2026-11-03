@@ -15,7 +15,11 @@ export type LandingCtaLocation =
   | "footer"
   | "cta_section"
   | "not_found"
-  | "mobile_bar";
+  | "mobile_bar"
+  | "tennis_hero"
+  | "tennis_header"
+  | "tennis_final"
+  | "tennis_mobile";
 
 export type LandingSectionId =
   | "hero"
@@ -25,7 +29,19 @@ export type LandingSectionId =
   | "como_funciona"
   | "precos"
   | "faq"
-  | "agendar_demo";
+  | "agendar_demo"
+  | "tennis_hero"
+  | "tennis_dor"
+  | "tennis_solucao"
+  | "tennis_como_funciona"
+  | "tennis_produto"
+  | "tennis_rotina"
+  | "tennis_faq"
+  | "tennis_cta";
+
+export const TENNIS_LANDING_AUDIENCE = "professores_tenis" as const;
+
+export type LandingAudience = typeof TENNIS_LANDING_AUDIENCE;
 
 export type LandingNavSource = "header" | "header_mobile" | "footer";
 
@@ -56,8 +72,13 @@ export function trackLandingCta(props: {
   location: LandingCtaLocation;
   plan?: string;
   billing_interval?: BillingInterval;
+  audience?: LandingAudience;
 }) {
-  captureEvent("landing_cta_clicked", props);
+  const { audience, ...rest } = props;
+  captureEvent(
+    "landing_cta_clicked",
+    audience ? { ...rest, audience } : rest,
+  );
 }
 
 export function trackLandingNavClicked(props: {
@@ -67,8 +88,16 @@ export function trackLandingNavClicked(props: {
   captureEvent("landing_nav_clicked", props);
 }
 
-export function trackLandingSectionViewed(section: LandingSectionId) {
-  captureEvent("landing_section_viewed", { section });
+export function trackLandingSectionViewed(
+  section: LandingSectionId,
+  options?: { audience?: LandingAudience },
+) {
+  captureEvent(
+    "landing_section_viewed",
+    options?.audience
+      ? { section, audience: options.audience }
+      : { section },
+  );
 }
 
 export function trackLandingPricingIntervalChanged(interval: BillingInterval) {

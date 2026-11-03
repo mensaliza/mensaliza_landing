@@ -1,7 +1,8 @@
 "use client";
 
 import { MenuIcon } from "lucide-react";
-import { useEffect, useState } from "react";
+import { useSearchParams } from "next/navigation";
+import { Suspense, useEffect, useState } from "react";
 
 import { LoginLink } from "@/components/landing/login-link";
 import { SignupButton } from "@/components/landing/signup-button";
@@ -18,7 +19,7 @@ import {
 } from "@/components/ui/sheet";
 import { navLinks } from "@/lib/landing-content";
 import { trackLandingCta, trackLandingNavClicked } from "@/lib/landing-analytics";
-import { getSignupLinkProps } from "@/lib/site-urls";
+import { getSignupLinkProps, type SignupSearchParams } from "@/lib/site-urls";
 import { cn } from "cn";
 import Link from "next/link";
 import { useIsMobile } from "@/hooks/use-mobile";
@@ -30,6 +31,42 @@ type SiteHeaderProps = {
   /** When true, header starts flush/transparent over the hero and becomes a floating cell on scroll. */
   blendWithHero?: boolean;
 };
+
+function MobileHeaderSignupLink({
+  searchParams,
+}: {
+  searchParams: SignupSearchParams | null;
+}) {
+  return (
+    <SheetClose
+      render={
+        <Button
+          className="min-h-11 w-full"
+          nativeButton={false}
+          render={
+            <a
+              {...getSignupLinkProps({ searchParams })}
+              aria-label="Começar"
+              onClick={() =>
+                trackLandingCta({
+                  cta: "signup",
+                  location: "header_mobile",
+                })
+              }
+            />
+          }
+        />
+      }
+    >
+      Começar
+    </SheetClose>
+  );
+}
+
+function MobileHeaderSignupLinkWithParams() {
+  const searchParams = useSearchParams();
+  return <MobileHeaderSignupLink searchParams={searchParams} />;
+}
 
 export function SiteHeader({ blendWithHero = false }: SiteHeaderProps) {
   const isMobile = useIsMobile();
@@ -168,28 +205,9 @@ export function SiteHeader({ blendWithHero = false }: SiteHeaderProps) {
                     className="min-h-11"
                     location="header_mobile"
                   />
-                  <SheetClose
-                    render={
-                      <Button
-                        className="min-h-11 w-full"
-                        nativeButton={false}
-                        render={
-                          <a
-                            {...getSignupLinkProps()}
-                            aria-label="Começar"
-                            onClick={() =>
-                              trackLandingCta({
-                                cta: "signup",
-                                location: "header_mobile",
-                              })
-                            }
-                          />
-                        }
-                      />
-                    }
-                  >
-                    Começar
-                  </SheetClose>
+                  <Suspense fallback={<MobileHeaderSignupLink searchParams={null} />}>
+                    <MobileHeaderSignupLinkWithParams />
+                  </Suspense>
                 </div>
               </SheetContent>
             </Sheet>

@@ -6,6 +6,7 @@ import {
   pricingPlans,
   professionalSteps,
 } from "@/lib/landing-content";
+import { tennisFaq } from "@/lib/tennis-landing-content";
 import {
   INSTAGRAM_URL,
   SUPPORT_EMAIL,
@@ -277,4 +278,28 @@ export function buildHomeJsonLd(): JsonLd[] {
 
 export function buildLayoutJsonLd(): JsonLd[] {
   return [buildOrganizationJsonLd(), buildWebSiteJsonLd()];
+}
+
+export function buildTennisLandingJsonLd(): JsonLd[] {
+  return [
+    buildBreadcrumbJsonLd([
+      { name: "Início", path: "/" },
+      {
+        name: "Professores de tênis e beach tennis",
+        path: "/professores-de-tenis",
+      },
+    ]),
+    {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      mainEntity: tennisFaq.items.map((item) => ({
+        "@type": "Question",
+        name: item.question,
+        acceptedAnswer: {
+          "@type": "Answer",
+          text: item.answer,
+        },
+      })),
+    },
+  ];
 }

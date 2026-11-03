@@ -1,14 +1,21 @@
 "use client";
 
 import { ArrowRightIcon } from "lucide-react";
+import { useSearchParams } from "next/navigation";
+import { Suspense } from "react";
 
 import { Button } from "@/components/ui/button";
 import {
   trackLandingCta,
   type BillingInterval,
+  type LandingAudience,
   type LandingCtaLocation,
 } from "@/lib/landing-analytics";
-import { getSignupLinkProps } from "@/lib/site-urls";
+import {
+  getSignupLinkProps,
+  type SignupCampaignRef,
+  type SignupSearchParams,
+} from "@/lib/site-urls";
 import { cn } from "cn";
 
 type SignupButtonProps = {
@@ -20,9 +27,13 @@ type SignupButtonProps = {
   location: LandingCtaLocation;
   plan?: string;
   billingInterval?: BillingInterval;
+  /** Omitted on home. Tennis page passes `"professores_tenis"`. */
+  audience?: LandingAudience;
+  /** Omitted on home. Tennis page passes `"professores-de-tenis"`. */
+  campaignRef?: SignupCampaignRef;
 };
 
-export function SignupButton({
+function SignupButtonLink({
   className,
   size = "lg",
   variant = "default",
@@ -31,10 +42,15 @@ export function SignupButton({
   location,
   plan,
   billingInterval,
-}: SignupButtonProps) {
+  audience,
+  campaignRef,
+  searchParams,
+}: SignupButtonProps & { searchParams: SignupSearchParams | null }) {
   const signupLink = getSignupLinkProps({
     plan,
     interval: billingInterval,
+    searchParams,
+    campaignRef,
   });
 
   return (
@@ -57,6 +73,7 @@ export function SignupButton({
               location,
               plan,
               billing_interval: billingInterval,
+              ...(audience ? { audience } : {}),
             })
           }
         />
@@ -65,5 +82,18 @@ export function SignupButton({
       {label}
       {showIcon ? <ArrowRightIcon data-icon="inline-end" /> : null}
     </Button>
+  );
+}
+
+function SignupButtonWithSearchParams(props: SignupButtonProps) {
+  const searchParams = useSearchParams();
+  return <SignupButtonLink {...props} searchParams={searchParams} />;
+}
+
+export function SignupButton(props: SignupButtonProps) {
+  return (
+    <Suspense fallback={<SignupButtonLink {...props} searchParams={null} />}>
+      <SignupButtonWithSearchParams {...props} />
+    </Suspense>
   );
 }
