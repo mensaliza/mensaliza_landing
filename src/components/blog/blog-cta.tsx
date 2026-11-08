@@ -40,7 +40,7 @@ export function BlogCta({
           Agendar demonstração
           <ArrowRightIcon data-icon="inline-end" />
         </Button>
-        {/* Same destination as the header's "Começar" (app sign-up). */}
+        {/* Same destination as the header's "Começar grátis" (app sign-up). */}
         <SignupButton
           variant="outline"
           label="Começar grátis"

@@ -3,7 +3,7 @@ import { cn } from "cn"
 import { getWhatsAppHref } from "@/lib/site-urls";
 const WHATSAPP_LABEL = "Falar com o Mensaliza no WhatsApp";
 
-function WhatsAppIcon({ className }: { className?: string }) {
+export function WhatsAppIcon({ className }: { className?: string }) {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"

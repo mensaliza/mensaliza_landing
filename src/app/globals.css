@@ -515,9 +515,50 @@
 
   .site-header-bar {
     transition:
+      max-width var(--motion-header),
+      padding var(--motion-header),
       background-color var(--motion-header),
       border-color var(--motion-header),
+      box-shadow var(--motion-header),
       backdrop-filter var(--motion-header);
+  }
+
+  .site-header-bar--floating {
+    box-shadow:
+      0 1px 2px rgb(0 0 0 / 0.04),
+      0 10px 28px -14px rgb(0 0 0 / 0.16);
+  }
+
+  .site-header-indicator {
+    transform-origin: center;
+    transition:
+      transform 420ms var(--ease-out-expo),
+      opacity var(--motion-micro);
+  }
+
+  .site-header-indicator[data-instant="true"] {
+    transition: opacity var(--motion-micro), transform 0s;
+  }
+
+  .site-header-burger-line {
+    transition: transform 280ms var(--ease-out-quart);
+  }
+
+  .site-header-menu {
+    transition:
+      opacity 240ms var(--ease-out-quart),
+      transform 320ms var(--ease-out-quart),
+      visibility 0s linear 0s;
+  }
+
+  .site-header-menu[data-open="false"] {
+    opacity: 0;
+    transform: translate3d(0, -8px, 0);
+    visibility: hidden;
+    transition:
+      opacity 180ms var(--ease-out-quart),
+      transform 180ms var(--ease-out-quart),
+      visibility 0s linear 180ms;
   }
 
   .site-header-track {

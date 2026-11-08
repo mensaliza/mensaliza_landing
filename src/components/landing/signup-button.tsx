@@ -27,7 +27,7 @@ export function SignupButton({
   size = "lg",
   variant = "default",
   showIcon = true,
-  label = "Começar agora",
+  label = "Começar grátis",
   location,
   plan,
   billingInterval,

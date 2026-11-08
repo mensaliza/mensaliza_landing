@@ -27,6 +27,14 @@ export const navLinks = [
   { label: "Blog", href: "/blog" },
 ] as const;
 
+/** Header keeps a short list; sections like "Para quem é" are found by scrolling. */
+export const headerNavLinks = [
+  { label: "Funcionalidades", href: "/#funcionalidades" },
+  { label: "Preços", href: "/#precos" },
+  { label: "FAQ", href: "/#faq" },
+  { label: "Blog", href: "/blog" },
+] as const;
+
 export const trustBullets = [
   "Sem maquininha",
   "Não processa pagamentos — o dinheiro fica com você",
