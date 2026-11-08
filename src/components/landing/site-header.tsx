@@ -91,7 +91,7 @@ export function SiteHeader({ blendWithHero = false }: SiteHeaderProps) {
                 className={headerLinkClassName}
                 onClick={() =>
                   trackLandingNavClicked({
-                    target_section: link.href.replace("/#", ""),
+                    target_section: link.href.replace(/^\/#?/, ""),
                     source: "header",
                   })
                 }
@@ -150,7 +150,7 @@ export function SiteHeader({ blendWithHero = false }: SiteHeaderProps) {
                           )}
                           onClick={() =>
                             trackLandingNavClicked({
-                              target_section: link.href.replace("/#", ""),
+                              target_section: link.href.replace(/^\/#?/, ""),
                               source: "header_mobile",
                             })
                           }

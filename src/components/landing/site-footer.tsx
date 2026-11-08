@@ -85,7 +85,7 @@ export function SiteFooter() {
                   className={footerLinkClassName}
                   onClick={() =>
                     trackLandingNavClicked({
-                      target_section: link.href.replace("/#", ""),
+                      target_section: link.href.replace(/^\/#?/, ""),
                       source: "footer",
                     })
                   }

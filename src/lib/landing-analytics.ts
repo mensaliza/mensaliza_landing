@@ -15,7 +15,8 @@ export type LandingCtaLocation =
   | "footer"
   | "cta_section"
   | "not_found"
-  | "mobile_bar";
+  | "mobile_bar"
+  | "blog_post";
 
 export type LandingSectionId =
   | "hero"

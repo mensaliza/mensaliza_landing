@@ -24,6 +24,7 @@ export const navLinks = [
   { label: "Como funciona", href: "/#como-funciona" },
   { label: "Preços", href: "/#precos" },
   { label: "FAQ", href: "/#faq" },
+  { label: "Blog", href: "/blog" },
 ] as const;
 
 export const trustBullets = [

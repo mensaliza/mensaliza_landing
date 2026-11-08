@@ -202,11 +202,13 @@ export function buildSoftwareApplicationJsonLd(): JsonLd {
   };
 }
 
-export function buildFaqPageJsonLd(): JsonLd {
+export function buildFaqPageJsonLd(
+  items: ReadonlyArray<{ question: string; answer: string }> = essentialFaqItems
+): JsonLd {
   return {
     "@context": "https://schema.org",
     "@type": "FAQPage",
-    mainEntity: essentialFaqItems.map((item) => ({
+    mainEntity: items.map((item) => ({
       "@type": "Question",
       name: item.question,
       acceptedAnswer: {
@@ -277,4 +279,97 @@ export function buildHomeJsonLd(): JsonLd[] {
 
 export function buildLayoutJsonLd(): JsonLd[] {
   return [buildOrganizationJsonLd(), buildWebSiteJsonLd()];
+}
+
+/**
+ * Drops the default static OG/Twitter image so the route's generated
+ * `opengraph-image` / `twitter-image` files are the only ones in <head>.
+ */
+export function withGeneratedImages(metadata: Metadata): Metadata {
+  // The `images` key must be absent (not undefined), or it also hides the generated files.
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const { images: _ogImages, ...openGraph } = metadata.openGraph ?? {};
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const { images: _twitterImages, ...twitter } = metadata.twitter ?? {};
+  return { ...metadata, openGraph, twitter };
+}
+
+export function buildArticleMetadata(options: {
+  title: string;
+  description: string;
+  path: string;
+  publishedAt: string;
+  updatedAt?: string;
+  tags?: string[];
+}): Metadata {
+  const base = buildPageMetadata(options);
+
+  const { openGraph, ...rest } = withGeneratedImages(base);
+
+  return {
+    ...rest,
+    openGraph: {
+      ...openGraph,
+      type: "article",
+      publishedTime: options.publishedAt,
+      modifiedTime: options.updatedAt ?? options.publishedAt,
+      authors: [SITE_NAME],
+      tags: options.tags,
+    },
+  };
+}
+
+export function buildBlogPostingJsonLd(post: {
+  title: string;
+  description: string;
+  path: string;
+  publishedAt: string;
+  updatedAt?: string;
+  tags?: string[];
+}): JsonLd {
+  const url = absoluteUrl(post.path);
+
+  return {
+    "@context": "https://schema.org",
+    "@type": "BlogPosting",
+    headline: post.title,
+    description: post.description,
+    url,
+    mainEntityOfPage: { "@type": "WebPage", "@id": url },
+    datePublished: post.publishedAt,
+    dateModified: post.updatedAt ?? post.publishedAt,
+    inLanguage: "pt-BR",
+    image: absoluteUrl(`${post.path}/opengraph-image`),
+    keywords: post.tags?.join(", "),
+    author: { "@type": "Organization", name: SITE_NAME, url: SITE_URL },
+    publisher: {
+      "@type": "Organization",
+      name: SITE_NAME,
+      url: SITE_URL,
+      logo: { "@type": "ImageObject", url: absoluteUrl(OG_IMAGE.url) },
+    },
+  };
+}
+
+export function buildBlogJsonLd(options: {
+  name: string;
+  description: string;
+  path: string;
+  posts: ReadonlyArray<{ title: string; path: string; publishedAt: string }>;
+}): JsonLd {
+  return {
+    "@context": "https://schema.org",
+    "@type": "Blog",
+    name: options.name,
+    description: options.description,
+    url: absoluteUrl(options.path),
+    inLanguage: "pt-BR",
+    publisher: { "@type": "Organization", name: SITE_NAME, url: SITE_URL },
+    blogPost: options.posts.map((post) => ({
+      "@type": "BlogPosting",
+      headline: post.title,
+      url: absoluteUrl(post.path),
+      datePublished: post.publishedAt,
+    })),
+  };
 }
