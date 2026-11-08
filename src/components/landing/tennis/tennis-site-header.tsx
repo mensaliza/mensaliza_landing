@@ -17,9 +17,15 @@ export function TennisSiteHeader() {
         </Link>
         <LoginLink
           location="tennis_header"
+          variant="ghost"
+          size="lg"
+          className="shrink-0 px-3 sm:hidden"
+        />
+        <LoginLink
+          location="tennis_header"
           variant="outline"
           size="lg"
-          className="shrink-0 px-3"
+          className="hidden shrink-0 px-3 sm:inline-flex"
         />
         <TennisSignupButton
           location="tennis_header"

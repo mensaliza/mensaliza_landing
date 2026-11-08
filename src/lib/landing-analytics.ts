@@ -4,7 +4,7 @@ import posthog from "posthog-js";
 
 import { captureEvent } from "@/lib/analytics";
 
-export type LandingCtaType = "signup" | "login" | "demo" | "how_it_works";
+export type LandingCtaType = "signup" | "login" | "demo" | "how_it_works" | "whatsapp";
 
 export type LandingCtaLocation =
   | "hero"
@@ -18,6 +18,7 @@ export type LandingCtaLocation =
   | "mobile_bar"
   | "tennis_hero"
   | "tennis_header"
+  | "tennis_pricing"
   | "tennis_final"
   | "tennis_mobile";
 
@@ -32,10 +33,10 @@ export type LandingSectionId =
   | "agendar_demo"
   | "tennis_hero"
   | "tennis_dor"
-  | "tennis_solucao"
   | "tennis_como_funciona"
   | "tennis_produto"
-  | "tennis_rotina"
+  | "tennis_depoimentos"
+  | "tennis_preco"
   | "tennis_faq"
   | "tennis_cta";
 

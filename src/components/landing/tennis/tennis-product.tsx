@@ -1,55 +1,67 @@
-import Image from "next/image";
+import { CalendarClockIcon, FileImageIcon, ListChecksIcon } from "lucide-react";
 
 import { SectionHeading } from "@/components/landing/section-heading";
 import { SectionShell } from "@/components/landing/section-shell";
 import { TENNIS_LANDING_AUDIENCE } from "@/lib/landing-analytics";
 import { tennisProduct } from "@/lib/tennis-landing-content";
 
-function TennisDashboardFrame() {
-  const image = tennisProduct.image;
+const pointIcons = {
+  status: ListChecksIcon,
+  receipt: FileImageIcon,
+  repeat: CalendarClockIcon,
+} as const;
 
+const students = [
+  { name: "Ana Costa", tag: "Tênis", amount: "R$ 280,00", day: "Dia 5", status: "Paga" },
+  {
+    name: "Pedro Lima",
+    tag: "Beach tennis",
+    amount: "R$ 320,00",
+    day: "Dia 10",
+    status: "Comprovante pendente",
+  },
+  { name: "Júlia Mendes", tag: "Tênis", amount: "R$ 250,00", day: "Dia 15", status: "Em aberto" },
+  {
+    name: "Rafael Souza",
+    tag: "Beach tennis",
+    amount: "R$ 300,00",
+    day: "Dia 1",
+    status: "Atrasada",
+  },
+  { name: "Camila Rocha", tag: "Tênis", amount: "R$ 280,00", day: "Dia 20", status: "Paga" },
+] as const;
+
+function TennisStudentsBoard() {
   return (
     <figure className="overflow-hidden rounded-xl border border-border bg-card">
-      <div
-        aria-hidden
-        className="flex items-center gap-3 border-b border-border/80 bg-muted px-3 py-2 sm:gap-4 sm:px-4 sm:py-2.5"
-      >
-        <div className="flex shrink-0 items-center gap-1.5">
-          <span className="size-2.5 rounded-full bg-foreground/35 sm:size-3" />
-          <span className="size-2.5 rounded-full bg-foreground/25 sm:size-3" />
-          <span className="size-2.5 rounded-full bg-foreground/15 sm:size-3" />
-        </div>
-        <div className="flex min-w-0 flex-1 items-center justify-center">
-          <div className="flex w-full max-w-md items-center gap-2 rounded-md border border-border/70 bg-card px-2.5 py-1.5 sm:px-3">
-            <svg
-              aria-hidden
-              viewBox="0 0 16 16"
-              className="size-3 shrink-0 text-foreground/40 sm:size-3.5"
-              fill="none"
+      <figcaption className="border-b border-border px-4 py-3 text-sm font-medium text-foreground/72">
+        Exemplo do painel
+      </figcaption>
+      <ul>
+        {students.map((student) => (
+          <li
+            key={student.name}
+            className="grid grid-cols-[minmax(0,1fr)_auto] items-center gap-x-3 gap-y-1 border-b border-border px-4 py-3 last:border-b-0"
+          >
+            <p className="truncate text-sm font-semibold text-foreground">{student.name}</p>
+            <p className="text-right font-mono text-sm font-medium tabular-nums text-foreground">
+              {student.amount}
+            </p>
+            <p className="text-xs text-foreground/72">
+              {student.tag} · {student.day}
+            </p>
+            <p
+              className={
+                student.status === "Comprovante pendente"
+                  ? "justify-self-end rounded-md bg-primary/10 px-2 py-0.5 text-xs font-medium text-primary"
+                  : "justify-self-end text-xs font-medium text-foreground/80"
+              }
             >
-              <path
-                d="M5.2 7.2V5.6a2.8 2.8 0 0 1 5.6 0v1.6M4.4 7.2h7.2v5.2H4.4V7.2Z"
-                stroke="currentColor"
-                strokeWidth="1.25"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              />
-            </svg>
-            <span className="truncate font-sans text-[11px] leading-none text-foreground/72 sm:text-xs">
-              app.mensaliza.com
-            </span>
-          </div>
-        </div>
-        <div className="hidden w-10 shrink-0 sm:block" />
-      </div>
-      <Image
-        src={image.src}
-        alt={image.alt}
-        width={image.width}
-        height={image.height}
-        sizes="(max-width: 768px) 100vw, (max-width: 1280px) 92vw, 72rem"
-        className="h-auto w-full"
-      />
+              {student.status}
+            </p>
+          </li>
+        ))}
+      </ul>
     </figure>
   );
 }
@@ -59,6 +71,7 @@ export function TennisProduct() {
     <SectionShell
       id="tennis_produto"
       labelledBy="tennis-produto-titulo"
+      tinted
       analyticsSection="tennis_produto"
       analyticsAudience={TENNIS_LANDING_AUDIENCE}
     >
@@ -67,22 +80,28 @@ export function TennisProduct() {
         title={tennisProduct.title}
         description={tennisProduct.lead}
       />
-      <TennisDashboardFrame />
-      <ol className="grid gap-8 sm:grid-cols-2 lg:grid-cols-4">
-        {tennisProduct.flow.map((item, index) => (
-          <li key={item.id} className="flex flex-col gap-3">
-            <span className="font-mono text-sm font-medium text-primary">
-              {String(index + 1).padStart(2, "0")}
-            </span>
-            <h3 className="text-lg font-semibold tracking-[-0.01em] text-balance">
-              {item.title}
-            </h3>
-            <p className="text-sm leading-relaxed text-muted-foreground text-pretty sm:text-base">
-              {item.body}
-            </p>
-          </li>
-        ))}
-      </ol>
+      <div className="grid items-start gap-10 lg:grid-cols-[minmax(0,1.15fr)_minmax(0,0.85fr)] lg:gap-16">
+        <TennisStudentsBoard />
+        <ul className="flex flex-col gap-6">
+          {tennisProduct.points.map((point) => {
+            const Icon = pointIcons[point.id];
+
+            return (
+              <li key={point.id} className="flex items-start gap-4">
+                <span className="flex size-10 shrink-0 items-center justify-center rounded-lg bg-primary/10 text-primary">
+                  <Icon className="size-5" aria-hidden />
+                </span>
+                <div className="flex flex-col gap-1">
+                  <h3 className="text-lg font-semibold tracking-[-0.01em]">{point.title}</h3>
+                  <p className="text-sm leading-relaxed text-foreground/72 text-pretty sm:text-base">
+                    {point.body}
+                  </p>
+                </div>
+              </li>
+            );
+          })}
+        </ul>
+      </div>
     </SectionShell>
   );
 }

@@ -1,5 +1,5 @@
 import { SectionShell } from "@/components/landing/section-shell";
-import { TennisCourtLines } from "@/components/landing/tennis/tennis-court-lines";
+import { TennisHeroScene } from "@/components/landing/tennis/tennis-hero-scene";
 import { TennisSignupButton } from "@/components/landing/tennis/tennis-signup-button";
 import { TennisTrialNote } from "@/components/landing/tennis/tennis-trial-note";
 import { TENNIS_LANDING_AUDIENCE } from "@/lib/landing-analytics";
@@ -12,14 +12,14 @@ export function TennisHero() {
       labelledBy="tennis-hero-titulo"
       analyticsSection="tennis_hero"
       analyticsAudience={TENNIS_LANDING_AUDIENCE}
-      className="overflow-hidden"
+      className="overflow-hidden py-10 sm:py-16 lg:py-20"
     >
-      <div className="relative z-10 grid w-full items-center gap-6 lg:grid-cols-[minmax(0,40rem)_minmax(14rem,1fr)] lg:gap-12">
-        <div className="flex max-w-3xl flex-col items-start gap-6 sm:gap-7">
+      <div className="relative z-10 grid w-full items-center gap-8 lg:grid-cols-[minmax(0,36rem)_22rem] lg:justify-between lg:gap-x-16">
+        <div className="flex max-w-3xl flex-col gap-4 sm:gap-6 lg:col-start-1">
           <p className="text-sm font-medium text-foreground/72">{tennisHero.eyebrow}</p>
           <h1
             id="tennis-hero-titulo"
-            className="font-heading text-[clamp(2.35rem,5vw,3.35rem)] leading-[1.08] font-semibold tracking-[-0.02em] text-balance"
+            className="font-heading text-[clamp(2.15rem,5vw,3.35rem)] leading-[1.08] font-semibold tracking-[-0.02em] text-balance"
           >
             {tennisHero.headline}
           </h1>
@@ -27,14 +27,13 @@ export function TennisHero() {
             {tennisHero.subheadline}
           </p>
           <p className="text-base font-medium text-foreground sm:text-lg">{tennisHero.support}</p>
-          <div className="flex w-full flex-col items-start gap-3">
+          <div id="tennis-hero-cta" className="flex w-full flex-col items-start gap-4">
             <TennisSignupButton location="tennis_hero" className="w-full sm:w-auto" />
-            <TennisTrialNote id="tennis-hero-trial" />
+            <TennisTrialNote />
           </div>
         </div>
-        <div className="hidden min-h-80 lg:block" aria-hidden>
-          <TennisCourtLines />
-        </div>
+
+        <TennisHeroScene className="mx-auto justify-self-center lg:col-start-2 lg:row-start-1 lg:mx-0 lg:justify-self-end" />
       </div>
     </SectionShell>
   );

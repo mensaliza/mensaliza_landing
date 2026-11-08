@@ -14,6 +14,40 @@ import {
 } from "@/lib/landing-analytics";
 import { tennisFaq } from "@/lib/tennis-landing-content";
 
+function revealTennisFaqAnswer(question: string) {
+  const trigger = [
+    ...document.querySelectorAll<HTMLElement>(
+      "#tennis_faq [data-slot=accordion-trigger]",
+    ),
+  ].find((element) => element.textContent?.includes(question));
+  const item = trigger?.closest<HTMLElement>("[data-slot=accordion-item]");
+  const scroller = document.getElementById("tennis-scroll");
+  if (!item) return;
+
+  const scrollerScrolls =
+    scroller instanceof HTMLElement &&
+    getComputedStyle(scroller).display !== "contents";
+
+  if (!scrollerScrolls) {
+    item.scrollIntoView({ block: "nearest" });
+    return;
+  }
+
+  const align = () => {
+    const overflow =
+      item.getBoundingClientRect().bottom -
+      (scroller.getBoundingClientRect().bottom - 16);
+    if (overflow > 0) {
+      scroller.scrollBy({ top: overflow });
+    }
+  };
+
+  align();
+  const observer = new ResizeObserver(align);
+  observer.observe(item);
+  window.setTimeout(() => observer.disconnect(), 700);
+}
+
 export function TennisFaq() {
   return (
     <SectionShell
@@ -32,10 +66,12 @@ export function TennisFaq() {
           hiddenUntilFound
           className="flex w-full flex-col gap-2"
           onValueChange={(value) => {
-            if (!value || Array.isArray(value)) return;
-            const item = tennisFaq.items.find((faq) => faq.question === value);
+            const opened = value[0];
+            if (!opened) return;
+            const item = tennisFaq.items.find((faq) => faq.question === opened);
             if (item) {
               trackLandingFaqExpanded(item.question);
+              revealTennisFaqAnswer(item.question);
             }
           }}
         >
@@ -43,7 +79,7 @@ export function TennisFaq() {
             <AccordionItem
               key={item.question}
               value={item.question}
-              className="rounded-xl border border-border/80 bg-muted px-5 py-1"
+              className="scroll-mb-4 rounded-xl border border-border/80 bg-muted px-5 py-1"
             >
               <AccordionTrigger className="min-h-11 py-4 text-left font-heading text-base font-semibold tracking-[-0.01em] hover:no-underline">
                 {item.question}

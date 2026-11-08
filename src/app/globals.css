@@ -748,6 +748,23 @@
     animation: whatsapp-scene-exit 480ms var(--ease-out-quart) both;
   }
 
+  @keyframes tennis-scene-rise {
+    from {
+      opacity: 0;
+      transform: translate3d(0, 14px, 0);
+      clip-path: inset(18% 0 0 0 round 12px);
+    }
+    to {
+      opacity: 1;
+      transform: none;
+      clip-path: inset(0 0 0 0 round 12px);
+    }
+  }
+
+  .tennis-scene-rise {
+    animation: tennis-scene-rise 520ms cubic-bezier(0.16, 1, 0.3, 1) both;
+  }
+
   .whatsapp-scene.is-static,
   .whatsapp-scene.is-hold,
   .whatsapp-scene.is-enter {

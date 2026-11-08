@@ -11,6 +11,7 @@ import {
 } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
+import { formatCurrencyFromCents } from "@/lib/format-currency";
 import { cn } from "cn";
 
 export type BillingInterval = "monthly" | "yearly";
@@ -69,13 +70,6 @@ function getPlanFeatures(
     { label: `Tudo do plano ${previousPlanName}, mais:`, included: true },
     ...incrementalFeatures,
   ];
-}
-
-function formatCurrencyFromCents(cents: number): string {
-  return new Intl.NumberFormat("pt-BR", {
-    style: "currency",
-    currency: "BRL",
-  }).format(cents / 100);
 }
 
 type PlanPricingCardProps = {

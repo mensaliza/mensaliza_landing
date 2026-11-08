@@ -1,6 +1,7 @@
 import { SectionHeading } from "@/components/landing/section-heading";
 import { SectionShell } from "@/components/landing/section-shell";
 import { TennisSignupButton } from "@/components/landing/tennis/tennis-signup-button";
+import { TennisSupportLink } from "@/components/landing/tennis/tennis-support-link";
 import { TennisTrialNote } from "@/components/landing/tennis/tennis-trial-note";
 import { TENNIS_LANDING_AUDIENCE } from "@/lib/landing-analytics";
 import { tennisFinalCta } from "@/lib/tennis-landing-content";
@@ -21,9 +22,10 @@ export function TennisFinalCta() {
           title={tennisFinalCta.title}
           description={tennisFinalCta.body}
         />
-        <div className="flex w-full flex-col items-center gap-3">
+        <div id="tennis-final-cta" className="flex w-full flex-col items-center gap-4">
           <TennisSignupButton location="tennis_final" className="w-full sm:w-auto" />
-          <TennisTrialNote id="tennis-final-trial" className="text-center" />
+          <TennisSupportLink className="w-full sm:w-auto" />
+          <TennisTrialNote className="w-fit" />
         </div>
       </div>
     </SectionShell>

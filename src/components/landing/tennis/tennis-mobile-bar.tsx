@@ -5,20 +5,17 @@ import { useEffect, useState } from "react";
 import { TennisSignupButton } from "@/components/landing/tennis/tennis-signup-button";
 import { cn } from "cn";
 
-const TRIAL_NOTE_IDS = ["tennis-hero-trial", "tennis-final-trial"] as const;
+const CTA_IDS = ["tennis-hero-cta", "tennis-pricing-cta", "tennis-final-cta"] as const;
 
 export function TennisMobileBar() {
   const [show, setShow] = useState(false);
 
   useEffect(() => {
-    const notes = TRIAL_NOTE_IDS.map((id) => document.getElementById(id)).filter(
+    const notes = CTA_IDS.map((id) => document.getElementById(id)).filter(
       (note): note is HTMLElement => note instanceof HTMLElement
     );
 
-    if (notes.length === 0) {
-      setShow(true);
-      return;
-    }
+    if (notes.length === 0) return;
 
     const visible = new Set<Element>();
     const observer = new IntersectionObserver((entries) => {
@@ -42,7 +39,7 @@ export function TennisMobileBar() {
   return (
     <div
       className={cn(
-        "fixed inset-x-0 bottom-0 z-40 border-t border-border bg-background/95 backdrop-blur-sm lg:hidden",
+        "shrink-0 border-t border-border bg-background lg:hidden",
         !show && "hidden"
       )}
       aria-hidden={!show}

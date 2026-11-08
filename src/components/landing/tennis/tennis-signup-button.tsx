@@ -4,11 +4,15 @@ import {
   type LandingCtaLocation,
 } from "@/lib/landing-analytics";
 import { TENNIS_SIGNUP_CAMPAIGN_REF } from "@/lib/site-urls";
-import { tennisCtaLabel } from "@/lib/tennis-landing-content";
+import { tennisCtaLabel, tennisPlan } from "@/lib/tennis-landing-content";
 
 type TennisCtaLocation = Extract<
   LandingCtaLocation,
-  "tennis_hero" | "tennis_header" | "tennis_final" | "tennis_mobile"
+  | "tennis_hero"
+  | "tennis_header"
+  | "tennis_final"
+  | "tennis_mobile"
+  | "tennis_pricing"
 >;
 
 type TennisSignupButtonProps = {
@@ -28,6 +32,8 @@ export function TennisSignupButton({
     <SignupButton
       label={tennisCtaLabel}
       location={location}
+      plan={tennisPlan.slug}
+      billingInterval={tennisPlan.interval}
       audience={TENNIS_LANDING_AUDIENCE}
       campaignRef={TENNIS_SIGNUP_CAMPAIGN_REF}
       className={className}

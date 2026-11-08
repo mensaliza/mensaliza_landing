@@ -8,7 +8,6 @@ export function TennisHowItWorks() {
     <SectionShell
       id="tennis_como_funciona"
       labelledBy="tennis-como-funciona-titulo"
-      tinted
       analyticsSection="tennis_como_funciona"
       analyticsAudience={TENNIS_LANDING_AUDIENCE}
     >
@@ -18,18 +17,24 @@ export function TennisHowItWorks() {
         description={tennisHowItWorks.lead}
       />
       <ol className="grid gap-8 sm:grid-cols-2 lg:grid-cols-4">
-        {tennisHowItWorks.steps.map((step) => (
-          <li key={step.title} className="flex flex-col gap-3 border-t border-foreground/15 pt-4">
-            <span className="font-mono text-sm font-medium text-primary">{step.step}</span>
-            <h3 className="text-lg font-semibold tracking-[-0.01em] text-balance">
-              {step.title}
-            </h3>
+        {tennisHowItWorks.steps.map((step, index) => (
+          <li key={step.title} className="flex flex-col gap-3">
+            <span
+              className="flex size-9 items-center justify-center rounded-lg bg-primary/10 font-mono text-sm font-bold text-primary"
+              aria-hidden
+            >
+              {String(index + 1).padStart(2, "0")}
+            </span>
+            <h3 className="text-lg font-semibold tracking-[-0.01em] text-balance">{step.title}</h3>
             <p className="text-sm leading-relaxed text-foreground/72 text-pretty sm:text-base">
               {step.description}
             </p>
           </li>
         ))}
       </ol>
+      <p className="max-w-3xl text-base font-medium text-foreground text-pretty sm:text-lg">
+        {tennisHowItWorks.closing}
+      </p>
     </SectionShell>
   );
 }
