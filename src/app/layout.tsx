@@ -3,9 +3,11 @@ import { GoogleTagManager } from "@next/third-parties/google";
 import { Analytics } from "@vercel/analytics/next"
 import { SpeedInsights } from "@vercel/speed-insights/next"
 
+import { MetaPixel } from "@/components/analytics/meta-pixel";
 import { JsonLd } from "@/components/seo/json-ld";
 import { Toaster } from "@/components/ui/sonner";
 import { getGtmId } from "@/lib/gtm-config";
+import { getMetaPixelId } from "@/lib/meta-pixel-config";
 import { buildLayoutJsonLd, buildRootMetadata } from "@/lib/seo";
 
 import "./globals.css";
@@ -33,6 +35,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   const gtmId = getGtmId();
+  const metaPixelId = getMetaPixelId();
 
   return (
     <html
@@ -52,6 +55,7 @@ export default function RootLayout({
         <Toaster position="top-center" richColors={false} closeButton />
         <Analytics />
         <SpeedInsights />
+        {metaPixelId && <MetaPixel pixelId={metaPixelId} />}
       </body>
     </html>
   );
