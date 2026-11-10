@@ -83,19 +83,19 @@ export function WhatsappPlanCard({
 
       {/* How many students WhatsApp charges */}
       <div className="flex flex-col gap-3">
-        <label htmlFor="alunos-no-whatsapp" className="text-[15px] font-medium">
-          Quantos alunos o WhatsApp vai cobrar?
+        <label htmlFor="assinantes-no-whatsapp" className="text-[15px] font-medium">
+          Quantos assinantes o WhatsApp vai cobrar?
         </label>
         <div className="relative pb-7">
           <input
-            id="alunos-no-whatsapp"
+            id="assinantes-no-whatsapp"
             type="range"
             min={0}
             max={STOPS.length - 1}
             step={1}
             value={stop}
             onChange={(event) => select(Number(event.target.value))}
-            aria-valuetext={custom ? "Mais de 200 alunos" : `Até ${current.students} alunos`}
+            aria-valuetext={custom ? "Mais de 200 assinantes" : `Até ${current.students} assinantes`}
             className="plan-range"
             style={{ "--fill": `${(stop / (STOPS.length - 1)) * 100}%` } as CSSProperties}
           />
@@ -144,8 +144,8 @@ export function WhatsappPlanCard({
           </span>
         </div>
         {!custom ? (
-          <span className="rounded-full bg-white/15 px-3 py-1.5 text-[13px] font-medium tabular-nums">
-            {formatCentavos(Math.round(cents / current.students))} por aluno cobrado
+          <span className="rounded-full bg-white/15 px-3 py-1.5 text-[13px] font-medium whitespace-nowrap tabular-nums">
+            {formatCentavos(Math.round(cents / current.students))} por assinante cobrado
           </span>
         ) : null}
       </div>

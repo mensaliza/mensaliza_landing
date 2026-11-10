@@ -20,7 +20,7 @@ export function NotFoundSection() {
 
         <p className="max-w-xl text-lg leading-relaxed text-foreground/75 text-pretty">
           O endereço pode estar errado, ou o link saiu do ar. Volte ao início ou crie sua conta
-          e deixe a cobrança dos seus alunos no automático.
+          e deixe a cobrança dos seus assinantes no automático.
         </p>
 
         <div className="flex flex-col gap-3 sm:flex-row">

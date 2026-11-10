@@ -44,7 +44,7 @@ export const headerNavLinks = [
 ] as const;
 
 export const audienceLine =
-  "Para personal trainer, professor de música, idiomas ou reforço, nutricionista, psicólogo e quem mais cobra mensalidade dos seus alunos ou clientes.";
+  "Para personal trainer, professor de música, idiomas ou reforço, nutricionista, psicólogo e quem mais cobra mensalidade de alunos, pacientes ou clientes.";
 
 /** Shown as a sliding strip under the "who it is for" heading; `audienceLine` stays for screen readers. */
 export const audienceProfessions = [
@@ -78,7 +78,7 @@ export const heroConversationDays = {
 
 export const painPoints = [
   {
-    before: 'Mandar "oi, tudo bem? só lembrando da mensalidade…" para cada aluno, todo mês.',
+    before: 'Mandar "oi, tudo bem? só lembrando da mensalidade…" para cada assinante, todo mês.',
     after: "No dia combinado, o Mensaliza manda a cobrança no WhatsApp por você.",
   },
   {
@@ -87,7 +87,7 @@ export const painPoints = [
   },
   {
     before: "O constrangimento de cobrar quem atrasou.",
-    after: "O lembrete sai do Mensaliza. A conversa com o aluno fica só para a aula.",
+    after: "O lembrete sai do Mensaliza. A sua conversa com o assinante fica longe da cobrança.",
   },
 ] as const;
 
@@ -119,7 +119,7 @@ export const features = [
 
 export const professionalSteps = [
   {
-    title: "Cadastre seus alunos",
+    title: "Cadastre seus assinantes",
     description: "Nome, WhatsApp, valor e dia de vencimento. Pode começar com um só.",
   },
   {
@@ -127,7 +127,7 @@ export const professionalSteps = [
     description: "Ela aparece no link de pagamento com o Pix copia e cola. O dinheiro cai direto na sua conta.",
   },
   {
-    title: "Ligue o WhatsApp do aluno",
+    title: "Ligue o WhatsApp do assinante",
     description:
       "Ele recebe uma mensagem de boas-vindas e responde “Sim” para autorizar. A partir daí, as cobranças saem sozinhas.",
   },
@@ -156,7 +156,7 @@ export const pricingTiers = [
   {
     id: "essential",
     name: "Essential",
-    tagline: "Até 100 alunos cobrados no WhatsApp",
+    tagline: "Até 100 assinantes cobrados no WhatsApp",
     maxSubscribers: 100,
     priceMonthly: 9900,
     priceYearly: 7900,
@@ -166,7 +166,7 @@ export const pricingTiers = [
   {
     id: "business",
     name: "Business",
-    tagline: "Até 150 alunos cobrados no WhatsApp",
+    tagline: "Até 150 assinantes cobrados no WhatsApp",
     maxSubscribers: 150,
     priceMonthly: 14900,
     priceYearly: 11900,
@@ -176,7 +176,7 @@ export const pricingTiers = [
   {
     id: "scale",
     name: "Scale",
-    tagline: "Até 200 alunos cobrados no WhatsApp",
+    tagline: "Até 200 assinantes cobrados no WhatsApp",
     maxSubscribers: 200,
     priceMonthly: 19900,
     priceYearly: 15900,
@@ -198,45 +198,45 @@ export const pricingTiers = [
 export const pricingPlans = pricingTiers.filter((tier) => !tier.custom);
 
 export const pricingEnterprise = {
-  name: "Mais de 200 alunos?",
+  name: "Mais de 200 assinantes?",
   description: "Montamos um plano sob medida. Fale com a gente no WhatsApp.",
 } as const;
 
 /** What the quota means, said once in the pricing section and in the FAQ. */
 export const quotaExplanation =
-  "Em todos os planos você cadastra quantos alunos quiser. O plano define quantos deles recebem a cobrança automática no WhatsApp. Chegou no limite? Os demais continuam no painel, só sem a cobrança automática, e você pode trocar de plano quando quiser.";
+  "Em todos os planos você cadastra quantos assinantes quiser. O plano define quantos deles recebem a cobrança automática no WhatsApp. Chegou no limite? Os demais continuam no painel, só sem a cobrança automática, e você pode trocar de plano quando quiser.";
 
 export const faqItems = [
   {
-    question: "Quanto custa para o meu aluno?",
+    question: "Quanto custa para o meu assinante?",
     answer:
       "Nada. Ele não paga taxa, não instala app e não cria conta. Recebe a mensagem no WhatsApp, paga no Pix e manda o comprovante na mesma conversa.",
   },
   {
     question: "Como o dinheiro chega até mim?",
     answer:
-      "Direto na sua conta, pelo Pix. O Mensaliza não recebe nem segura o dinheiro do aluno: o link de pagamento mostra a sua chave Pix com o copia e cola e o QR code.",
+      "Direto na sua conta, pelo Pix. O Mensaliza não recebe nem segura o dinheiro do assinante: o link de pagamento mostra a sua chave Pix com o copia e cola e o QR code.",
   },
   {
     question: "De qual número a mensagem sai?",
     answer:
-      "Do número do assistente do Mensaliza, com o seu nome na mensagem. Seu WhatsApp pessoal fica livre. Na primeira vez, o aluno recebe uma mensagem de boas-vindas e responde “Sim” para autorizar. Sem essa autorização, nenhuma cobrança é enviada: é regra do WhatsApp.",
+      "Do número do assistente do Mensaliza, com o seu nome na mensagem. Seu WhatsApp pessoal fica livre. Na primeira vez, o assinante recebe uma mensagem de boas-vindas e responde “Sim” para autorizar. Sem essa autorização, nenhuma cobrança é enviada: é regra do WhatsApp.",
   },
   {
     question: "Como funciona o teste grátis?",
-    answer: `Você cria a conta, cadastra seus alunos e, no fim do cadastro, informa o cartão no checkout seguro do Asaas. Nada é cobrado hoje: a primeira cobrança acontece depois dos ${TRIAL_DAYS} dias de teste. Se cancelar antes, não paga nada.`,
+    answer: `Você cria a conta, cadastra seus assinantes e, no fim do cadastro, informa o cartão no checkout seguro do Asaas. Nada é cobrado hoje: a primeira cobrança acontece depois dos ${TRIAL_DAYS} dias de teste. Se cancelar antes, não paga nada.`,
   },
   {
     question: "O que acontece quando passo do limite do plano?",
-    answer: `${quotaExplanation} Desativar um aluno não libera vaga: para isso, desligue o WhatsApp dele.`,
+    answer: `${quotaExplanation} Desativar um assinante não libera vaga: para isso, desligue o WhatsApp dele.`,
   },
   {
-    question: "E se o aluno mandar um comprovante errado?",
+    question: "E se o assinante mandar um comprovante errado?",
     answer:
-      "Todo comprovante passa pela sua conferência. Se algo não bater, você recusa e o aluno recebe uma mensagem pedindo um novo.",
+      "Todo comprovante passa pela sua conferência. Se algo não bater, você recusa e o assinante recebe uma mensagem pedindo um novo.",
   },
   {
-    question: "Meus dados e os dos meus alunos estão seguros?",
+    question: "Meus dados e os dos meus assinantes estão seguros?",
     answer:
       "Sim. Os dados ficam guardados com medidas de segurança e o cartão do seu plano é processado pelo Asaas, sem passar pelo Mensaliza. O que tratamos, e com quem compartilhamos, está na Política de privacidade.",
   },

@@ -26,7 +26,7 @@ export function BasicPlanCard({ interval, className }: { interval: BillingInterv
           Só organizar
         </h3>
         <p className="text-[15px] leading-relaxed text-foreground/70 text-pretty">
-          Todos os alunos no painel. A cobrança você faz do seu jeito e marca quem pagou.
+          Todos os assinantes no painel. A cobrança você faz do seu jeito e marca quem pagou.
         </p>
       </header>
 

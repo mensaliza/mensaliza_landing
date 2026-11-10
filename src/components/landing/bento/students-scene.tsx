@@ -25,12 +25,12 @@ export function StudentsScene() {
     <div
       ref={ref}
       role="img"
-      aria-label="Exemplo da lista de alunos: cada um com valor, dia de vencimento e status. A Maria Clara paga e a cobrança do Giovani é desligada."
+      aria-label="Exemplo da lista de assinantes: cada um com valor, dia de vencimento e status. A Maria Clara paga e a cobrança do Giovani é desligada."
       className="absolute inset-0"
     >
       <div className="bento-piece bento-fade absolute top-10 left-6 w-[38rem] rounded-2xl sm:top-11 sm:left-8">
         <div className="flex items-baseline gap-2 border-b border-foreground/[0.06] px-5 py-3.5">
-          <span className="text-[14px] font-semibold">Alunos</span>
+          <span className="text-[14px] font-semibold">Assinantes</span>
           <span className="text-[12px] text-foreground/55 tabular-nums max-sm:hidden">32 ativos</span>
         </div>
         <ul>

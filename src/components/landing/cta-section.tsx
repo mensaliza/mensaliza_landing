@@ -23,7 +23,7 @@ export function CtaSection() {
           Teste {TRIAL_DAYS} dias e veja a primeira cobrança sair sozinha
         </h2>
         <p className="max-w-xl text-lg leading-relaxed text-background/80 text-pretty">
-          Cadastre um aluno, ligue o WhatsApp dele e acompanhe o pagamento chegar no painel.
+          Cadastre um assinante, ligue o WhatsApp dele e acompanhe o pagamento chegar no painel.
         </p>
         <div className="flex flex-col gap-3">
           <SignupButton

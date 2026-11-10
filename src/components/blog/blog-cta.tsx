@@ -11,7 +11,7 @@ type BlogCtaProps = {
 /** Conversion block for posts. Usable inside MDX as `<BlogCta />`. */
 export function BlogCta({
   title = "Deixe o Mensaliza cobrar por você",
-  description = "No dia combinado, o Mensaliza manda a cobrança de cada aluno no WhatsApp e reúne os comprovantes num painel. O Pix cai direto na sua conta.",
+  description = "No dia combinado, o Mensaliza manda a cobrança de cada assinante no WhatsApp e reúne os comprovantes num painel. O Pix cai direto na sua conta.",
 }: BlogCtaProps) {
   return (
     <aside className="my-10 flex flex-col gap-4 rounded-xl border border-primary/35 bg-primary/[0.04] p-6 sm:p-8">

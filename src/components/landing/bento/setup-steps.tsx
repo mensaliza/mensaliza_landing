@@ -23,7 +23,7 @@ function Field({ label, value, className }: { label: string; value: string; clas
 function StudentFormPiece() {
   return (
     <div className="bento-piece w-[13.5rem] rounded-xl p-3">
-      <span className="text-[12px] font-semibold">Novo aluno</span>
+      <span className="text-[12px] font-semibold">Novo assinante</span>
       <div className="mt-2 grid grid-cols-[1fr_5rem] gap-2">
         <Field label="Nome" value="Ana" />
         <Field label="Valor" value="R$ 150,00" />

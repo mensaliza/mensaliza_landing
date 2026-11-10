@@ -24,7 +24,7 @@ export function HowItWorksSection() {
         <SetupSteps />
 
         <BentoCard
-          title="E para o seu aluno?"
+          title="E para o seu assinante?"
           description="Tudo acontece no WhatsApp dele: recebe a cobrança, paga no Pix, manda o comprovante e recebe a confirmação. Sem app, sem cadastro e sem custo para ele."
           className="bento-stage--on-tint"
           stageClassName="min-h-[31rem] flex-1 sm:min-h-[26.5rem]"

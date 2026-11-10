@@ -12,7 +12,7 @@ import { trackLandingPricingIntervalChanged, type BillingInterval } from "@/lib/
 
 /** Said once for every plan, instead of repeating the same lines in each card. */
 const includedInAll = [
-  "Alunos ilimitados no painel",
+  "Assinantes ilimitados no painel",
   "Pix direto na sua conta",
   "Previsão do mês e alerta de atraso",
   "Sem fidelidade",
@@ -34,7 +34,7 @@ export function PricingSection() {
             id="precos-titulo"
             className="text-[clamp(1.75rem,3.2vw,2.5rem)] leading-[1.12] font-semibold tracking-[-0.025em] text-balance"
           >
-            Cadastre quantos alunos quiser. Pague só pelos que o WhatsApp cobra.
+            Cadastre quantos assinantes quiser. Pague só pelos que o WhatsApp cobra.
           </h2>
           <p className="text-[15px] font-medium text-foreground/75">{TRIAL_TERMS}</p>
         </div>

@@ -25,11 +25,11 @@ export function HeroSection() {
             id="hero-titulo"
             className="hero-rise hero-step-1 max-w-[16ch] text-[clamp(2.25rem,6vw,3.75rem)] leading-[1.04] font-semibold tracking-[-0.035em] text-balance"
           >
-            Seus alunos pagam em dia. Sem você mandar mensagem.
+            Seus assinantes pagam em dia. Sem você mandar mensagem.
           </h1>
 
           <p className="hero-rise hero-step-2 max-w-[34rem] text-lg leading-relaxed text-foreground/75 text-pretty sm:text-xl sm:leading-8">
-            No dia combinado, o Mensaliza manda a cobrança no WhatsApp de cada aluno. Ele paga
+            No dia combinado, o Mensaliza manda a cobrança no WhatsApp de cada assinante. Ele paga
             no Pix, direto na sua conta, e manda o comprovante na mesma conversa.
           </p>
 

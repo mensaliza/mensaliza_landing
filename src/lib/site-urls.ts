@@ -16,7 +16,7 @@ export const SUPPORT_WHATSAPP_DEFAULT_MESSAGE =
   "Olá! Vim pelo site e gostaria de saber mais sobre o Mensaliza.";
 
 export const SUPPORT_WHATSAPP_ENTERPRISE_MESSAGE =
-  "Olá! Vim pelo site, tenho mais de 200 alunos e quero saber do plano Enterprise do Mensaliza.";
+  "Olá! Vim pelo site, tenho mais de 200 assinantes e quero saber do plano Enterprise do Mensaliza.";
 
 export function getWhatsAppHref(
   message = SUPPORT_WHATSAPP_DEFAULT_MESSAGE,

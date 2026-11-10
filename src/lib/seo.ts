@@ -20,7 +20,7 @@ export const DEFAULT_TITLE =
   "Mensaliza: cobrança de mensalidade automática no WhatsApp";
 
 export const DEFAULT_DESCRIPTION =
-  `Seus alunos recebem a cobrança no WhatsApp, pagam no Pix direto na sua conta e mandam o comprovante na mesma conversa. Teste ${TRIAL_DAYS} dias grátis.`;
+  `Seus assinantes recebem a cobrança no WhatsApp, pagam no Pix direto na sua conta e mandam o comprovante na mesma conversa. Teste ${TRIAL_DAYS} dias grátis.`;
 
 export const OG_IMAGE = {
   url: "/og.jpeg",
@@ -224,7 +224,7 @@ export function buildHowToJsonLd(): JsonLd {
   const professionalHowTo = {
     "@context": "https://schema.org",
     "@type": "HowTo",
-    name: "Como começar a cobrar seus alunos pelo Mensaliza",
+    name: "Como começar a cobrar seus assinantes pelo Mensaliza",
     description:
       "Três passos para as cobranças de mensalidade saírem sozinhas no WhatsApp.",
     step: professionalSteps.map((step, index) => ({
@@ -238,9 +238,9 @@ export function buildHowToJsonLd(): JsonLd {
   const clientHowTo = {
     "@context": "https://schema.org",
     "@type": "HowTo",
-    name: "Como o aluno paga a mensalidade pelo Mensaliza",
+    name: "Como o assinante paga a mensalidade pelo Mensaliza",
     description:
-      "Do aviso no WhatsApp ao pagamento confirmado, sem app e sem custo para o aluno.",
+      "Do aviso no WhatsApp ao pagamento confirmado, sem app e sem custo para o assinante.",
     step: studentSteps.map((text, index) => ({
       "@type": "HowToStep",
       position: index + 1,

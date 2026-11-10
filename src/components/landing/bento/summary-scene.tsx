@@ -46,9 +46,9 @@ export function SummaryScene() {
         >
           <p className="font-semibold">Bom dia! Seu resumo de hoje:</p>
           <div className="mt-2 flex flex-col gap-1.5">
-            <SummaryLine label="A receber" detail="4 alunos, R$ 600,00" />
-            <SummaryLine label="Em atraso" detail="2 alunos, R$ 300,00" />
-            <SummaryLine label="Vencem amanhã" detail="3 alunos, R$ 450,00" />
+            <SummaryLine label="A receber" detail="4 assinantes, R$ 600,00" />
+            <SummaryLine label="Em atraso" detail="2 assinantes, R$ 300,00" />
+            <SummaryLine label="Vencem amanhã" detail="3 assinantes, R$ 450,00" />
           </div>
           <span className="mt-1 block text-right text-[11px] text-foreground/55">08:00</span>
         </div>
