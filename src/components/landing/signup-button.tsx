@@ -1,8 +1,11 @@
 "use client";
 
 import { ArrowRightIcon } from "lucide-react";
+import type { MouseEvent, SyntheticEvent } from "react";
 
 import { Button } from "@/components/ui/button";
+import { withAttribution } from "@/lib/attribution";
+import { SIGNUP_CTA_LABEL } from "@/lib/landing-content";
 import {
   trackLandingCta,
   type BillingInterval,
@@ -22,12 +25,13 @@ type SignupButtonProps = {
   billingInterval?: BillingInterval;
 };
 
+/** Every "start" button on the site: same tab, carrying the visit's UTMs to the app. */
 export function SignupButton({
   className,
   size = "lg",
   variant = "default",
   showIcon = true,
-  label = "Começar grátis",
+  label = SIGNUP_CTA_LABEL,
   location,
   plan,
   billingInterval,
@@ -37,28 +41,48 @@ export function SignupButton({
     interval: billingInterval,
   });
 
+  /**
+   * The UTMs live in the browser, so they go onto the href as late as possible: on pointer down
+   * (covers left, middle and right click, so "open in new tab" and "copy link" keep them too),
+   * on focus (keyboard), and again on click as a last resort.
+   */
+  function attachAttribution(event: SyntheticEvent<HTMLAnchorElement>) {
+    event.currentTarget.href = withAttribution(signupLink.href);
+  }
+
+  function track() {
+    trackLandingCta({
+      cta: "signup",
+      location,
+      plan,
+      billing_interval: billingInterval,
+    });
+  }
+
+  function handleClick(event: MouseEvent<HTMLAnchorElement>) {
+    attachAttribution(event);
+    track();
+  }
+
+  function handleAuxClick(event: MouseEvent<HTMLAnchorElement>) {
+    if (event.button !== 1) return;
+    attachAttribution(event);
+    track();
+  }
+
   return (
     <Button
       variant={variant}
       size={size}
-      className={cn("demo-cta-motion min-h-11", className)}
+      className={cn("min-h-11", className)}
       nativeButton={false}
       render={
         <a
-          {...signupLink}
-          aria-label={
-            signupLink.target === "_blank"
-              ? `${label} (abre em nova aba)`
-              : label
-          }
-          onClick={() =>
-            trackLandingCta({
-              cta: "signup",
-              location,
-              plan,
-              billing_interval: billingInterval,
-            })
-          }
+          href={signupLink.href}
+          onPointerDown={attachAttribution}
+          onFocus={attachAttribution}
+          onClick={handleClick}
+          onAuxClick={handleAuxClick}
         />
       }
     >

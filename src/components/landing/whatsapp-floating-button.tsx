@@ -1,6 +1,10 @@
-import { cn } from "cn"
+"use client";
 
+import { cn } from "cn";
+
+import { trackLandingCta, type LandingCtaLocation } from "@/lib/landing-analytics";
 import { getWhatsAppHref } from "@/lib/site-urls";
+
 const WHATSAPP_LABEL = "Falar com o Mensaliza no WhatsApp";
 
 export function WhatsAppIcon({ className }: { className?: string }) {
@@ -17,6 +21,11 @@ export function WhatsAppIcon({ className }: { className?: string }) {
   );
 }
 
+/** Tracks a click on any "talk to us on WhatsApp" link. */
+export function trackWhatsAppClick(location: LandingCtaLocation) {
+  trackLandingCta({ cta: "whatsapp", location });
+}
+
 export function WhatsAppFloatingButton() {
   return (
     <a
@@ -25,9 +34,10 @@ export function WhatsAppFloatingButton() {
       rel="noopener noreferrer"
       aria-label={WHATSAPP_LABEL}
       title={WHATSAPP_LABEL}
+      onClick={() => trackWhatsAppClick("floating_button")}
       className={cn(
-        "fixed right-4 z-40 flex size-14 items-center justify-center rounded-full bg-primary text-white shadow-lg transition-[transform,background-color] duration-200",
-        "bottom-[max(1rem,env(safe-area-inset-bottom))] sm:right-6 sm:bottom-[max(1.5rem,env(safe-area-inset-bottom))]",
+        "fixed right-4 z-40 hidden size-14 items-center justify-center rounded-full bg-primary text-primary-foreground shadow-lg transition-[transform,background-color] duration-200 lg:flex",
+        "bottom-[max(1.5rem,env(safe-area-inset-bottom))] right-6",
         "hover:scale-105 hover:bg-primary/90",
         "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2",
         "motion-reduce:transition-none motion-reduce:hover:scale-100",

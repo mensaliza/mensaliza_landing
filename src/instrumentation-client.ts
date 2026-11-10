@@ -1,5 +1,6 @@
 import posthog from "posthog-js";
 
+import { captureAttribution } from "@/lib/attribution";
 import {
   ANALYTICS_APP,
   POSTHOG_PROXY_PATH,
@@ -22,16 +23,10 @@ if (POSTHOG_TOKEN && POSTHOG_HOST) {
     tracing_headers: [...POSTHOG_TRACING_HEADERS],
     session_recording: {
       maskAllInputs: true,
-      maskCapturedNetworkRequestFn: (request) => {
-        if (request.name.includes("/api/demo-request")) {
-          request.requestBody = undefined;
-          request.responseBody = undefined;
-        }
-
-        return request;
-      },
     },
   });
 
   posthog.register({ app: ANALYTICS_APP });
 }
+
+captureAttribution();

@@ -15,6 +15,9 @@ export const SUPPORT_WHATSAPP_URL = "https://wa.me/5519992647318";
 export const SUPPORT_WHATSAPP_DEFAULT_MESSAGE =
   "Olá! Vim pelo site e gostaria de saber mais sobre o Mensaliza.";
 
+export const SUPPORT_WHATSAPP_ENTERPRISE_MESSAGE =
+  "Olá! Vim pelo site, tenho mais de 200 assinantes e quero saber do plano Enterprise do Mensaliza.";
+
 export function getWhatsAppHref(
   message = SUPPORT_WHATSAPP_DEFAULT_MESSAGE,
 ): string {
@@ -43,58 +46,13 @@ function appHref(path = ""): string {
   return `${APP_ORIGIN}${normalized}`;
 }
 
-function externalLinkProps(href: string): {
-  href: string;
-  target?: "_blank";
-  rel?: "noopener noreferrer";
-} {
-  if (!isExternalUrl(href)) {
-    return { href };
-  }
-
-  return {
-    href,
-    target: "_blank",
-    rel: "noopener noreferrer",
-  };
-}
-
-export function getAppLinkProps(): {
-  href: string;
-  target?: "_blank";
-  rel?: "noopener noreferrer";
-} {
-  return externalLinkProps(appHref());
-}
-
 export function getLoginHref(): string {
   return appHref("/auth/login");
 }
 
-export function getLoginLinkProps(): {
-  href: string;
-  target?: "_blank";
-  rel?: "noopener noreferrer";
-} {
-  return externalLinkProps(getLoginHref());
-}
-
-export function getDemoHref(assinantes?: string): string {
-  if (assinantes) {
-    return `/?assinantes=${encodeURIComponent(assinantes)}#agendar-demo`;
-  }
-
-  return `/#agendar-demo`;
-}
-
-export function getDemoLinkProps(assinantes?: string): {
-  href: string;
-  target?: "_blank";
-  rel?: "noopener noreferrer";
-} {
-  const href = getDemoHref(assinantes);
-
-  return { href };
+/** Login and sign-up open in the same tab: a new tab breaks "back" on phones. */
+export function getLoginLinkProps(): { href: string } {
+  return { href: getLoginHref() };
 }
 
 export function getSignupHref(options?: {
@@ -118,10 +76,6 @@ export function getSignupHref(options?: {
 export function getSignupLinkProps(options?: {
   plan?: string;
   interval?: "monthly" | "yearly";
-}): {
-  href: string;
-  target?: "_blank";
-  rel?: "noopener noreferrer";
-} {
-  return externalLinkProps(getSignupHref(options));
+}): { href: string } {
+  return { href: getSignupHref(options) };
 }

@@ -1,7 +1,4 @@
-import {
-  SUPPORT_EMAIL,
-  SUPPORT_WHATSAPP_DISPLAY,
-} from "./site-urls";
+import { SUPPORT_EMAIL, SUPPORT_WHATSAPP_DISPLAY } from "./site-urls";
 
 export {
   APP_URL,
@@ -11,259 +8,136 @@ export {
   SUPPORT_EMAIL,
   SUPPORT_WHATSAPP_DISPLAY,
   SUPPORT_WHATSAPP_URL,
-  getAppLinkProps,
-  getDemoHref,
-  getDemoLinkProps,
   getLoginLinkProps,
   isExternalUrl,
 } from "./site-urls";
 
+/**
+ * Free-trial length shown on the site. Must match `SIGNUP_TRIAL_DAYS` in the
+ * app's production env (signups on 2026-11-09 report `trial_days: 14`).
+ */
+export const TRIAL_DAYS = 14;
+
+/** One name for the sign-up action across the whole site. */
+export const SIGNUP_CTA_LABEL = `Testar ${TRIAL_DAYS} dias grátis`;
+
+/** Short version for tight spots (mobile header). */
+export const SIGNUP_CTA_SHORT_LABEL = "Testar grátis";
+
+/** The deal, in one line, next to every primary button. */
+export const TRIAL_TERMS = `${TRIAL_DAYS} dias grátis · nada é cobrado hoje · cancele quando quiser`;
+
 export const navLinks = [
-  { label: "Para quem é", href: "/#para-quem-e" },
+  { label: "Como funciona", href: "/#como-funciona" },
   { label: "Funcionalidades", href: "/#funcionalidades" },
+  { label: "Preços", href: "/#precos" },
+  { label: "Dúvidas", href: "/#faq" },
+  { label: "Blog", href: "/blog" },
+] as const;
+
+/** Header keeps a short list; the rest is found by scrolling. */
+export const headerNavLinks = [
   { label: "Como funciona", href: "/#como-funciona" },
   { label: "Preços", href: "/#precos" },
-  { label: "FAQ", href: "/#faq" },
+  { label: "Dúvidas", href: "/#faq" },
   { label: "Blog", href: "/blog" },
 ] as const;
 
-/** Header keeps a short list; sections like "Para quem é" are found by scrolling. */
-export const headerNavLinks = [
-  { label: "Funcionalidades", href: "/#funcionalidades" },
-  { label: "Preços", href: "/#precos" },
-  { label: "FAQ", href: "/#faq" },
-  { label: "Blog", href: "/blog" },
+export const audienceLine =
+  "Para personal trainer, professor de música, idiomas ou reforço, nutricionista, psicólogo e quem mais cobra mensalidade de alunos, pacientes ou clientes.";
+
+/** Shown as a sliding strip under the "who it is for" heading; `audienceLine` stays for screen readers. */
+export const audienceProfessions = [
+  "Personal trainer",
+  "Professor de música",
+  "Professor de inglês",
+  "Nutricionista",
+  "Psicólogo",
+  "Reforço escolar",
+  "Pilates",
+  "Yoga",
+  "Escola de idiomas",
+  "Treinador de corrida",
+  "Professor de dança",
+  "Fonoaudiólogo",
 ] as const;
 
-export const trustBullets = [
-  "Sem maquininha",
-  "Não processa pagamentos — o dinheiro fica com você",
-  "Controle total dos comprovantes",
-  "Cobrança no dia certo, sem você precisar lembrar",
-] as const;
-
-
-export const heroMockups = {
-  dashboard: {
-    src: "/images/dashboard-new.png",
-    alt: "Painel do Mensaliza com base de assinantes, pendências de cobrança e ações do dia",
-    width: 2880,
-    height: 1600,
-  },
+/** The demo in the hero. Copy mirrors the app's real WhatsApp messages. */
+export const heroConversation = {
+  providerName: "Rafa Personal",
+  subscriberName: "Ana",
+  value: "R$ 150,00",
+  dueDate: "dia 17",
 } as const;
 
-export const heroCallouts = [
+/** Day chips in the demo; timeless on purpose, since the page is built once and cached. */
+export const heroConversationDays = {
+  charge: "Dia da cobrança",
+  due: "Dia do vencimento",
+} as const;
+
+export const painPoints = [
   {
-    id: "dashboard",
-    title: "Painel do profissional",
-    body: "Assinantes, pendências e comprovantes em um só lugar.",
-    tone: "default" as const,
+    before: 'Mandar "oi, tudo bem? só lembrando da mensalidade…" para cada assinante, todo mês.',
+    after: "No dia combinado, o Mensaliza manda a cobrança no WhatsApp por você.",
   },
   {
-    id: "whatsapp",
-    title: "Cobrança automática",
-    body: "Lembrete no WhatsApp no dia do vencimento.",
-    tone: "brand" as const,
+    before: "Procurar o print do Pix no meio das conversas para saber quem pagou.",
+    after: "O comprovante chega organizado no painel. Você confere e confirma.",
   },
   {
-    id: "client-link",
-    title: "Link para o cliente",
-    body: "Valor, instruções e envio de comprovante — sem app.",
-    tone: "brand" as const,
-  },
-  {
-    id: "receipt",
-    title: "Comprovante na hora",
-    body: "Cliente envia pelo celular; você aprova no painel.",
-    tone: "default" as const,
+    before: "O constrangimento de cobrar quem atrasou.",
+    after: "O lembrete sai do Mensaliza. A sua conversa com o assinante fica longe da cobrança.",
   },
 ] as const;
 
-export const audienceSectionFooter = "Se você cobra na mão todo mês, o Mensaliza foi feito para você.";
-
-export const supportingCapability =
-  "Também inclui base de assinantes, previsão do mês e alertas de atraso — no mesmo painel.";
-
-export const personas = [
-  {
-    persona: "Nutricionistas",
-    icon: "apple" as const,
-    tagline: "Planos mensais sem correr atrás de cada paciente",
-  },
-  {
-    persona: "Psicólogas",
-    icon: "brain" as const,
-    tagline: "Lembrete no tom certo, sem pesar na relação",
-  },
-  {
-    persona: "Professores de esporte",
-    icon: "trophy" as const,
-    tagline: "Turmas grandes, controle claro de quem pagou",
-  },
-  {
-    persona: "Personal trainers",
-    icon: "dumbbell" as const,
-    tagline: "Mensalidades organizadas fora do seu WhatsApp pessoal",
-  },
-  {
-    persona: "Mentores e comunidades",
-    icon: "users" as const,
-    tagline: "Membros em dia — sem surpresa no fim do mês",
-  },
-  {
-    persona: "Negócios por assinatura",
-    icon: "store" as const,
-    tagline: "Base de assinantes que escala sem planilha",
-  },
-] as const;
-
+/** The four cards of "O seu painel"; each one has its own scene in `components/landing/bento`. */
 export const features = [
   {
-    icon: "users" as const,
-    title: "Você tem dificuldade para organizar sua base de clientes?",
+    id: "alunos",
+    title: "Todos os seus assinantes num lugar só",
     description:
-      "Cadastre todos os seus assinantes em um só lugar. Veja quem está ativo, quem está inativo, datas de vencimento e histórico de pagamentos. Ative ou desative assinantes quando quiser — sem planilha, sem caderno.",
-    bullets: [
-      "Cadastro completo de assinantes",
-      "Status ativo / inativo",
-      "Data de vencimento por cliente",
-      "Histórico de pagamentos",
-    ],
-    highlight: true,
+      "Valor, dia de vencimento e histórico de cada um. Pausou a mensalidade? Desligue a cobrança.",
   },
   {
-    icon: "chart" as const,
-    title: "Não sabe quanto vai entrar no mês ou quem está atrasado?",
+    id: "mes",
+    title: "Quanto já entrou no mês",
+    description: "O recebido sobe a cada pagamento que você confirma, sem planilha.",
+  },
+  {
+    id: "comprovantes",
+    title: "Comprovante chega, você confirma com um toque",
+    description: "Ele aparece no painel para você conferir. Se algo não bater, recuse e o assinante é avisado.",
+  },
+  {
+    id: "atrasados",
+    title: "Quem atrasou, todo dia às 8h no seu WhatsApp",
     description:
-      "Tenha visão clara da sua receita recorrente. Veja recebimentos previstos para o mês, pagamentos confirmados, pendentes de aprovação e clientes em atraso. Tome decisões com dados, não com achismo.",
-    bullets: [
-      "Previsão de recebimentos do mês",
-      "Pagamentos confirmados vs. pendentes",
-      "Alertas de atraso",
-      "Dashboard financeiro simplificado",
-    ],
-    highlight: true,
-  },
-  {
-    icon: "whatsapp" as const,
-    title: "Cobrança no dia certo, sem você precisar mandar mensagem",
-    description:
-      'No vencimento de cada assinante, o Mensaliza envia a cobrança via WhatsApp. Sem você abrir o celular, sem lista de contatos, sem "oi, lembra da mensalidade?".',
-    bullets: [
-      "Envio automático no dia de pagamento",
-      "Lembrete de vencimento no tom certo",
-      "Funciona enquanto você atende ou descansa",
-    ],
-    highlight: true,
-  },
-  {
-    icon: "check" as const,
-    title: "Cliente envia o comprovante, você aprova em segundos",
-    description:
-      "Seu cliente paga do jeito que vocês combinarem, envia print ou PDF do comprovante pelo link. Você recebe tudo no dashboard e aprova ou rejeita com um clique. Simples, rápido e sob seu controle.",
-    bullets: [
-      "Comprovante por imagem ou PDF",
-      "Fila de aprovação no dashboard",
-      "Aprovar ou rejeitar com um clique",
-      "Histórico completo por assinante",
-    ],
-    highlight: true,
-  },
-] as const;
-
-export const reliefComparison = [
-  {
-    criterion: "Gestão de assinantes",
-    before: "Planilha desatualizada, dados espalhados",
-    after: "Base centralizada com status em tempo real",
-  },
-  {
-    criterion: "Cobranças",
-    before: "Você lembra (ou esquece) de cobrar um a um",
-    after: "Lembrete automático no dia do vencimento",
-  },
-  {
-    criterion: "Mensagens",
-    before: 'Você manda "oi, tudo bem? só lembrando..."',
-    after: "Mensagem no tom certo, enviada pelo Mensaliza",
-  },
-  {
-    criterion: "Comprovantes",
-    before: "Prints e PDFs perdidos no WhatsApp",
-    after: "Fila organizada com aprovação em um clique",
-  },
-  {
-    criterion: "Controle do mês",
-    before: "Incerteza sobre quem pagou e quem está atrasado",
-    after: "Visão clara do mês, assinante por assinante",
-  },
-  {
-    criterion: "Relacionamento",
-    before: "Constrangimento de cobrar pessoalmente",
-    after: "Você mantém a relação; o sistema envia o lembrete",
+      "Um resumo com o que falta receber, quem está atrasado e quem vence amanhã.",
   },
 ] as const;
 
 export const professionalSteps = [
   {
-    step: "Passo 1",
     title: "Cadastre seus assinantes",
-    description: "Adicione nome, valor, vencimento e como o cliente deve pagar.",
+    description: "Nome, WhatsApp, valor e dia de vencimento. Pode começar com um só.",
   },
   {
-    step: "Passo 2",
-    title: "Configure a cobrança",
-    description: "Defina a mensagem e o horário de envio. O Mensaliza cuida do resto.",
+    title: "Cadastre sua chave Pix",
+    description: "Ela aparece no link de pagamento com o Pix copia e cola. O dinheiro cai direto na sua conta.",
   },
   {
-    step: "Passo 3",
-    title: "Acompanhe no dashboard",
-    description: "Veja quem pagou, quem está pendente e quem está atrasado.",
-  },
-  {
-    step: "Passo 4",
-    title: "Aprove os comprovantes",
-    description: "Cliente envia, você valida. Pronto.",
-  },
-] as const;
-
-export const clientSteps = [
-  {
-    step: "Passo 1",
-    title: "Recebe a mensagem no WhatsApp",
-    description: "No dia do pagamento, chega uma mensagem de cobrança.",
-  },
-  {
-    step: "Passo 2",
-    title: "Visualiza as informações de pagamento",
-    description: "Valor e instruções de pagamento que o profissional definiu.",
-  },
-  {
-    step: "Passo 3",
-    title: "Paga do jeito combinado",
+    title: "Ligue o WhatsApp do assinante",
     description:
-      "Do jeito que vocês acordaram — direto para você, sem intermediação.",
-  },
-  {
-    step: "Passo 4",
-    title: "Envia o comprovante",
-    description: "Envia imagem ou PDF pelo WhatsApp.",
-  },
-  {
-    step: "Passo 5",
-    title: "Aguarda aprovação",
-    description: "O profissional confirma e o pagamento fica registrado.",
+      "Ele recebe uma mensagem de boas-vindas e responde “Sim” para autorizar. A partir daí, as cobranças saem sozinhas.",
   },
 ] as const;
 
-export const videoScript = [
-  "Você cobra mensalidade e cansou de mandar mensagem um por um?",
-  "Mostrar profissional olhando WhatsApp, planilha bagunçada, cliente atrasado.",
-  "Cadastro rápido de assinante no Mensaliza.",
-  "Mensagem automática chegando no WhatsApp do cliente.",
-  "Cliente abre link → paga → envia comprovante.",
-  "Profissional aprova comprovante, vê receita prevista e atrasos.",
-  "Mensaliza. Cobrança automática. Sem constrangimento.",
+export const studentSteps = [
+  "Recebe a cobrança no WhatsApp, com valor e vencimento.",
+  "Abre o link e paga com o Pix copia e cola ou o QR code.",
+  "Manda o comprovante na mesma conversa.",
+  "Recebe a confirmação quando você aprova.",
 ] as const;
 
 export const YEARLY_SAVINGS_PERCENT = 20;
@@ -272,7 +146,7 @@ export const pricingTiers = [
   {
     id: "basic",
     name: "Basic",
-    tagline: "Para começar",
+    tagline: "Organização sem cobrança no WhatsApp",
     maxSubscribers: 0,
     priceMonthly: 4900,
     priceYearly: 3900,
@@ -282,7 +156,7 @@ export const pricingTiers = [
   {
     id: "essential",
     name: "Essential",
-    tagline: "Para crescer",
+    tagline: "Até 100 assinantes cobrados no WhatsApp",
     maxSubscribers: 100,
     priceMonthly: 9900,
     priceYearly: 7900,
@@ -292,7 +166,7 @@ export const pricingTiers = [
   {
     id: "business",
     name: "Business",
-    tagline: "Para acelerar",
+    tagline: "Até 150 assinantes cobrados no WhatsApp",
     maxSubscribers: 150,
     priceMonthly: 14900,
     priceYearly: 11900,
@@ -302,7 +176,7 @@ export const pricingTiers = [
   {
     id: "scale",
     name: "Scale",
-    tagline: "Para grandes operações",
+    tagline: "Até 200 assinantes cobrados no WhatsApp",
     maxSubscribers: 200,
     priceMonthly: 19900,
     priceYearly: 15900,
@@ -324,97 +198,50 @@ export const pricingTiers = [
 export const pricingPlans = pricingTiers.filter((tier) => !tier.custom);
 
 export const pricingEnterprise = {
-  name: "Enterprise",
-  description:
-    "Mais de 200 assinantes ou necessidades sob medida. Vamos conversar.",
+  name: "Mais de 200 assinantes?",
+  description: "Montamos um plano sob medida. Fale com a gente no WhatsApp.",
 } as const;
 
-export function pricingTierOptionLabel(
-  tier: (typeof pricingTiers)[number]
-): string {
-  if (tier.custom) {
-    return `${tier.name} — sob consulta`;
-  }
-  if (tier.maxSubscribers === 0) {
-    return `${tier.name} — gestão sem WhatsApp`;
-  }
-  return `${tier.name} — até ${tier.maxSubscribers} assinantes`;
-}
+/** What the quota means, said once in the pricing section and in the FAQ. */
+export const quotaExplanation =
+  "Em todos os planos você cadastra quantos assinantes quiser. O plano define quantos deles recebem a cobrança automática no WhatsApp. Chegou no limite? Os demais continuam no painel, só sem a cobrança automática, e você pode trocar de plano quando quiser.";
 
 export const faqItems = [
   {
-    question: "O Mensaliza processa pagamentos?",
+    question: "Quanto custa para o meu assinante?",
     answer:
-      "Não. O Mensaliza não é gateway de pagamento. Seu cliente paga direto para você, do jeito que vocês combinarem. A plataforma organiza a cobrança e centraliza os comprovantes para você aprovar ou rejeitar.",
+      "Nada. Ele não paga taxa, não instala app e não cria conta. Recebe a mensagem no WhatsApp, paga no Pix e manda o comprovante na mesma conversa.",
   },
   {
-    question: "Como o cliente faz o pagamento?",
+    question: "Como o dinheiro chega até mim?",
     answer:
-      "Você define as instruções no link de cobrança — conta, chave ou outro meio que vocês usem. O cliente paga pelo banco ou app dele, no valor combinado, e envia o comprovante de volta pelo mesmo link.",
+      "Direto na sua conta, pelo Pix. O Mensaliza não recebe nem segura o dinheiro do assinante: o link de pagamento mostra a sua chave Pix com o copia e cola e o QR code.",
   },
   {
-    question: "Como funciona a cobrança via WhatsApp?",
+    question: "De qual número a mensagem sai?",
     answer:
-      "No dia de pagamento de cada assinante, o Mensaliza envia automaticamente uma mensagem via WhatsApp com o link de cobrança. Você apenas configura a daa. Não precisa mandar mensagem manualmente.",
+      "Do número do assistente do Mensaliza, com o seu nome na mensagem. Seu WhatsApp pessoal fica livre. Na primeira vez, o assinante recebe uma mensagem de boas-vindas e responde “Sim” para autorizar. Sem essa autorização, nenhuma cobrança é enviada: é regra do WhatsApp.",
   },
   {
-    question: "Meu cliente precisa instalar algum app?",
-    answer:
-      "Não. Ele recebe a mensagem no WhatsApp, paga do jeito combinado e envia o comprovante — tudo pelo celular, sem cadastro.",
+    question: "Como funciona o teste grátis?",
+    answer: `Você cria a conta, cadastra seus assinantes e, no fim do cadastro, informa o cartão no checkout seguro do Asaas. Nada é cobrado hoje: a primeira cobrança acontece depois dos ${TRIAL_DAYS} dias de teste. Se cancelar antes, não paga nada.`,
   },
   {
-    question: "E se o cliente enviar um comprovante errado ou falso?",
-    answer:
-      "Você tem controle total. Todo comprovante passa pela sua aprovação no dashboard. Se algo não bater, você rejeita e o assinante é notificado para reenviar.",
+    question: "O que acontece quando passo do limite do plano?",
+    answer: `${quotaExplanation} Desativar um assinante não libera vaga: para isso, desligue o WhatsApp dele.`,
   },
   {
-    question: "Posso ativar e desativar assinantes?",
+    question: "E se o assinante mandar um comprovante errado?",
     answer:
-      "Sim. Assinantes inativos não recebem cobrança. Útil para pausas, cancelamentos ou clientes sazonais.",
+      "Todo comprovante passa pela sua conferência. Se algo não bater, você recusa e o assinante recebe uma mensagem pedindo um novo.",
   },
   {
-    question: "Funciona para qualquer tipo de profissional?",
+    question: "Meus dados e os dos meus assinantes estão seguros?",
     answer:
-      "Sim, desde que você tenha clientes pagando mensalmente — nutricionistas, psicólogas, professores de esporte, personal trainers, mentores, comunidades e pequenos negócios com assinatura.",
-  },
-  {
-    question: "Preciso de maquininha ou conta PJ?",
-    answer:
-      "Não. O Mensaliza não exige maquininha nem conta PJ. Seu cliente paga do jeito que vocês combinarem — transferência, depósito ou outro meio.",
-  },
-  {
-    question: "Meus dados e os dos meus clientes estão seguros?",
-    answer:
-      "Sim. Seus dados e os de seus assinantes são armazenados com medidas de segurança. O que tratamos, e com quem compartilhamos, está descrito na Política de privacidade.",
+      "Sim. Os dados ficam guardados com medidas de segurança e o cartão do seu plano é processado pelo Asaas, sem passar pelo Mensaliza. O que tratamos, e com quem compartilhamos, está na Política de privacidade.",
   },
   {
     question: "Posso cancelar quando quiser?",
-    answer:
-      `Sim. Sem fidelidade, sem multa. Você cancela quando quiser pelo painel, pelo e-mail ${SUPPORT_EMAIL} ou pelo WhatsApp ${SUPPORT_WHATSAPP_DISPLAY}.`,
+    answer: `Sim. Sem fidelidade e sem multa. Você cancela pelo painel, pelo e-mail ${SUPPORT_EMAIL} ou pelo WhatsApp ${SUPPORT_WHATSAPP_DISPLAY}.`,
   },
-  {
-    question: "Como começo?",
-    answer:
-      "Agende uma demonstração e tire todas as dúvidas antes de começar. Em poucos minutos você vê o sistema funcionando.",
-  },
-] as const;
-
-export const coreFeatures = [features[2], features[3]] as const;
-
-export const essentialFaqItems = [
-  faqItems[0],
-  faqItems[2],
-  faqItems[3],
-  faqItems[4],
-  faqItems[9],
-  faqItems[10],
-] as const;
-
-export const dueDates = [
-  { day: 3, status: "paid" as const, name: "Ana" },
-  { day: 5, status: "paid" as const, name: "Carlos" },
-  { day: 10, status: "sent" as const, name: "Julia" },
-  { day: 12, status: "pending" as const, name: "Marcos" },
-  { day: 15, status: "late" as const, name: "Paula" },
-  { day: 20, status: "upcoming" as const, name: "Rafael" },
 ] as const;

@@ -1,142 +1,26 @@
-import { CheckIcon, XIcon } from "lucide-react";
-
-import { SectionHeading } from "@/components/landing/section-heading";
-import { Reveal } from "@/components/landing/motion/reveal";
+import { ProfessionsMarquee } from "@/components/landing/relief/professions-marquee";
+import { StruckPainPoints } from "@/components/landing/relief/struck-pain-points";
 import { SectionShell } from "@/components/landing/section-shell";
-import { reliefComparison } from "@/lib/landing-content";
-import { cn } from "cn";
 
-function ComparisonCell({
-  variant,
-  children,
-}: {
-  variant: "without" | "with";
-  children: React.ReactNode;
-}) {
-  const Icon = variant === "with" ? CheckIcon : XIcon;
-
-  return (
-    <span className="flex items-center gap-2.5 text-pretty">
-      <Icon
-        aria-hidden
-        className={cn(
-          "size-4 shrink-0",
-          variant === "with" ? "text-primary" : "text-muted-foreground"
-        )}
-        strokeWidth={2.5}
-      />
-      <span
-        className={cn(
-          "mt-0.5 text-sm leading-relaxed sm:text-base",
-          variant === "with" ? "text-foreground" : "text-foreground/72"
-        )}
-      >
-        {children}
-      </span>
-    </span>
-  );
-}
-
+/**
+ * Who it is for, then the three chores it takes away. Type-led on purpose: the sections below
+ * show the product, this one shows the chores being crossed out. White, so it does not merge
+ * with the grey "Como funciona" right after it.
+ */
 export function ReliefSection() {
   return (
-    <SectionShell id="comparativo" labelledBy="comparativo-titulo" tinted analyticsSection="comparativo">
-      <div className="flex flex-col gap-12">
-        <Reveal>
-          <SectionHeading
-            align="center"
-            eyebrow="Comparativo"
-            titleId="comparativo-titulo"
-            title="Com Mensaliza vs sem Mensaliza"
-            description="Veja a diferença objetiva na sua rotina de cobranças mensais."
-            className="mx-auto"
-          />
-        </Reveal>
-
-        <Reveal delay={60}>
-          <div className="overflow-hidden rounded-xl border border-border bg-card">
-            {/* Desktop table */}
-            <div className="hidden md:block">
-              <table className="w-full border-collapse">
-                <caption className="sr-only">
-                  Comparativo da rotina de cobranças mensais com e sem Mensaliza
-                </caption>
-                <thead>
-                  <tr className="border-b border-border">
-                    <th
-                      scope="col"
-                      className="px-5 py-4 text-left text-sm font-semibold text-foreground sm:px-6 sm:py-5"
-                    >
-                      Dificuldade
-                    </th>
-                    <th
-                      scope="col"
-                      className="border-l border-border px-5 py-4 text-left text-sm font-semibold text-foreground sm:px-6 sm:py-5"
-                    >
-                      Sem Mensaliza
-                    </th>
-                    <th
-                      scope="col"
-                      className="border-l border-border bg-primary/3 px-5 py-4 text-left text-sm font-semibold text-primary sm:px-6 sm:py-5"
-                    >
-                      Com Mensaliza
-                    </th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {reliefComparison.map((item, index) => (
-                    <tr
-                      key={item.criterion}
-                      className={cn(
-                        index < reliefComparison.length - 1 && "border-b border-border"
-                      )}
-                    >
-                      <th
-                        scope="row"
-                        className="px-5 py-5 text-left text-sm font-semibold leading-snug text-foreground sm:px-6 sm:py-6 sm:text-base"
-                      >
-                        {item.criterion}
-                      </th>
-                      <td className="border-l border-border px-5 py-5 sm:px-6 sm:py-6">
-                        <ComparisonCell variant="without">{item.before}</ComparisonCell>
-                      </td>
-                      <td className="border-l border-border bg-primary/3 px-5 py-5 sm:px-6 sm:py-6">
-                        <ComparisonCell variant="with">{item.after}</ComparisonCell>
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
-
-            {/* Mobile stacked rows */}
-            <div className="divide-y divide-border md:hidden">
-              {reliefComparison.map((item) => (
-                <div key={item.criterion} className="flex flex-col gap-4 p-5">
-                  <p className="text-base font-semibold text-foreground">{item.criterion}</p>
-                  <div className="flex flex-col gap-3">
-                    <div>
-                      <p className="mb-1.5 text-xs font-medium text-muted-foreground">
-                        Sem Mensaliza
-                      </p>
-                      <ComparisonCell variant="without">{item.before}</ComparisonCell>
-                    </div>
-                    <div className="rounded-lg bg-primary/3 p-3">
-                      <p className="mb-1.5 text-xs font-medium text-primary">Com Mensaliza</p>
-                      <ComparisonCell variant="with">{item.after}</ComparisonCell>
-                    </div>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
-        </Reveal>
-
-        <Reveal delay={120}>
-          <p className="mx-auto max-w-2xl text-center text-lg font-semibold leading-relaxed text-foreground text-balance">
-            Menos peso na consciência. Mais previsibilidade no bolso.
-          </p>
-        </Reveal>
+    <SectionShell id="para-quem-e" labelledBy="para-quem-e-titulo" analyticsSection="para_quem_e">
+      <div className="flex flex-col gap-6">
+        <h2
+          id="para-quem-e-titulo"
+          className="max-w-3xl text-[clamp(1.75rem,3.2vw,2.5rem)] leading-[1.12] font-semibold tracking-[-0.025em] text-balance"
+        >
+          Para quem cobra mensalidade na mão todo mês
+        </h2>
+        <ProfessionsMarquee />
       </div>
+
+      <StruckPainPoints />
     </SectionShell>
   );
 }

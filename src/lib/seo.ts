@@ -1,10 +1,11 @@
 import type { Metadata } from "next";
 
 import {
-  clientSteps,
-  essentialFaqItems,
+  faqItems,
   pricingPlans,
   professionalSteps,
+  studentSteps,
+  TRIAL_DAYS,
 } from "@/lib/landing-content";
 import {
   INSTAGRAM_URL,
@@ -16,10 +17,10 @@ export const SITE_URL = "https://mensaliza.com";
 export const SITE_NAME = "Mensaliza";
 
 export const DEFAULT_TITLE =
-  "Mensaliza — Cobrança mensal automática via WhatsApp";
+  "Mensaliza: cobrança de mensalidade automática no WhatsApp";
 
 export const DEFAULT_DESCRIPTION =
-  "Organize assinantes, envie cobranças no dia certo pelo WhatsApp e aprove comprovantes — sem processar pagamentos.";
+  `Seus assinantes recebem a cobrança no WhatsApp, pagam no Pix direto na sua conta e mandam o comprovante na mesma conversa. Teste ${TRIAL_DAYS} dias grátis.`;
 
 export const OG_IMAGE = {
   url: "/og.jpeg",
@@ -203,7 +204,7 @@ export function buildSoftwareApplicationJsonLd(): JsonLd {
 }
 
 export function buildFaqPageJsonLd(
-  items: ReadonlyArray<{ question: string; answer: string }> = essentialFaqItems
+  items: ReadonlyArray<{ question: string; answer: string }> = faqItems
 ): JsonLd {
   return {
     "@context": "https://schema.org",
@@ -223,9 +224,9 @@ export function buildHowToJsonLd(): JsonLd {
   const professionalHowTo = {
     "@context": "https://schema.org",
     "@type": "HowTo",
-    name: "Como usar o Mensaliza como profissional",
+    name: "Como começar a cobrar seus assinantes pelo Mensaliza",
     description:
-      "Do cadastro ao comprovante aprovado em poucos passos para o profissional.",
+      "Três passos para as cobranças de mensalidade saírem sozinhas no WhatsApp.",
     step: professionalSteps.map((step, index) => ({
       "@type": "HowToStep",
       position: index + 1,
@@ -237,14 +238,14 @@ export function buildHowToJsonLd(): JsonLd {
   const clientHowTo = {
     "@context": "https://schema.org",
     "@type": "HowTo",
-    name: "Como funciona o Mensaliza para o cliente",
+    name: "Como o assinante paga a mensalidade pelo Mensaliza",
     description:
-      "Do cadastro ao comprovante aprovado em poucos passos para o cliente.",
-    step: clientSteps.map((step, index) => ({
+      "Do aviso no WhatsApp ao pagamento confirmado, sem app e sem custo para o assinante.",
+    step: studentSteps.map((text, index) => ({
       "@type": "HowToStep",
       position: index + 1,
-      name: step.title,
-      text: step.description,
+      name: text,
+      text,
     })),
   };
 

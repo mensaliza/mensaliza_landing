@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
 
-import { AudienceSection } from "@/components/landing/audience-section";
 import { CtaSection } from "@/components/landing/cta-section";
 import { FaqSection } from "@/components/landing/faq-section";
 import { FeaturesSection } from "@/components/landing/features-section";
@@ -37,17 +36,14 @@ export default function Home() {
       <SiteHeader blendWithHero />
       <main id="conteudo-principal">
         <HeroSection />
-        <AudienceSection />
         <ReliefSection />
-        <FeaturesSection />
         <HowItWorksSection />
+        <FeaturesSection />
         <PricingSection />
         <FaqSection />
         <CtaSection />
       </main>
-      <div className="pb-24 lg:pb-0">
-        <SiteFooter />
-      </div>
+      <SiteFooter />
       <WhatsAppFloatingButton />
     </>
   );

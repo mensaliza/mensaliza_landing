@@ -6,9 +6,9 @@ import { useCallback, useEffect, useId, useLayoutEffect, useRef, useState } from
 
 import { LoginLink } from "@/components/landing/login-link";
 import { SignupButton } from "@/components/landing/signup-button";
-import { WhatsAppIcon } from "@/components/landing/whatsapp-floating-button";
+import { WhatsAppIcon, trackWhatsAppClick } from "@/components/landing/whatsapp-floating-button";
 import { Logo } from "@/components/logo";
-import { headerNavLinks } from "@/lib/landing-content";
+import { SIGNUP_CTA_LABEL, SIGNUP_CTA_SHORT_LABEL, headerNavLinks } from "@/lib/landing-content";
 import { trackLandingCta, trackLandingNavClicked } from "@/lib/landing-analytics";
 import {
   getLoginLinkProps,
@@ -16,8 +16,6 @@ import {
   SUPPORT_WHATSAPP_DISPLAY,
 } from "@/lib/site-urls";
 import { cn } from "cn";
-
-const SIGNUP_LABEL = "Começar grátis";
 
 const SECTION_LINKS = headerNavLinks.filter((link) => link.href.startsWith("/#"));
 
@@ -202,7 +200,7 @@ export function SiteHeader({ blendWithHero = false }: SiteHeaderProps) {
                 href={link.href}
                 aria-current={active ? (link.href === "/blog" ? "page" : "location") : undefined}
                 className={cn(
-                  "rounded-md px-3 py-2 text-sm font-medium transition-colors duration-200 focus-visible:outline-none focus-visible:ring-3 focus-visible:ring-ring/50",
+                  "inline-flex min-h-11 items-center rounded-md px-3 text-sm font-medium transition-colors duration-200 focus-visible:outline-none focus-visible:ring-3 focus-visible:ring-ring/50",
                   active ? "text-foreground" : "text-muted-foreground hover:text-foreground"
                 )}
                 onClick={() =>
@@ -233,11 +231,12 @@ export function SiteHeader({ blendWithHero = false }: SiteHeaderProps) {
             className="hidden h-9 min-h-9 px-3 text-sm text-muted-foreground hover:bg-transparent hover:text-foreground sm:inline-flex"
             location="header"
           />
+          {/* Visible on phones too: after the hero this is the only sign-up button in view. */}
           <SignupButton
             size="default"
             showIcon={false}
-            label={SIGNUP_LABEL}
-            className="hidden h-9 min-h-9 px-4 sm:inline-flex"
+            label={SIGNUP_CTA_SHORT_LABEL}
+            className="h-10 min-h-10 px-3.5 sm:px-4"
             location="header"
           />
 
@@ -303,7 +302,7 @@ export function SiteHeader({ blendWithHero = false }: SiteHeaderProps) {
         <div className="mx-auto mt-auto flex w-full max-w-5xl flex-col gap-4 pt-10 pb-[max(1.5rem,env(safe-area-inset-bottom))]">
           <div onClickCapture={closeMenu}>
             <SignupButton
-              label={SIGNUP_LABEL}
+              label={SIGNUP_CTA_LABEL}
               className="w-full text-base"
               location="header_mobile"
             />
@@ -325,6 +324,7 @@ export function SiteHeader({ blendWithHero = false }: SiteHeaderProps) {
             href={getWhatsAppHref()}
             target="_blank"
             rel="noopener noreferrer"
+            onClick={() => trackWhatsAppClick("header_mobile")}
             className="mt-2 flex items-center justify-center gap-2 rounded-xl border border-border/70 px-4 py-3 text-sm text-muted-foreground transition-colors hover:text-foreground focus-visible:outline-none focus-visible:ring-3 focus-visible:ring-ring/50"
           >
             <WhatsAppIcon className="size-4 text-success" />
