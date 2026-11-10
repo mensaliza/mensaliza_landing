@@ -1,7 +1,7 @@
 "use client";
 
 import { ArrowRightIcon } from "lucide-react";
-import type { MouseEvent } from "react";
+import type { MouseEvent, SyntheticEvent } from "react";
 
 import { Button } from "@/components/ui/button";
 import { withAttribution } from "@/lib/attribution";
@@ -41,8 +41,16 @@ export function SignupButton({
     interval: billingInterval,
   });
 
-  function handleClick(event: MouseEvent<HTMLAnchorElement>) {
+  /**
+   * The UTMs live in the browser, so they go onto the href as late as possible: on pointer down
+   * (covers left, middle and right click, so "open in new tab" and "copy link" keep them too),
+   * on focus (keyboard), and again on click as a last resort.
+   */
+  function attachAttribution(event: SyntheticEvent<HTMLAnchorElement>) {
     event.currentTarget.href = withAttribution(signupLink.href);
+  }
+
+  function track() {
     trackLandingCta({
       cta: "signup",
       location,
@@ -51,13 +59,32 @@ export function SignupButton({
     });
   }
 
+  function handleClick(event: MouseEvent<HTMLAnchorElement>) {
+    attachAttribution(event);
+    track();
+  }
+
+  function handleAuxClick(event: MouseEvent<HTMLAnchorElement>) {
+    if (event.button !== 1) return;
+    attachAttribution(event);
+    track();
+  }
+
   return (
     <Button
       variant={variant}
       size={size}
       className={cn("min-h-11", className)}
       nativeButton={false}
-      render={<a href={signupLink.href} onClick={handleClick} />}
+      render={
+        <a
+          href={signupLink.href}
+          onPointerDown={attachAttribution}
+          onFocus={attachAttribution}
+          onClick={handleClick}
+          onAuxClick={handleAuxClick}
+        />
+      }
     >
       {label}
       {showIcon ? <ArrowRightIcon data-icon="inline-end" /> : null}
