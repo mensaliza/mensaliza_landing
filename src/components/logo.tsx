@@ -25,7 +25,7 @@ export function Logo({ size = "md" }: LogoProps) {
       >
         <path d={LOGO_WORDMARK_PATH} fill="var(--foreground)" />
         {LOGO_MARK_PATHS.map((d) => (
-          <path key={d} d={d} fill="var(--primary)" />
+          <path key={d} d={d} fill="var(--brand)" />
         ))}
       </svg>
     </div>

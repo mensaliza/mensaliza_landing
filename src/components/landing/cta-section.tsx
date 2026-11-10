@@ -1,59 +1,49 @@
 "use client";
 
-import { Suspense } from "react";
-
-import { DemoRequestForm } from "@/components/landing/demo-request-form";
 import { SectionViewTracker } from "@/components/landing/section-view-tracker";
-import { trackLandingCta } from "@/lib/landing-analytics";
-import { getLoginLinkProps } from "@/lib/site-urls";
+import { SignupButton } from "@/components/landing/signup-button";
+import { trackWhatsAppClick } from "@/components/landing/whatsapp-floating-button";
+import { TRIAL_DAYS, TRIAL_TERMS } from "@/lib/landing-content";
+import { getWhatsAppHref } from "@/lib/site-urls";
 
-function DemoFormFallback() {
-  return (
-    <div
-      className="h-[28rem] animate-pulse rounded-xl border border-border bg-card"
-      aria-hidden
-    />
-  );
-}
-
+/** Last call: the same sign-up as the hero, with WhatsApp for whoever still has a question. */
 export function CtaSection() {
-  const loginLink = getLoginLinkProps();
-
   return (
     <section
-      id="agendar-demo"
-      className="relative scroll-mt-24 bg-primary px-4 py-20 text-primary-foreground sm:px-6 sm:py-24 lg:px-8 lg:py-28"
+      id="comecar"
+      aria-labelledby="comecar-titulo"
+      className="relative scroll-mt-24 bg-foreground px-4 py-20 text-background sm:px-6 sm:py-24 lg:px-8"
     >
-      <SectionViewTracker section="agendar_demo" />
-      <div className="mx-auto flex w-full max-w-xl flex-col gap-8">
-        <div className="flex flex-col gap-4 text-center">
-          <h2 className="text-[clamp(1.875rem,3vw,2.75rem)] leading-[1.15] font-semibold tracking-[-0.02em] text-balance">
-            Agende sua demonstração
-          </h2>
-          <p className="mx-auto max-w-lg text-base leading-relaxed text-pretty sm:text-lg">
-            Conte um pouco sobre sua base. Respondemos para marcar um horário —
-            sem compromisso e sem cartão.
-          </p>
+      <SectionViewTracker section="cta_final" />
+      <div className="mx-auto flex w-full max-w-6xl flex-col gap-6">
+        <h2
+          id="comecar-titulo"
+          className="max-w-[18ch] text-[clamp(2rem,4.5vw,3rem)] leading-[1.06] font-semibold tracking-[-0.03em] text-balance"
+        >
+          Teste {TRIAL_DAYS} dias e veja a primeira cobrança sair sozinha
+        </h2>
+        <p className="max-w-xl text-lg leading-relaxed text-background/80 text-pretty">
+          Cadastre um aluno, ligue o WhatsApp dele e acompanhe o pagamento chegar no painel.
+        </p>
+        <div className="flex flex-col gap-3">
+          <SignupButton
+            className="w-full sm:w-auto sm:self-start"
+            location="cta_section"
+          />
+          <p className="text-sm text-background/75">{TRIAL_TERMS}</p>
         </div>
-
-        <Suspense fallback={<DemoFormFallback />}>
-          <DemoRequestForm />
-        </Suspense>
-
-        <p className="text-center text-sm">
-          Já tem conta?{" "}
+        <p className="text-background/80">
+          Prefere conversar antes?{" "}
           <a
-            {...loginLink}
-            className="font-medium underline underline-offset-4 hover:opacity-80"
-            onClick={() =>
-              trackLandingCta({
-                cta: "login",
-                location: "cta_section",
-              })
-            }
+            href={getWhatsAppHref()}
+            target="_blank"
+            rel="noopener noreferrer"
+            onClick={() => trackWhatsAppClick("cta_section")}
+            className="font-medium text-background underline underline-offset-4 focus-visible:rounded-sm focus-visible:outline-none focus-visible:ring-3 focus-visible:ring-background/50"
           >
-            Entrar
+            Chame a gente no WhatsApp
           </a>
+          .
         </p>
       </div>
     </section>

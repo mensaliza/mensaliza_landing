@@ -2,6 +2,8 @@
 
 import Link from "next/link";
 
+import { SignupButton } from "@/components/landing/signup-button";
+import { trackWhatsAppClick } from "@/components/landing/whatsapp-floating-button";
 import { Logo } from "@/components/logo";
 import { navLinks } from "@/lib/landing-content";
 import { trackLandingCta, trackLandingNavClicked } from "@/lib/landing-analytics";
@@ -11,7 +13,6 @@ import {
   SUPPORT_EMAIL,
   SUPPORT_WHATSAPP_DISPLAY,
   SUPPORT_WHATSAPP_URL,
-  getDemoLinkProps,
   getLoginLinkProps,
 } from "@/lib/site-urls";
 
@@ -42,13 +43,12 @@ function InstagramGlyph() {
 
 export function SiteFooter() {
   const loginLink = getLoginLinkProps();
-  const demoLink = getDemoLinkProps();
 
   return (
-    <footer className="border-t border-border bg-background px-4 py-16 text-foreground sm:px-6 sm:py-20 lg:px-8">
-      <div className="mx-auto flex w-full max-w-6xl flex-col gap-12 sm:gap-14">
-        <div className="grid gap-10 sm:gap-12 md:grid-cols-2 lg:grid-cols-[1.4fr_1fr_1fr_1.15fr]">
-          <div className="flex flex-col gap-4">
+    <footer className="border-t border-border bg-background px-4 py-12 text-foreground sm:px-6 sm:py-16 lg:px-8">
+      <div className="mx-auto flex w-full max-w-6xl flex-col gap-10 sm:gap-12">
+        <div className="grid grid-cols-2 gap-x-6 gap-y-10 sm:gap-12 lg:grid-cols-[1.4fr_1fr_1fr_1.15fr]">
+          <div className="col-span-2 flex flex-col gap-4 lg:col-span-1">
             <Link
               href="/"
               className="w-fit rounded-sm text-foreground focus-visible:outline-none focus-visible:ring-3 focus-visible:ring-ring/50"
@@ -57,7 +57,7 @@ export function SiteFooter() {
               <Logo size="md" />
             </Link>
             <p className="max-w-xs text-sm leading-relaxed text-muted-foreground text-pretty">
-              Cobrança mensal via WhatsApp e comprovantes em um só lugar — sem processar pagamentos.
+              Cobrança de mensalidade no WhatsApp. O Pix cai direto na sua conta.
             </p>
             <div className="flex flex-col gap-2">
               <p className="font-heading text-sm font-semibold tracking-[-0.01em] text-foreground">
@@ -113,22 +113,17 @@ export function SiteFooter() {
               >
                 Entrar
               </a>
-              <a
-                {...demoLink}
-                className={footerLinkClassName}
-                onClick={() =>
-                  trackLandingCta({
-                    cta: "demo",
-                    location: "footer",
-                  })
-                }
-              >
-                Agendar demonstração
-              </a>
             </nav>
+            <SignupButton
+              size="default"
+              variant="outline"
+              showIcon={false}
+              className="w-fit"
+              location="footer"
+            />
           </div>
 
-          <div className="flex flex-col gap-3">
+          <div className="col-span-2 flex flex-col gap-3 lg:col-span-1">
             <p className="font-heading text-sm font-semibold tracking-[-0.01em] text-foreground">
               Suporte ao cliente
             </p>
@@ -147,6 +142,7 @@ export function SiteFooter() {
               target="_blank"
               rel="noopener noreferrer"
               aria-label={`Falar com o suporte no WhatsApp: ${SUPPORT_WHATSAPP_DISPLAY}`}
+              onClick={() => trackWhatsAppClick("footer")}
               className={supportLinkClassName}
             >
               WhatsApp {SUPPORT_WHATSAPP_DISPLAY}

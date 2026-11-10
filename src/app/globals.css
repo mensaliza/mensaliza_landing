@@ -44,6 +44,7 @@
   --color-card-foreground: var(--card-foreground);
   --color-card: var(--card);
   --color-success: var(--success);
+  --color-paid: var(--paid);
   --radius-sm: calc(var(--radius) * 0.6);
   --radius-md: calc(var(--radius) * 0.8);
   --radius-lg: var(--radius);
@@ -54,11 +55,15 @@
 }
 
 :root {
-  /* Brand orange — sole accent: logo, CTAs, focus, accents */
+  /* Brand orange — sole accent: logo, CTAs, focus, accents.
+     Kept on purpose even though white text on it is 3.1:1 (below WCAG AA for small text). */
   --primary: #FE5B0D;
   --primary-foreground: oklch(1 0 0);
   --brand: var(--primary);
   --brand-foreground: var(--primary-foreground);
+
+  /* Check marks in the pricing cards */
+  --paid: #166534;
 
   /* Neutral surfaces — chroma 0; warmth comes from orange only */
   --background: oklch(0.99 0 0);
@@ -101,15 +106,12 @@
   --sidebar-border: oklch(0.88 0 0);
   --sidebar-ring: var(--ring);
 
-  /* Body: Geist (loaded via next/font). Headings: Lexend. */
+  /* One family, same as the app: Geist for headings and text. */
   --font-sans: var(--font-geist), ui-sans-serif, system-ui, sans-serif;
-  --font-heading: var(--font-lexend), var(--font-geist), ui-sans-serif, system-ui,
-    sans-serif;
+  --font-heading: var(--font-geist), ui-sans-serif, system-ui, sans-serif;
 
   --ease-out-quart: cubic-bezier(0.25, 1, 0.5, 1);
   --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
-  --motion-hero: 720ms var(--ease-out-expo);
-  --motion-reveal: 560ms var(--ease-out-quart);
   --motion-micro: 180ms var(--ease-out-quart);
   --motion-header: 350ms var(--ease-out-quart);
 }
@@ -152,104 +154,15 @@
 }
 
 @layer utilities {
-  @keyframes hero-enter {
-    from {
-      opacity: 0.55;
-      transform: translate3d(0, 22px, 0);
-      filter: blur(6px);
-    }
-    to {
-      opacity: 1;
-      transform: translate3d(0, 0, 0);
-      filter: blur(0);
-    }
-  }
-
-  @keyframes hero-line {
-    from {
-      opacity: 0.35;
-      transform: translate3d(0, 0.85em, 0);
-      filter: blur(5px);
-    }
-    to {
-      opacity: 1;
-      transform: translate3d(0, 0, 0);
-      filter: blur(0);
-    }
-  }
-
-  @keyframes hero-stage-reveal {
-    from {
-      opacity: 0.4;
-      clip-path: inset(8% 6% 14% 6% round 0.7rem);
-      transform: translate3d(0, 32px, 0) scale(0.978);
-      filter: blur(4px);
-    }
-    to {
-      opacity: 1;
-      clip-path: inset(0 0 0 0 round 0.7rem);
-      transform: translate3d(0, 0, 0) scale(1);
-      filter: blur(0);
-    }
-  }
-
-  @keyframes pulse-live {
-    0%,
-    100% {
-      opacity: 1;
-      transform: scale(1);
-    }
-    50% {
-      opacity: 0.55;
-      transform: scale(0.88);
-    }
-  }
-
-  @keyframes reveal-up {
-    from {
-      opacity: 0.7;
-      transform: translate3d(0, 18px, 0);
-    }
-    to {
-      opacity: 1;
-      transform: translate3d(0, 0, 0);
-    }
-  }
-
-  .hero-enter {
-    animation: hero-enter var(--motion-hero) both;
-    animation-delay: calc(var(--hero-i, 0) * 85ms);
-  }
-
-  .hero-line {
-    display: block;
-    animation: hero-line 820ms var(--ease-out-expo) both;
-    animation-delay: calc(var(--hero-i, 0) * 95ms);
-  }
-
-  .hero-atmosphere-layer {
-    overflow: hidden;
-    /* Soft exit only at the very bottom — avoids a hard cut through the stage */
-    -webkit-mask-image: linear-gradient(
-      to bottom,
-      #000 0%,
-      #000 90%,
-      transparent 100%
-    );
-    mask-image: linear-gradient(
-      to bottom,
-      #000 0%,
-      #000 90%,
-      transparent 100%
-    );
-  }
-
-  /* Soft sliding diagonal plains — light gray/white depth under orange atmosphere */
+  /* Hero background: soft diagonal plains sliding slowly (transform only, composited). */
   .hero-plains {
     position: absolute;
     inset: 0;
     z-index: 0;
     overflow: hidden;
+    pointer-events: none;
+    -webkit-mask-image: linear-gradient(to bottom, #000 0%, #000 90%, transparent 100%);
+    mask-image: linear-gradient(to bottom, #000 0%, #000 90%, transparent 100%);
   }
 
   .hero-plain {
@@ -259,11 +172,7 @@
     left: -50%;
     right: -50%;
     opacity: 0.55;
-    background-image: linear-gradient(
-      -60deg,
-      oklch(0.995 0 0) 50%,
-      oklch(0.9 0 0) 50%
-    );
+    background-image: linear-gradient(-60deg, oklch(0.995 0 0) 50%, oklch(0.9 0 0) 50%);
     animation: hero-plain-slide 20s ease-in-out infinite alternate;
     will-change: transform;
   }
@@ -272,21 +181,13 @@
     opacity: 0.42;
     animation-direction: alternate-reverse;
     animation-duration: 26s;
-    background-image: linear-gradient(
-      -60deg,
-      oklch(0.98 0 0) 50%,
-      oklch(0.875 0 0) 50%
-    );
+    background-image: linear-gradient(-60deg, oklch(0.98 0 0) 50%, oklch(0.875 0 0) 50%);
   }
 
   .hero-plain--3 {
     opacity: 0.34;
     animation-duration: 34s;
-    background-image: linear-gradient(
-      -60deg,
-      oklch(1 0 0) 50%,
-      oklch(0.91 0 0) 50%
-    );
+    background-image: linear-gradient(-60deg, oklch(1 0 0) 50%, oklch(0.91 0 0) 50%);
   }
 
   @keyframes hero-plain-slide {
@@ -314,186 +215,35 @@
     }
   }
 
-  .hero-atmosphere {
-    position: absolute;
-    inset: auto;
-    z-index: 1;
-    border-radius: 9999px;
-    filter: blur(72px);
+  /* Hero WhatsApp demo — same motion as the app's /auth/register stage. */
+  .whatsapp-mockup-shadow {
+    box-shadow:
+      0 1px 2px color-mix(in oklab, var(--foreground) 6%, transparent),
+      0 24px 48px -20px color-mix(in oklab, var(--foreground) 30%, transparent);
   }
 
-  /* Soft orange at the outer top edges — behind the transparent header */
-  .hero-atmosphere--header-left {
-    top: -4%;
-    left: -2%;
-    width: min(32vw, 16rem);
-    height: min(20vw, 10rem);
-    background: oklch(0.68 0.19 55 / 0.2);
-  }
-
-  .hero-atmosphere--header-right {
-    top: -5%;
-    right: -3%;
-    width: min(36vw, 18rem);
-    height: min(22vw, 11rem);
-    background: oklch(0.74 0.14 55 / 0.17);
-  }
-
-  /* Side warmth around the copy — ends above the browser so the frame doesn't cut them */
-  .hero-atmosphere--side-left {
-    top: 12%;
-    left: -6%;
-    width: min(30vw, 15rem);
-    height: min(28vw, 15rem);
-    background: oklch(0.72 0.15 55 / 0.2);
-  }
-
-  .hero-atmosphere--side-right {
-    top: 14%;
-    right: -7%;
-    width: min(32vw, 16rem);
-    height: min(30vw, 16rem);
-    background: oklch(0.68 0.19 55 / 0.18);
-  }
-
-  .hero-atmosphere-layer--full {
-    -webkit-mask-image: none;
-    mask-image: none;
-  }
-
-  .hero-atmosphere--footer-left {
-    bottom: -6%;
-    left: -3%;
-    width: min(34vw, 17rem);
-    height: min(22vw, 11rem);
-    background: oklch(0.72 0.15 55 / 0.16);
-  }
-
-  .hero-atmosphere--footer-right {
-    bottom: -8%;
-    right: -4%;
-    width: min(38vw, 19rem);
-    height: min(24vw, 12rem);
-    background: oklch(0.68 0.19 55 / 0.14);
-  }
-
-  .hero-browser {
-    isolation: isolate;
-    -webkit-mask-image: linear-gradient(
-      to bottom,
-      #000 0%,
-      #000 64%,
-      rgb(0 0 0 / 0.7) 82%,
-      transparent 100%
-    );
-    mask-image: linear-gradient(
-      to bottom,
-      #000 0%,
-      #000 64%,
-      rgb(0 0 0 / 0.7) 82%,
-      transparent 100%
-    );
-  }
-
-  .hero-browser-fade {
-    pointer-events: none;
-    position: absolute;
-    z-index: 2;
-    inset-inline: 0;
-    bottom: 0;
-    height: 30%;
-    background: linear-gradient(
-      to bottom,
-      transparent 0%,
-      oklch(0.99 0 0 / 0.45) 45%,
-      oklch(0.99 0 0 / 0.88) 78%,
-      oklch(0.99 0 0) 100%
-    );
-  }
-
-  .hero-stage-perspective {
-    perspective: 1400px;
-    perspective-origin: 50% 42%;
-  }
-
-  .hero-stage-perspective--live {
-    transform-style: preserve-3d;
-  }
-
-  .hero-stage-tilt {
-    transform-style: preserve-3d;
-    will-change: transform;
-  }
-
-  .hero-stage-reveal {
-    animation: hero-stage-reveal 980ms var(--ease-out-expo) both;
-    animation-delay: 280ms;
-  }
-
-  .hero-live-dot {
-    animation: pulse-live 2.4s var(--ease-out-quart) infinite;
-  }
-
-  @media (max-width: 639px) {
-    .hero-atmosphere--header-left,
-    .hero-atmosphere--header-right {
-      width: 48vw;
-      height: 20vw;
-      filter: blur(48px);
-      opacity: 0.9;
-    }
-
-    .hero-atmosphere--side-left,
-    .hero-atmosphere--side-right {
-      top: 14%;
-      width: 38vw;
-      height: 28vw;
-      filter: blur(56px);
-      opacity: 0.9;
-    }
-
-    .hero-atmosphere--footer-left,
-    .hero-atmosphere--footer-right {
-      width: 48vw;
-      height: 22vw;
-      filter: blur(48px);
-      opacity: 0.9;
-    }
-
-    .hero-browser-fade {
-      height: 34%;
+  @keyframes whatsapp-scene-exit {
+    to {
+      opacity: 0;
+      transform: translate3d(0, -8px, 0);
     }
   }
 
-  .motion-reveal.is-visible {
-    animation: reveal-up var(--motion-reveal) both;
-    animation-delay: var(--motion-delay, 0ms);
-  }
-
-  .landing-card-lift {
-    transition:
-      transform var(--motion-micro),
-      border-color var(--motion-micro),
-      background-color var(--motion-micro);
-  }
-
-  .landing-card-lift:hover {
-    transform: translate3d(0, -3px, 0);
-  }
-
-  .how-it-works-step.landing-card-lift:hover {
-    border-color: color-mix(in oklab, var(--primary) 35%, var(--border));
-    background-color: color-mix(in oklab, var(--primary) 3%, var(--card));
-  }
-
-  .how-it-works-panel {
-    animation: how-it-works-panel-in 320ms var(--ease-out-quart) both;
-  }
-
-  @keyframes how-it-works-panel-in {
+  @keyframes whatsapp-bubble-in {
     from {
-      opacity: 0.55;
-      transform: translate3d(0, 10px, 0);
+      opacity: 0;
+      transform: translate3d(0, 10px, 0) scale(0.98);
+    }
+    to {
+      opacity: 1;
+      transform: translate3d(0, 0, 0) scale(1);
+    }
+  }
+
+  @keyframes whatsapp-day-in {
+    from {
+      opacity: 0;
+      transform: translate3d(0, 4px, 0);
     }
     to {
       opacity: 1;
@@ -501,16 +251,155 @@
     }
   }
 
-  .demo-cta-motion {
-    transition: transform var(--motion-micro);
+  .whatsapp-day.is-entering {
+    animation: whatsapp-day-in 420ms var(--ease-out-quart) both;
   }
 
-  .demo-cta-motion:hover {
-    transform: scale(1.02);
+  .whatsapp-bubble.is-entering {
+    animation: whatsapp-bubble-in 520ms var(--ease-out-expo) both;
+    animation-delay: calc(140ms + var(--i, 0) * 160ms);
   }
 
-  .demo-cta-motion:active {
-    transform: scale(0.98);
+  .whatsapp-scene.is-exit {
+    animation: whatsapp-scene-exit 480ms var(--ease-out-quart) both;
+  }
+
+  /*
+   * Hero entrance, once on load: headline and phone, then the description with the month card,
+   * then the buttons and the trial terms. Text rises out of a light blur; the phone only rises.
+   */
+  @keyframes hero-rise {
+    from {
+      opacity: 0;
+      transform: translate3d(0, 14px, 0);
+      filter: blur(6px);
+    }
+    to {
+      opacity: 1;
+      transform: translate3d(0, 0, 0);
+      filter: blur(0);
+    }
+  }
+
+  /*
+   * The phone only moves; the fade sits on the whole showcase instead, so phone and card fade
+   * as one picture and the card behind the phone never shows through a half-transparent phone.
+   */
+  @keyframes hero-rise-device {
+    from {
+      transform: translate3d(0, 24px, 0);
+    }
+    to {
+      transform: translate3d(0, 0, 0);
+    }
+  }
+
+  @keyframes hero-fade {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .hero-rise {
+      animation: hero-rise 900ms var(--ease-out-expo) var(--hero-delay, 0ms) both;
+    }
+
+    .hero-rise-device {
+      animation: hero-rise-device 1000ms var(--ease-out-expo) var(--hero-delay, 0ms) both;
+    }
+
+    .hero-fade {
+      animation: hero-fade 700ms var(--ease-out-quart) var(--hero-delay, 0ms) both;
+    }
+  }
+
+  .hero-step-1 {
+    --hero-delay: 60ms;
+  }
+
+  .hero-step-2 {
+    --hero-delay: 260ms;
+  }
+
+  .hero-step-3 {
+    --hero-delay: 460ms;
+  }
+
+  .hero-step-4 {
+    --hero-delay: 600ms;
+  }
+
+  /* The month card slides out from behind the phone once, together with the description. */
+  @keyframes panel-slide-out {
+    from {
+      opacity: 0;
+      transform: translate3d(35%, 0, 0);
+    }
+    to {
+      opacity: 1;
+      transform: translate3d(0, 0, 0);
+    }
+  }
+
+  @keyframes panel-slide-down {
+    from {
+      opacity: 0;
+      transform: translate3d(0, -35%, 0);
+    }
+    to {
+      opacity: 1;
+      transform: translate3d(0, 0, 0);
+    }
+  }
+
+  @media (max-width: 63.99rem) and (prefers-reduced-motion: no-preference) {
+    .panel-slide-out {
+      animation: panel-slide-down 1000ms var(--ease-out-expo) 260ms both;
+    }
+  }
+
+  @media (min-width: 64rem) and (prefers-reduced-motion: no-preference) {
+    .panel-slide-out {
+      animation: panel-slide-out 1000ms var(--ease-out-expo) 260ms both;
+    }
+  }
+
+  /* Latest activity in the month card: the new line rises in each time the phone moves on. */
+  @keyframes panel-activity-in {
+    from {
+      opacity: 0;
+      transform: translate3d(0, 6px, 0);
+    }
+    to {
+      opacity: 1;
+      transform: translate3d(0, 0, 0);
+    }
+  }
+
+  .panel-activity {
+    animation: panel-activity-in 420ms var(--ease-out-quart) both;
+  }
+
+  /* The month card: brand orange with a soft light from the top-left, so it reads as a surface. */
+  .panel-statement {
+    background-image:
+      radial-gradient(120% 90% at 0% 0%, rgb(255 255 255 / 0.22), transparent 55%),
+      radial-gradient(90% 80% at 100% 100%, rgb(0 0 0 / 0.12), transparent 60%);
+    box-shadow:
+      0 1px 0 rgb(255 255 255 / 0.25) inset,
+      0 24px 48px -22px color-mix(in oklab, var(--foreground) 45%, transparent);
+  }
+
+  .whatsapp-scroll {
+    scrollbar-width: none;
+  }
+
+  .whatsapp-scroll::-webkit-scrollbar {
+    display: none;
   }
 
   .site-header-bar {
@@ -567,244 +456,227 @@
       border-color var(--motion-header);
   }
 
-  .demo-cta-motion [data-icon="inline-end"] {
-    transition: transform var(--motion-micro);
+  /* "Para quem é": a slow strip of professions, faded at both ends. */
+  .professions-marquee {
+    overflow: hidden;
+    mask-image: linear-gradient(to right, transparent, black 8%, black 92%, transparent);
   }
 
-  .demo-cta-motion:hover [data-icon="inline-end"] {
-    transform: translate3d(3px, 0, 0);
+  .professions-marquee-track {
+    display: flex;
+    width: max-content;
   }
 
-  .demo-cta-motion [data-icon="inline-start"] {
-    transition: transform var(--motion-micro);
+  @keyframes professions-marquee {
+    to {
+      transform: translate3d(-50%, 0, 0);
+    }
   }
 
-  .demo-cta-motion:hover [data-icon="inline-start"] {
-    transform: translate3d(-3px, 0, 0);
+  @media (prefers-reduced-motion: no-preference) {
+    .professions-marquee-track {
+      animation: professions-marquee 55s linear infinite;
+    }
   }
 
-  /* Subscribers list feature demo */
-  @keyframes subscribers-row-enter {
+  @media (prefers-reduced-motion: reduce) {
+    .professions-marquee {
+      mask-image: none;
+    }
+
+    .professions-marquee-track {
+      width: auto;
+      padding-inline: 1rem;
+    }
+
+    .professions-marquee-track ul {
+      flex-wrap: wrap;
+    }
+
+    .professions-marquee-copy {
+      display: none !important;
+    }
+  }
+
+  /*
+   * The pains, crossed out: an orange marker drawn across the sentence, line after line
+   * (the background runs through the wrapped inline text as one strip), then the answer rises in.
+   */
+  .pain-point-before {
+    background-image: linear-gradient(var(--primary), var(--primary));
+    background-repeat: no-repeat;
+    background-position: 0 58%;
+    background-size: 0% 0.14em;
+    transition:
+      background-size 1100ms cubic-bezier(0.65, 0, 0.35, 1),
+      color 600ms var(--ease-out-quart) 500ms;
+  }
+
+  .pain-point[data-struck="true"] .pain-point-before {
+    background-size: 100% 0.14em;
+    color: color-mix(in oklab, var(--foreground) 42%, transparent);
+  }
+
+  .pain-point-after {
+    opacity: 0;
+    transform: translate3d(0, 10px, 0);
+    transition:
+      opacity 600ms var(--ease-out-quart) 900ms,
+      transform 700ms var(--ease-out-expo) 900ms;
+  }
+
+  .pain-point[data-struck="true"] .pain-point-after {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .pain-point-before {
+      background-size: 100% 0.14em;
+      color: color-mix(in oklab, var(--foreground) 42%, transparent);
+    }
+
+    .pain-point-after {
+      opacity: 1;
+      transform: none;
+    }
+  }
+
+  /* Pricing: the students slider on the orange card. White fill up to the thumb. */
+  .plan-range {
+    display: block;
+    width: 100%;
+    height: 1.75rem;
+    appearance: none;
+    background: transparent;
+    cursor: pointer;
+  }
+
+  .plan-range::-webkit-slider-runnable-track {
+    height: 6px;
+    border-radius: 999px;
+    background: linear-gradient(to right, white var(--fill), rgb(255 255 255 / 0.25) var(--fill));
+  }
+
+  .plan-range::-moz-range-track {
+    height: 6px;
+    border-radius: 999px;
+    background: rgb(255 255 255 / 0.25);
+  }
+
+  .plan-range::-moz-range-progress {
+    height: 6px;
+    border-radius: 999px;
+    background: white;
+  }
+
+  .plan-range::-webkit-slider-thumb {
+    width: 24px;
+    height: 24px;
+    margin-top: -9px;
+    appearance: none;
+    border-radius: 999px;
+    background: white;
+    box-shadow:
+      0 0 0 5px rgb(255 255 255 / 0.22),
+      0 4px 12px rgb(0 0 0 / 0.25);
+    transition: box-shadow var(--motion-micro);
+  }
+
+  .plan-range::-moz-range-thumb {
+    width: 24px;
+    height: 24px;
+    border: 0;
+    border-radius: 999px;
+    background: white;
+    box-shadow:
+      0 0 0 5px rgb(255 255 255 / 0.22),
+      0 4px 12px rgb(0 0 0 / 0.25);
+  }
+
+  .plan-range:focus-visible {
+    outline: none;
+  }
+
+  .plan-range:focus-visible::-webkit-slider-thumb {
+    box-shadow:
+      0 0 0 5px rgb(255 255 255 / 0.55),
+      0 4px 12px rgb(0 0 0 / 0.25);
+  }
+
+  .plan-range:focus-visible::-moz-range-thumb {
+    box-shadow:
+      0 0 0 5px rgb(255 255 255 / 0.55),
+      0 4px 12px rgb(0 0 0 / 0.25);
+  }
+
+  /*
+   * Bento "O seu painel": every card is a stage, a soft warm-grey surface with a piece of the app
+   * on it. Pieces are white, lifted with a layered shadow, and may run off the stage edges.
+   */
+  .bento-stage {
+    background:
+      radial-gradient(120% 70% at 50% 0%, rgb(255 255 255 / 0.75), transparent 65%),
+      oklch(0.962 0.004 70);
+    box-shadow:
+      inset 0 1px 0 rgb(255 255 255 / 0.9),
+      inset 0 0 0 1px rgb(0 0 0 / 0.035);
+  }
+
+  /* On a tinted section the stage turns white, so it still reads as a surface. */
+  .bento-stage--on-tint {
+    background: white;
+    box-shadow:
+      inset 0 0 0 1px rgb(0 0 0 / 0.04),
+      0 24px 48px -32px rgb(0 0 0 / 0.18);
+  }
+
+  .bento-piece {
+    background: white;
+    box-shadow:
+      0 0 0 1px rgb(0 0 0 / 0.045),
+      0 1px 2px rgb(0 0 0 / 0.05),
+      0 18px 40px -20px rgb(0 0 0 / 0.24);
+  }
+
+  /* A piece that runs off the right and bottom edges fades out instead of being cut. */
+  .bento-fade {
+    mask-image:
+      linear-gradient(to right, black 72%, transparent),
+      linear-gradient(to bottom, black 80%, transparent);
+    mask-composite: intersect;
+  }
+
+  .bento-fade-bottom {
+    mask-image: linear-gradient(to bottom, black 55%, transparent);
+  }
+
+  /* Step pieces: fade at the bottom on phones, and at the right edge too once they sit beside the text. */
+  .bento-fade-step {
+    mask-image: linear-gradient(to bottom, black 55%, transparent);
+  }
+
+  @media (min-width: 40rem) {
+    .bento-fade-step {
+      mask-image:
+        linear-gradient(to right, black 75%, transparent),
+        linear-gradient(to bottom, black 55%, transparent);
+      mask-composite: intersect;
+    }
+  }
+
+  @keyframes bento-pop {
     from {
       opacity: 0;
-      transform: translate3d(0, 10px, 0);
+      transform: scale(0.9);
     }
     to {
       opacity: 1;
-      transform: translate3d(0, 0, 0);
-    }
-  }
-
-  @keyframes subscribers-row-insert {
-    from {
-      opacity: 0;
-      transform: translate3d(0, -12px, 0);
-      filter: blur(2px);
-    }
-    to {
-      opacity: 1;
-      transform: translate3d(0, 0, 0);
-      filter: blur(0);
-    }
-  }
-
-  @keyframes subscribers-row-exit {
-    to {
-      opacity: 0.35;
-      transform: translate3d(0, -4px, 0);
-    }
-  }
-
-  @keyframes subscribers-cta-pulse {
-    0%,
-    100% {
       transform: scale(1);
     }
-    40% {
-      transform: scale(1.04);
-    }
   }
 
-  @keyframes subscribers-highlight {
-    0%,
-    100% {
-      background-color: transparent;
-    }
-    35%,
-    65% {
-      background-color: color-mix(in oklab, var(--destructive) 8%, transparent);
-    }
-  }
-
-  .subscribers-demo-chrome,
-  .subscribers-demo-toolbar {
-    opacity: 1;
-  }
-
-  .subscribers-demo-stage.is-enter .subscribers-demo-chrome,
-  .subscribers-demo-stage.is-enter .subscribers-demo-toolbar {
-    animation: subscribers-row-enter 480ms var(--ease-out-quart) both;
-  }
-
-  .subscribers-demo-stage.is-enter .subscribers-demo-toolbar {
-    animation-delay: 80ms;
-  }
-
-  .subscribers-demo-row.is-entering {
-    animation: subscribers-row-enter 520ms var(--ease-out-quart) both;
-    animation-delay: calc(160ms + var(--i, 0) * 70ms);
-  }
-
-  .subscribers-demo-row.is-inserting {
-    animation: subscribers-row-insert 620ms var(--ease-out-expo) both;
-  }
-
-  .subscribers-demo-row.is-exiting {
-    animation: subscribers-row-exit 700ms var(--ease-out-quart) both;
-    animation-delay: calc(var(--i, 0) * 40ms);
-  }
-
-  .subscribers-demo-row.is-highlighted {
-    animation: subscribers-highlight 1.6s var(--ease-out-quart) both;
-    border-radius: 0.35rem;
-  }
-
-  .subscribers-demo-cta-pulse {
-    animation: subscribers-cta-pulse 700ms var(--ease-out-quart) 2;
-  }
-
-  /* Dashboard cards feature demo */
-  @keyframes dashboard-card-enter {
-    from {
-      opacity: 0;
-      transform: translate3d(0, 16px, 0) scale(0.97);
-      filter: blur(3px);
-    }
-    to {
-      opacity: 1;
-      transform: translate3d(0, 0, 0) scale(1);
-      filter: blur(0);
-    }
-  }
-
-  @keyframes dashboard-card-exit {
-    from {
-      opacity: 1;
-      transform: translate3d(0, 0, 0) scale(1);
-      filter: blur(0);
-    }
-    to {
-      opacity: 0;
-      transform: translate3d(0, -12px, 0) scale(0.98);
-      filter: blur(2px);
-    }
-  }
-
-  @keyframes dashboard-card-row {
-    from {
-      opacity: 0;
-      transform: translate3d(0, 6px, 0);
-    }
-    to {
-      opacity: 1;
-      transform: translate3d(0, 0, 0);
-    }
-  }
-
-  @keyframes dashboard-card-value {
-    from {
-      opacity: 0.35;
-      transform: translate3d(0, 8px, 0);
-    }
-    to {
-      opacity: 1;
-      transform: translate3d(0, 0, 0);
-    }
-  }
-
-  .dashboard-card.is-enter {
-    animation: dashboard-card-enter 680ms var(--ease-out-expo) both;
-  }
-
-  .dashboard-card.is-enter .dashboard-card-value {
-    animation: dashboard-card-value 560ms var(--ease-out-quart) both;
-    animation-delay: 120ms;
-  }
-
-  .dashboard-card.is-enter .dashboard-card-row {
-    animation: dashboard-card-row 480ms var(--ease-out-quart) both;
-    animation-delay: calc(220ms + var(--i, 0) * 70ms);
-  }
-
-  .dashboard-card.is-exit {
-    animation: dashboard-card-exit 520ms var(--ease-out-quart) both;
-  }
-
-  .dashboard-card.is-static,
-  .dashboard-card.is-hold {
-    opacity: 1;
-    transform: none;
-  }
-
-  /* WhatsApp billing feature demo */
-  @keyframes whatsapp-scene-exit {
-    to {
-      opacity: 0;
-      transform: translate3d(0, -8px, 0);
-    }
-  }
-
-  @keyframes whatsapp-bubble-in {
-    from {
-      opacity: 0;
-      transform: translate3d(0, 10px, 0) scale(0.98);
-    }
-    to {
-      opacity: 1;
-      transform: translate3d(0, 0, 0) scale(1);
-    }
-  }
-
-  @keyframes whatsapp-day-in {
-    from {
-      opacity: 0;
-      transform: translate3d(0, 4px, 0);
-    }
-    to {
-      opacity: 1;
-      transform: translate3d(0, 0, 0);
-    }
-  }
-
-  .whatsapp-day.is-entering {
-    animation: whatsapp-day-in 420ms var(--ease-out-quart) both;
-  }
-
-  .whatsapp-bubble.is-entering {
-    animation: whatsapp-bubble-in 520ms var(--ease-out-expo) both;
-    animation-delay: calc(140ms + var(--i, 0) * 160ms);
-  }
-
-  .whatsapp-scene.is-exit {
-    animation: whatsapp-scene-exit 480ms var(--ease-out-quart) both;
-  }
-
-  .whatsapp-scene.is-static,
-  .whatsapp-scene.is-hold,
-  .whatsapp-scene.is-enter {
-    opacity: 1;
-  }
-
-  .whatsapp-scroll {
-    scrollbar-width: none;
-  }
-
-  .whatsapp-scroll::-webkit-scrollbar {
-    display: none;
-  }
-
-  /* Proof approval feature demo */
-  @keyframes proof-fade-up {
+  @keyframes bento-rise {
     from {
       opacity: 0;
       transform: translate3d(0, 12px, 0);
@@ -815,98 +687,28 @@
     }
   }
 
-  @keyframes proof-fade-out {
-    to {
-      opacity: 0;
-      transform: translate3d(0, -8px, 0);
-    }
-  }
-
-  @keyframes proof-dialog-in {
-    from {
-      opacity: 0;
-      transform: translate3d(0, 18px, 0) scale(0.96);
-      filter: blur(3px);
-    }
-    to {
-      opacity: 1;
-      transform: translate3d(0, 0, 0) scale(1);
-      filter: blur(0);
-    }
-  }
-
-  @keyframes proof-backdrop-in {
-    from {
-      opacity: 0;
-    }
-    to {
-      opacity: 1;
-    }
-  }
-
-  @keyframes proof-row-pulse {
-    0%,
-    100% {
-      background-color: color-mix(in oklab, var(--primary) 4%, transparent);
-    }
+  @keyframes bento-press {
     50% {
-      background-color: color-mix(in oklab, var(--primary) 10%, transparent);
+      transform: scale(0.93);
     }
   }
 
-  @keyframes proof-btn-press {
-    0% {
-      transform: scale(1);
-    }
-    40% {
-      transform: scale(0.94);
-    }
-    100% {
-      transform: scale(1);
-    }
+  .bento-pop {
+    animation: bento-pop 420ms var(--ease-out-expo) both;
   }
 
-  @keyframes proof-success-in {
-    from {
-      opacity: 0;
-      transform: translate3d(0, 14px, 0) scale(0.96);
-    }
-    to {
-      opacity: 1;
-      transform: translate3d(0, 0, 0) scale(1);
-    }
+  .bento-rise {
+    animation: bento-rise 620ms var(--ease-out-expo) var(--bento-delay, 0ms) both;
   }
 
-  .proof-list.is-entering {
-    animation: proof-fade-up 620ms var(--ease-out-expo) both;
+  .bento-press {
+    animation: bento-press 380ms var(--ease-out-quart);
   }
 
-  .proof-list.is-exiting {
-    animation: proof-fade-out 480ms var(--ease-out-quart) both;
-  }
-
-  .proof-row-highlight {
-    animation: proof-row-pulse 1.2s var(--ease-out-quart) both;
-  }
-
-  .proof-verify-btn.is-pressed,
-  .proof-approve-btn.is-pressed {
-    animation: proof-btn-press 420ms var(--ease-out-quart) both;
-  }
-
-  .proof-dialog-shell.is-entering > div:first-child {
-    animation: proof-backdrop-in 420ms var(--ease-out-quart) both;
-  }
-
-  .proof-dialog-shell.is-entering .proof-dialog {
-    animation: proof-dialog-in 620ms var(--ease-out-expo) both;
-  }
-
-  .proof-success.is-entering {
-    animation: proof-success-in 650ms var(--ease-out-expo) both;
-  }
-
-  .proof-success.is-exiting {
-    animation: proof-fade-out 480ms var(--ease-out-quart) both;
+  .bento-move {
+    transition:
+      transform 950ms var(--ease-out-expo),
+      opacity 400ms var(--ease-out-quart),
+      background-color 300ms var(--ease-out-quart);
   }
 }

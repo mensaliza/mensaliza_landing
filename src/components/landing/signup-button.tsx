@@ -1,8 +1,11 @@
 "use client";
 
 import { ArrowRightIcon } from "lucide-react";
+import type { MouseEvent } from "react";
 
 import { Button } from "@/components/ui/button";
+import { withAttribution } from "@/lib/attribution";
+import { SIGNUP_CTA_LABEL } from "@/lib/landing-content";
 import {
   trackLandingCta,
   type BillingInterval,
@@ -22,12 +25,13 @@ type SignupButtonProps = {
   billingInterval?: BillingInterval;
 };
 
+/** Every "start" button on the site: same tab, carrying the visit's UTMs to the app. */
 export function SignupButton({
   className,
   size = "lg",
   variant = "default",
   showIcon = true,
-  label = "Começar grátis",
+  label = SIGNUP_CTA_LABEL,
   location,
   plan,
   billingInterval,
@@ -37,30 +41,23 @@ export function SignupButton({
     interval: billingInterval,
   });
 
+  function handleClick(event: MouseEvent<HTMLAnchorElement>) {
+    event.currentTarget.href = withAttribution(signupLink.href);
+    trackLandingCta({
+      cta: "signup",
+      location,
+      plan,
+      billing_interval: billingInterval,
+    });
+  }
+
   return (
     <Button
       variant={variant}
       size={size}
-      className={cn("demo-cta-motion min-h-11", className)}
+      className={cn("min-h-11", className)}
       nativeButton={false}
-      render={
-        <a
-          {...signupLink}
-          aria-label={
-            signupLink.target === "_blank"
-              ? `${label} (abre em nova aba)`
-              : label
-          }
-          onClick={() =>
-            trackLandingCta({
-              cta: "signup",
-              location,
-              plan,
-              billing_interval: billingInterval,
-            })
-          }
-        />
-      }
+      render={<a href={signupLink.href} onClick={handleClick} />}
     >
       {label}
       {showIcon ? <ArrowRightIcon data-icon="inline-end" /> : null}
