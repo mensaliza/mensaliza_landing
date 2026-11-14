@@ -16,16 +16,11 @@ export function TennisFinalCta() {
       analyticsAudience={TENNIS_LANDING_AUDIENCE}
     >
       <div className="mx-auto flex w-full max-w-2xl flex-col items-center gap-6 text-center">
-        <SectionHeading
-          align="center"
-          titleId="tennis-cta-titulo"
-          title={tennisFinalCta.title}
-          description={tennisFinalCta.body}
-        />
+        <SectionHeading align="center" titleId="tennis-cta-titulo" title={tennisFinalCta.title} />
         <div id="tennis-final-cta" className="flex w-full flex-col items-center gap-4">
           <TennisSignupButton location="tennis_final" className="w-full sm:w-auto" />
           <TennisSupportLink className="w-full sm:w-auto" />
-          <TennisTrialNote className="w-fit" />
+          <TennisTrialNote variant="summary" className="text-center" />
         </div>
       </div>
     </SectionShell>

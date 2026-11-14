@@ -21,27 +21,9 @@ function revealTennisFaqAnswer(question: string) {
     ),
   ].find((element) => element.textContent?.includes(question));
   const item = trigger?.closest<HTMLElement>("[data-slot=accordion-item]");
-  const scroller = document.getElementById("tennis-scroll");
   if (!item) return;
 
-  const scrollerScrolls =
-    scroller instanceof HTMLElement &&
-    getComputedStyle(scroller).display !== "contents";
-
-  if (!scrollerScrolls) {
-    item.scrollIntoView({ block: "nearest" });
-    return;
-  }
-
-  const align = () => {
-    const overflow =
-      item.getBoundingClientRect().bottom -
-      (scroller.getBoundingClientRect().bottom - 16);
-    if (overflow > 0) {
-      scroller.scrollBy({ top: overflow });
-    }
-  };
-
+  const align = () => item.scrollIntoView({ block: "nearest" });
   align();
   const observer = new ResizeObserver(align);
   observer.observe(item);
@@ -79,7 +61,7 @@ export function TennisFaq() {
             <AccordionItem
               key={item.question}
               value={item.question}
-              className="scroll-mb-4 rounded-xl border border-border/80 bg-muted px-5 py-1"
+              className="scroll-mb-28 rounded-xl border border-border/80 bg-muted px-5 py-1 lg:scroll-mb-4"
             >
               <AccordionTrigger className="min-h-11 py-4 text-left font-heading text-base font-semibold tracking-[-0.01em] hover:no-underline">
                 {item.question}

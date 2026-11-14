@@ -32,9 +32,6 @@ export function TennisHowItWorks() {
           </li>
         ))}
       </ol>
-      <p className="max-w-3xl text-base font-medium text-foreground text-pretty sm:text-lg">
-        {tennisHowItWorks.closing}
-      </p>
     </SectionShell>
   );
 }

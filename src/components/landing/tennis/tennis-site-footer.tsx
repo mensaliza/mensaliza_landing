@@ -33,7 +33,7 @@ export function TennisSiteFooter() {
               <Logo size="md" />
             </Link>
             <p className="max-w-xs text-sm leading-relaxed text-muted-foreground text-pretty">
-              Cobrança pelo WhatsApp do Mensaliza e comprovantes no painel. O Pix vai direto para o professor.
+              Cobrança pelo WhatsApp do Mensaliza e comprovantes no painel.
             </p>
           </div>
 

@@ -44,7 +44,7 @@ function TennisStudentsBoard() {
             className="grid grid-cols-[minmax(0,1fr)_auto] items-center gap-x-3 gap-y-1 border-b border-border px-4 py-3 last:border-b-0"
           >
             <p className="truncate text-sm font-semibold text-foreground">{student.name}</p>
-            <p className="text-right font-mono text-sm font-medium tabular-nums text-foreground">
+            <p className="text-right font-heading text-sm font-semibold tabular-nums text-foreground">
               {student.amount}
             </p>
             <p className="text-xs text-foreground/72">
@@ -54,7 +54,11 @@ function TennisStudentsBoard() {
               className={
                 student.status === "Comprovante pendente"
                   ? "justify-self-end rounded-md bg-primary/10 px-2 py-0.5 text-xs font-medium text-primary"
-                  : "justify-self-end text-xs font-medium text-foreground/80"
+                  : student.status === "Atrasada"
+                    ? "justify-self-end text-xs font-semibold text-destructive"
+                    : student.status === "Paga"
+                      ? "justify-self-end text-xs font-semibold text-success"
+                      : "justify-self-end text-xs font-medium text-foreground/70"
               }
             >
               {student.status}

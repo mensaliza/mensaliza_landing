@@ -101,7 +101,7 @@ export function TennisHeroScene({ className }: { className?: string }) {
             )}
           >
             <p className="text-sm leading-snug text-foreground text-pretty">
-              Olá, Ana. Lucas registrou sua mensalidade de R$&nbsp;280,00. Vencimento: 05/11.
+              Olá, Ana! Lucas registrou uma cobrança de R$&nbsp;280,00. Vencimento: 05/11/2026.
             </p>
             <p className="mt-1 text-xs text-foreground/72">09:12</p>
           </div>
@@ -136,7 +136,7 @@ export function TennisHeroScene({ className }: { className?: string }) {
           >
             <div className="flex items-baseline justify-between gap-3">
               <p className="text-sm font-semibold text-foreground">Ana Costa</p>
-              <p className="font-mono text-sm text-foreground">R$&nbsp;280,00</p>
+              <p className="font-heading text-sm font-semibold tabular-nums text-foreground">R$&nbsp;280,00</p>
             </div>
             {approved ? (
               <p className="mt-2 inline-flex items-center gap-1.5 text-sm font-medium text-foreground">
@@ -156,10 +156,6 @@ export function TennisHeroScene({ className }: { className?: string }) {
           </div>
         ) : null}
       </div>
-
-      <figcaption className="text-sm leading-relaxed text-foreground/72 text-pretty">
-        O Pix vai direto para você. O Mensaliza não confirma o pagamento no banco.
-      </figcaption>
     </figure>
   );
 }

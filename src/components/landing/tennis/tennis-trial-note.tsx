@@ -1,14 +1,27 @@
 import { CheckIcon } from "lucide-react";
 
-import { tennisTrialFacts } from "@/lib/tennis-landing-content";
+import { tennisTrialFacts, tennisTrialSummary } from "@/lib/tennis-landing-content";
 import { cn } from "cn";
 
 type TennisTrialNoteProps = {
   className?: string;
   id?: string;
+  variant?: "summary" | "full";
 };
 
-export function TennisTrialNote({ className, id }: TennisTrialNoteProps) {
+export function TennisTrialNote({
+  className,
+  id,
+  variant = "full",
+}: TennisTrialNoteProps) {
+  if (variant === "summary") {
+    return (
+      <p id={id} className={cn("max-w-xl text-sm leading-snug text-foreground/80", className)}>
+        {tennisTrialSummary}
+      </p>
+    );
+  }
+
   return (
     <ul id={id} className={cn("flex max-w-xl flex-col gap-1.5", className)}>
       {tennisTrialFacts.map((fact) => (

@@ -26,11 +26,16 @@ export function TennisPricing() {
             <p className="text-sm font-semibold tracking-wide text-primary uppercase">
               {tennisPlan.name}
             </p>
-            <p className="font-mono text-4xl font-semibold tracking-tight text-foreground tabular-nums">
+            <p className="font-heading text-4xl font-semibold tracking-tight text-foreground tabular-nums">
               {tennisPlan.monthlyLabel}
               <span className="font-sans text-base font-medium text-foreground/72">/mês</span>
             </p>
             <p className="text-sm text-foreground/72">{tennisPricing.yearlyNote}</p>
+            <p className="mx-auto mt-1 w-fit font-heading text-base font-medium tracking-[-0.01em] text-foreground">
+              <span className="bg-[linear-gradient(transparent_58%,color-mix(in_oklab,var(--primary)_34%,transparent)_58%)] px-0.5">
+                {tennisPricing.comparison}
+              </span>
+            </p>
           </div>
           <p className="text-center text-base leading-relaxed text-foreground text-pretty">
             {tennisPricing.feature}

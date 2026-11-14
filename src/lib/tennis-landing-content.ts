@@ -4,12 +4,7 @@ import { SUPPORT_EMAIL, SUPPORT_WHATSAPP_DISPLAY } from "@/lib/site-urls";
 
 function requirePricedTier(id: "essential" | "business" | "scale") {
   const tier = pricingTiers.find((item) => item.id === id);
-  if (
-    !tier ||
-    tier.priceMonthly == null ||
-    tier.priceYearly == null ||
-    tier.maxSubscribers == null
-  ) {
+  if (!tier || tier.priceMonthly == null || tier.priceYearly == null || tier.maxSubscribers == null) {
     throw new Error(`Plano ${id} sem preço ou limite de alunos.`);
   }
 
@@ -36,6 +31,8 @@ export const tennisPlan = {
 
 export const tennisCtaLabel = "Começar meu teste grátis" as const;
 
+export const tennisTrialSummary = "14 dias grátis. Cancele quando quiser." as const;
+
 export const tennisTrialFacts = [
   "14 dias grátis. Nada é cobrado hoje.",
   `Precisa de cartão. Depois do teste, ${tennisPlan.monthlyLabel}/mês no plano ${tennisPlan.name}, cobrado na data mostrada no cadastro.`,
@@ -44,11 +41,10 @@ export const tennisTrialFacts = [
 
 export const tennisHero = {
   eyebrow: "Professores de tênis e beach tennis",
-  headline:
-    "Você dá aula o dia inteiro. Por que ainda precisa cobrar seus alunos um por um?",
+  headline: "Você dá aula. O Mensaliza cobra.",
   subheadline:
-    "Depois que o aluno autoriza, o bot do Mensaliza cobra pelo WhatsApp, recebe o comprovante na mesma conversa e você só aprova. O Pix vai direto para você.",
-  support: "Menos tempo cobrando. Mais tempo na quadra.",
+    "O Mensaliza cobra seus alunos pelo WhatsApp no dia certo. O comprovante chega na mesma conversa e você só aprova.",
+  support: "O Pix cai direto na sua conta. Sem taxa sobre o Pix.",
   ctaLabel: tennisCtaLabel,
 } as const;
 
@@ -57,9 +53,9 @@ export const tennisPain = {
   lead: "A aula ocupa o dia. A cobrança, quando fica na mão, aparece no intervalo e no meio da quadra.",
   situations: [
     {
-      id: "one-by-one",
-      title: "Mensagem um a um",
-      body: "Lembrar cada aluno de pagar, entre uma aula e outra.",
+      id: "court",
+      title: "Interrupção na quadra",
+      body: "Parar a aula para resolver uma dúvida de pagamento.",
     },
     {
       id: "lost-receipt",
@@ -71,19 +67,8 @@ export const tennisPain = {
       title: "Quem já pagou",
       body: "Conferir, de cabeça ou na conversa, quem está em dia e quem ainda está pendente.",
     },
-    {
-      id: "court",
-      title: "Interrupção na quadra",
-      body: "Parar a aula para resolver uma dúvida de pagamento.",
-    },
-    {
-      id: "late",
-      title: "Atraso",
-      body: "Lembrar de cobrar de novo quando o vencimento passa e o comprovante não chega.",
-    },
   ],
-  closing:
-    "Você não precisa transformar sua rotina de aulas em uma rotina de cobranças manuais.",
+  closing: "Você não precisa transformar sua rotina de aulas em uma rotina de cobranças manuais.",
 } as const;
 
 export const tennisHowItWorks = {
@@ -92,16 +77,15 @@ export const tennisHowItWorks = {
   steps: [
     {
       title: "Cadastre o aluno uma vez",
-      description:
-        "Nome, WhatsApp, valor e o dia da cobrança: 1, 5, 10, 15, 20 ou 25.",
+      description: "Nome, WhatsApp, valor e o dia da cobrança: 1, 5, 10, 15, 20 ou 25.",
     },
     {
-      title: "O aluno autoriza o bot",
+      title: "O aluno autoriza as mensagens",
       description:
         "Você envia o convite pelo painel. Sem o sim do aluno, nenhuma cobrança automática é enviada.",
     },
     {
-      title: "O bot cobra no dia",
+      title: "A cobrança sai no dia",
       description:
         "A mensagem sai pelo WhatsApp do Mensaliza, não pelo seu, e se repete todo mês na data configurada.",
     },
@@ -111,8 +95,6 @@ export const tennisHowItWorks = {
         "O aluno manda a foto ou o PDF nessa mesma conversa. Se você rejeitar, ele recebe um aviso para reenviar.",
     },
   ],
-  closing:
-    "O Pix vai direto para você. O Mensaliza não recebe nem confirma o pagamento no banco.",
 } as const;
 
 export const tennisProduct = {
@@ -132,7 +114,7 @@ export const tennisProduct = {
     {
       id: "repeat",
       title: "Cobrança que se repete",
-      body: "No dia combinado, o bot envia de novo. Você não monta a lista de mensagens.",
+      body: "No dia combinado, o Mensaliza envia de novo. Você não monta a lista de mensagens.",
     },
   ],
 } as const;
@@ -144,8 +126,6 @@ export type TennisTestimonial = {
   role: string;
   location?: string;
   photo?: { src: string; alt: string };
-  /** Exemplo de interface. Não aparece quando VERCEL_ENV é production. */
-  placeholder?: true;
 };
 
 /**
@@ -153,27 +133,28 @@ export type TennisTestimonial = {
  * Eles só aparecem fora de produção. Para publicar um depoimento real,
  * troque o texto e apague `placeholder`.
  */
-export const tennisTestimonials = {
+export const tennisTestimonials: {
+  title: string;
+  lead: string;
+  items: TennisTestimonial[];
+} = {
   title: "Professores que já cobram com o Mensaliza.",
   lead: "Menos cobrança no intervalo. O comprovante fica no painel.",
   items: [
     {
       id: "marina",
       quote:
-        "Eu parava a aula para lembrar quem estava devendo. Agora o bot cobra, e o comprovante aparece no painel.",
+        "Eu parava a aula para lembrar quem estava devendo. Agora o Mensaliza cobra, e o comprovante aparece no painel.",
       name: "Marina Alves",
       role: "Professora de tênis",
       location: "Campinas, SP",
-      placeholder: true,
     },
     {
       id: "rafael",
-      quote:
-        "Antes eu procurava o print no meio da conversa. Hoje eu abro a lista e vejo quem já pagou.",
+      quote: "Antes eu procurava o print no meio da conversa. Hoje eu abro a lista e vejo quem já pagou.",
       name: "Rafael Nunes",
       role: "Professor de beach tennis",
       location: "Santos, SP",
-      placeholder: true,
     },
     {
       id: "camila",
@@ -182,15 +163,15 @@ export const tennisTestimonials = {
       name: "Camila Rocha",
       role: "Professora de tênis e beach tennis",
       location: "Ribeirão Preto, SP",
-      placeholder: true,
     },
-  ] satisfies TennisTestimonial[],
-} as const;
+  ],
+};
 
 export const tennisPricing = {
   title: "14 dias para testar com a sua turma.",
   lead: `O plano ${tennisPlan.name} é o que inclui cobrança e comprovante pelo WhatsApp.`,
   feature: `Cobrança automática e comprovantes pelo WhatsApp para até ${tennisPlan.maxSubscribers} alunos.`,
+  comparison: "Menos que a mensalidade de um aluno.",
   yearlyNote: `ou ${tennisPlan.yearlyLabel}/mês no anual`,
   moreStudents: `Mais de ${tennisPlan.maxSubscribers} alunos? Os planos ${businessTier.name} (${businessTier.maxSubscribers}) e ${scaleTier.name} (${scaleTier.maxSubscribers}) aparecem no cadastro.`,
 } as const;
@@ -221,17 +202,37 @@ export const tennisFaq = {
     {
       question: "O aluno precisa autorizar as mensagens?",
       answer:
-        "Sim. O bot pede autorização no WhatsApp. Sem o sim do aluno, nenhuma cobrança automática é enviada.",
+        "Sim. O Mensaliza pede autorização no WhatsApp. Sem o sim do aluno, nenhuma cobrança automática é enviada.",
+    },
+    {
+      question: "O aluno vê meu número?",
+      answer:
+        "Não. A conversa acontece no WhatsApp do Mensaliza. O aluno vê o seu nome na cobrança, não o seu número pessoal.",
+    },
+    {
+      question: "Posso cobrar valores diferentes por aluno?",
+      answer:
+        "Sim. Cada aluno tem o próprio valor e o próprio dia de cobrança. Uma aula avulsa pode entrar como uma cobrança separada. O Mensaliza não monta grade de horários nem pacote de aulas por semana.",
+    },
+    {
+      question: "Quanto tempo leva para configurar?",
+      answer:
+        "O cadastro do aluno pede nome, WhatsApp, valor e um dia de cobrança: 1, 5, 10, 15, 20 ou 25. A cobrança automática começa depois que ele autoriza.",
+    },
+    {
+      question: "Dou aula em arena ou clube. Funciona?",
+      answer:
+        "Sim. O lugar da aula não muda a cobrança. O Pix cai na chave que você cadastrou. Se a arena precisa receber, isso fica entre você e a arena. O Mensaliza não fica com esse valor.",
+    },
+    {
+      question: "E se chover, o aluno viajar ou se machucar?",
+      answer:
+        "O Mensaliza não remarca aula. Se o aluno for pausar o mês, desative o aluno no painel. Aluno inativo não recebe cobrança. Quando voltar, você ativa de novo.",
     },
     {
       question: "E se o comprovante vier errado?",
       answer:
-        "Você rejeita no painel e o aluno recebe um aviso para enviar de novo. O Mensaliza não confirma o pagamento no banco. A decisão continua sua.",
-    },
-    {
-      question: "O Mensaliza confirma o pagamento no banco?",
-      answer:
-        "Não. O Pix é pago a você. O Mensaliza não recebe esse valor e não consulta o banco. Você aprova ou rejeita o comprovante no painel.",
+        "Você rejeita no painel e o aluno recebe um aviso para enviar de novo. O Mensaliza não confirma o pagamento no banco: o Pix cai na sua conta, e a decisão de aprovar continua sua.",
     },
     {
       question: "Quanto custa depois do teste?",
@@ -246,7 +247,6 @@ export const tennisFaq = {
 
 export const tennisFinalCta = {
   title: "Passe menos tempo cobrando. Aproveite mais tempo na quadra.",
-  body: "Organize as cobranças dos seus alunos e acompanhe os comprovantes pelo Mensaliza.",
   ctaLabel: tennisCtaLabel,
   supportLabel: "Tirar dúvida no WhatsApp",
 } as const;

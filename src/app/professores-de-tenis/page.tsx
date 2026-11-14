@@ -17,7 +17,7 @@ export const metadata = buildPageMetadata({
   openGraphTitle:
     "Cobrança para professores de tênis e beach tennis — Mensaliza",
   description:
-    "Para professores de tênis e beach tennis: cobrança pelo WhatsApp do Mensaliza, comprovante na mesma conversa e aprovação no painel. O Pix vai direto para você.",
+    "Para professores de tênis e beach tennis: o Mensaliza cobra pelo WhatsApp, o comprovante chega na mesma conversa e você aprova no painel. O Pix cai direto na sua conta.",
   path: "/professores-de-tenis",
 });
 
@@ -25,26 +25,21 @@ export default function ProfessoresDeTenisPage() {
   return (
     <>
       <JsonLd data={buildTennisLandingJsonLd()} />
-      <div className="fixed inset-0 flex flex-col lg:static lg:block lg:h-auto">
-        <div
-          id="tennis-scroll"
-          className="min-h-0 flex-1 overflow-y-auto overscroll-y-contain lg:contents"
-        >
-          <TennisSiteHeader />
-          <main id="conteudo-principal">
-            <TennisHero />
-            <TennisPain />
-            <TennisHowItWorks />
-            <TennisProduct />
-            <TennisTestimonials />
-            <TennisPricing />
-            <TennisFaq />
-            <TennisFinalCta />
-          </main>
-          <TennisSiteFooter />
-        </div>
-        <TennisMobileBar />
+      <div className="pb-[calc(4.75rem+env(safe-area-inset-bottom))] lg:pb-0">
+        <TennisSiteHeader />
+        <main id="conteudo-principal">
+          <TennisHero />
+          <TennisPain />
+          <TennisHowItWorks />
+          <TennisProduct />
+          <TennisTestimonials />
+          <TennisPricing />
+          <TennisFaq />
+          <TennisFinalCta />
+        </main>
+        <TennisSiteFooter />
       </div>
+      <TennisMobileBar />
     </>
   );
 }
