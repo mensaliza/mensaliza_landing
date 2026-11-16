@@ -18,6 +18,7 @@ export type LandingCtaLocation =
   | "mobile_bar"
   | "tennis_hero"
   | "tennis_header"
+  | "tennis_header_mobile"
   | "tennis_pricing"
   | "tennis_final"
   | "tennis_mobile";
@@ -82,11 +83,19 @@ export function trackLandingCta(props: {
   );
 }
 
+/** `"/#precos"` and `"/professores-de-tenis#precos"` both become `"precos"`. */
+export function sectionFromHref(href: string): string {
+  const hash = href.indexOf("#");
+  return hash === -1 ? href : href.slice(hash + 1);
+}
+
 export function trackLandingNavClicked(props: {
   target_section: string;
   source: LandingNavSource;
+  audience?: LandingAudience;
 }) {
-  captureEvent("landing_nav_clicked", props);
+  const { audience, ...rest } = props;
+  captureEvent("landing_nav_clicked", audience ? { ...rest, audience } : rest);
 }
 
 export function trackLandingSectionViewed(

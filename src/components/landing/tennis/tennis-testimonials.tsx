@@ -1,5 +1,6 @@
 import Image from "next/image";
 
+import { Reveal } from "@/components/landing/motion/reveal";
 import { SectionHeading } from "@/components/landing/section-heading";
 import { SectionShell } from "@/components/landing/section-shell";
 import { TENNIS_LANDING_AUDIENCE } from "@/lib/landing-analytics";
@@ -15,23 +16,33 @@ function initials(name: string) {
     .toUpperCase();
 }
 
+/** Example quotes (`placeholder: true`) only render in development. */
+const visibleTestimonials = tennisTestimonials.items.filter(
+  (item) => !item.placeholder || process.env.NODE_ENV !== "production"
+);
+
 export function TennisTestimonials() {
-  if (tennisTestimonials.items.length === 0) return null;
+  if (visibleTestimonials.length === 0) return null;
 
   return (
     <SectionShell
-      id="tennis_depoimentos"
+      id="depoimentos"
       labelledBy="tennis-depoimentos-titulo"
       analyticsSection="tennis_depoimentos"
       analyticsAudience={TENNIS_LANDING_AUDIENCE}
     >
-      <SectionHeading
-        titleId="tennis-depoimentos-titulo"
-        title={tennisTestimonials.title}
-        description={tennisTestimonials.lead}
-      />
+      <Reveal>
+        <SectionHeading
+          align="center"
+          titleId="tennis-depoimentos-titulo"
+          title={tennisTestimonials.title}
+          description={tennisTestimonials.lead}
+          className="mx-auto"
+        />
+      </Reveal>
+      <Reveal delay={60}>
       <ul className="grid w-full min-w-0 gap-4 lg:grid-cols-3">
-        {tennisTestimonials.items.map((item) => (
+        {visibleTestimonials.map((item) => (
           <li
             key={item.id}
             className="flex min-w-0 flex-col gap-6 rounded-xl border border-border bg-card p-6"
@@ -67,6 +78,7 @@ export function TennisTestimonials() {
           </li>
         ))}
       </ul>
+      </Reveal>
     </SectionShell>
   );
 }

@@ -17,7 +17,7 @@ import { tennisFaq } from "@/lib/tennis-landing-content";
 function revealTennisFaqAnswer(question: string) {
   const trigger = [
     ...document.querySelectorAll<HTMLElement>(
-      "#tennis_faq [data-slot=accordion-trigger]",
+      "#faq [data-slot=accordion-trigger]",
     ),
   ].find((element) => element.textContent?.includes(question));
   const item = trigger?.closest<HTMLElement>("[data-slot=accordion-item]");
@@ -33,15 +33,17 @@ function revealTennisFaqAnswer(question: string) {
 export function TennisFaq() {
   return (
     <SectionShell
-      id="tennis_faq"
+      id="faq"
       labelledBy="tennis-faq-titulo"
+      tinted
       analyticsSection="tennis_faq"
       analyticsAudience={TENNIS_LANDING_AUDIENCE}
     >
-      <div className="grid gap-10 lg:grid-cols-[minmax(0,0.85fr)_minmax(0,1.15fr)] lg:items-start lg:gap-16">
+      <div className="grid gap-10 lg:grid-cols-[minmax(0,0.9fr)_minmax(0,1.1fr)] lg:items-start lg:gap-16">
         <SectionHeading
           titleId="tennis-faq-titulo"
           title={tennisFaq.title}
+          description={tennisFaq.lead}
           className="lg:sticky lg:top-28"
         />
         <Accordion
@@ -61,7 +63,7 @@ export function TennisFaq() {
             <AccordionItem
               key={item.question}
               value={item.question}
-              className="scroll-mb-28 rounded-xl border border-border/80 bg-muted px-5 py-1 lg:scroll-mb-4"
+              className="scroll-mb-28 rounded-xl border border-border/80 bg-background px-5 py-1 lg:scroll-mb-4"
             >
               <AccordionTrigger className="min-h-11 py-4 text-left font-heading text-base font-semibold tracking-[-0.01em] hover:no-underline">
                 {item.question}

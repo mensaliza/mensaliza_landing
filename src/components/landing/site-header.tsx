@@ -5,7 +5,7 @@ import { useSearchParams } from "next/navigation";
 import { Suspense, useEffect, useState } from "react";
 
 import { LoginLink } from "@/components/landing/login-link";
-import { SignupButton } from "@/components/landing/signup-button";
+import { SignupButton, type SignupButtonProps } from "@/components/landing/signup-button";
 import { Logo } from "@/components/logo";
 import { Button } from "@/components/ui/button";
 import {
@@ -18,7 +18,13 @@ import {
   SheetTrigger,
 } from "@/components/ui/sheet";
 import { navLinks } from "@/lib/landing-content";
-import { trackLandingCta, trackLandingNavClicked } from "@/lib/landing-analytics";
+import {
+  sectionFromHref,
+  trackLandingCta,
+  trackLandingNavClicked,
+  type LandingAudience,
+  type LandingCtaLocation,
+} from "@/lib/landing-analytics";
 import { getSignupLinkProps, type SignupSearchParams } from "@/lib/site-urls";
 import { cn } from "cn";
 import Link from "next/link";
@@ -27,16 +33,34 @@ import { useIsMobile } from "@/hooks/use-mobile";
 const headerLinkClassName =
   "rounded-sm text-sm text-muted-foreground transition-colors hover:text-foreground focus-visible:outline-none focus-visible:ring-3 focus-visible:ring-ring/50";
 
+export type HeaderNavLink = { label: string; href: string };
+
+/** Signup target and tracking for the header CTAs. Home uses the defaults. */
+export type HeaderSignup = Pick<
+  SignupButtonProps,
+  "plan" | "billingInterval" | "audience" | "campaignRef"
+> & {
+  label?: string;
+  location?: LandingCtaLocation;
+  mobileLocation?: LandingCtaLocation;
+};
+
 type SiteHeaderProps = {
   /** When true, header starts flush/transparent over the hero and becomes a floating cell on scroll. */
   blendWithHero?: boolean;
+  links?: readonly HeaderNavLink[];
+  signup?: HeaderSignup;
+  audience?: LandingAudience;
 };
 
 function MobileHeaderSignupLink({
   searchParams,
+  signup,
 }: {
   searchParams: SignupSearchParams | null;
+  signup: HeaderSignup;
 }) {
+  const label = signup.label ?? "Começar";
   return (
     <SheetClose
       render={
@@ -45,12 +69,20 @@ function MobileHeaderSignupLink({
           nativeButton={false}
           render={
             <a
-              {...getSignupLinkProps({ searchParams })}
-              aria-label="Começar"
+              {...getSignupLinkProps({
+                searchParams,
+                plan: signup.plan,
+                interval: signup.billingInterval,
+                campaignRef: signup.campaignRef,
+              })}
+              aria-label={label}
               onClick={() =>
                 trackLandingCta({
                   cta: "signup",
-                  location: "header_mobile",
+                  location: signup.mobileLocation ?? "header_mobile",
+                  plan: signup.plan,
+                  billing_interval: signup.billingInterval,
+                  audience: signup.audience,
                 })
               }
             />
@@ -58,17 +90,22 @@ function MobileHeaderSignupLink({
         />
       }
     >
-      Começar
+      {label}
     </SheetClose>
   );
 }
 
-function MobileHeaderSignupLinkWithParams() {
+function MobileHeaderSignupLinkWithParams({ signup }: { signup: HeaderSignup }) {
   const searchParams = useSearchParams();
-  return <MobileHeaderSignupLink searchParams={searchParams} />;
+  return <MobileHeaderSignupLink searchParams={searchParams} signup={signup} />;
 }
 
-export function SiteHeader({ blendWithHero = false }: SiteHeaderProps) {
+export function SiteHeader({
+  blendWithHero = false,
+  links = navLinks,
+  signup = {},
+  audience,
+}: SiteHeaderProps) {
   const isMobile = useIsMobile();
   const [open, setOpen] = useState(false);
   const [atTop, setAtTop] = useState(blendWithHero);
@@ -121,15 +158,16 @@ export function SiteHeader({ blendWithHero = false }: SiteHeaderProps) {
             aria-label="Navegação principal"
             className="hidden mt-1 items-end gap-4 lg:flex xl:gap-5"
           >
-            {navLinks.map((link) => (
+            {links.map((link) => (
               <Link
                 key={link.href}
                 href={link.href}
                 className={headerLinkClassName}
                 onClick={() =>
                   trackLandingNavClicked({
-                    target_section: link.href.replace("/#", ""),
+                    target_section: sectionFromHref(link.href),
                     source: "header",
+                    audience,
                   })
                 }
               >
@@ -142,14 +180,18 @@ export function SiteHeader({ blendWithHero = false }: SiteHeaderProps) {
             <LoginLink
               variant="secondary"
               className="hidden min-h-8 px-3 sm:inline-flex"
-              location="header"
+              location={signup.location ?? "header"}
             />
             <SignupButton
               size="sm"
               showIcon={false}
-              label="Começar"
+              label={signup.label ?? "Começar"}
               className="hidden min-h-8 px-3 sm:inline-flex"
-              location="header"
+              location={signup.location ?? "header"}
+              plan={signup.plan}
+              billingInterval={signup.billingInterval}
+              audience={signup.audience}
+              campaignRef={signup.campaignRef}
             />
 
             <Sheet open={open} onOpenChange={setOpen}>
@@ -176,7 +218,7 @@ export function SiteHeader({ blendWithHero = false }: SiteHeaderProps) {
                   </SheetDescription>
                 </SheetHeader>
                 <nav className="flex flex-col gap-1 px-4" aria-label="Menu mobile">
-                  {navLinks.map((link) => (
+                  {links.map((link) => (
                     <SheetClose
                       key={link.href}
                       render={
@@ -187,8 +229,9 @@ export function SiteHeader({ blendWithHero = false }: SiteHeaderProps) {
                           )}
                           onClick={() =>
                             trackLandingNavClicked({
-                              target_section: link.href.replace("/#", ""),
+                              target_section: sectionFromHref(link.href),
                               source: "header_mobile",
+                              audience,
                             })
                           }
                         />
@@ -203,10 +246,12 @@ export function SiteHeader({ blendWithHero = false }: SiteHeaderProps) {
                     variant="secondary"
                     fullWidth
                     className="min-h-11"
-                    location="header_mobile"
+                    location={signup.mobileLocation ?? "header_mobile"}
                   />
-                  <Suspense fallback={<MobileHeaderSignupLink searchParams={null} />}>
-                    <MobileHeaderSignupLinkWithParams />
+                  <Suspense
+                    fallback={<MobileHeaderSignupLink searchParams={null} signup={signup} />}
+                  >
+                    <MobileHeaderSignupLinkWithParams signup={signup} />
                   </Suspense>
                 </div>
               </SheetContent>

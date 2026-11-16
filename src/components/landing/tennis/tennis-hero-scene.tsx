@@ -1,7 +1,7 @@
 "use client";
 
 import { CheckIcon } from "lucide-react";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, useSyncExternalStore } from "react";
 
 import { cn } from "cn";
 
@@ -23,26 +23,38 @@ const PHASE_LABEL: Record<ScenePhase, string> = {
   approved: "Aprovado por você",
 };
 
+const REDUCED_MOTION_QUERY = "(prefers-reduced-motion: reduce)";
+
+function subscribeReducedMotion(onChange: () => void) {
+  const media = window.matchMedia(REDUCED_MOTION_QUERY);
+  media.addEventListener("change", onChange);
+  return () => media.removeEventListener("change", onChange);
+}
+
+function usePrefersReducedMotion() {
+  return useSyncExternalStore(
+    subscribeReducedMotion,
+    () => window.matchMedia(REDUCED_MOTION_QUERY).matches,
+    () => false
+  );
+}
+
 export function TennisHeroScene({ className }: { className?: string }) {
   const rootRef = useRef<HTMLElement>(null);
   const [inView, setInView] = useState(false);
-  const [reducedMotion, setReducedMotion] = useState(false);
-  const [phase, setPhase] = useState<ScenePhase>("charge");
-
-  useEffect(() => {
-    const media = window.matchMedia("(prefers-reduced-motion: reduce)");
-    const sync = () => setReducedMotion(media.matches);
-    sync();
-    media.addEventListener("change", sync);
-    return () => media.removeEventListener("change", sync);
-  }, []);
+  const reducedMotion = usePrefersReducedMotion();
+  const [loopPhase, setLoopPhase] = useState<ScenePhase>("charge");
 
   useEffect(() => {
     const element = rootRef.current;
     if (!element) return;
 
     const observer = new IntersectionObserver(
-      ([entry]) => setInView(entry.isIntersecting),
+      ([entry]) => {
+        setInView(entry.isIntersecting);
+        // Leaving the viewport restarts the story from the first message.
+        if (!entry.isIntersecting) setLoopPhase("charge");
+      },
       { threshold: 0.35 }
     );
     observer.observe(element);
@@ -50,23 +62,16 @@ export function TennisHeroScene({ className }: { className?: string }) {
   }, []);
 
   useEffect(() => {
-    if (reducedMotion) {
-      setPhase("approved");
-      return;
-    }
-
-    if (!inView) {
-      setPhase("charge");
-      return;
-    }
+    if (reducedMotion || !inView) return;
 
     const timer = window.setTimeout(() => {
-      const index = PHASES.indexOf(phase);
-      setPhase(PHASES[(index + 1) % PHASES.length]);
-    }, PHASE_MS[phase]);
+      setLoopPhase((current) => PHASES[(PHASES.indexOf(current) + 1) % PHASES.length]);
+    }, PHASE_MS[loopPhase]);
 
     return () => window.clearTimeout(timer);
-  }, [inView, phase, reducedMotion]);
+  }, [inView, loopPhase, reducedMotion]);
+
+  const phase: ScenePhase = reducedMotion ? "approved" : loopPhase;
 
   const showReceipt = phase !== "charge";
   const showReview = phase === "review" || phase === "approved";
@@ -79,7 +84,8 @@ export function TennisHeroScene({ className }: { className?: string }) {
       className={cn("flex w-full max-w-[22rem] flex-col gap-3", className)}
       aria-label="O Mensaliza cobra a aluna Ana, ela envia o comprovante e você aprova no painel"
     >
-      <p className="text-sm font-medium text-foreground" aria-live="polite">
+      {/* Visual caption only: the figure's aria-label already tells the whole story. */}
+      <p className="text-sm font-medium text-foreground" aria-hidden>
         {PHASE_LABEL[phase]}
       </p>
 

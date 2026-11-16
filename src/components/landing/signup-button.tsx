@@ -18,7 +18,7 @@ import {
 } from "@/lib/site-urls";
 import { cn } from "cn";
 
-type SignupButtonProps = {
+export type SignupButtonProps = {
   className?: string;
   size?: "default" | "sm" | "lg";
   variant?: "default" | "outline" | "secondary" | "ghost";

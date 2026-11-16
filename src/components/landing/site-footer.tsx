@@ -4,7 +4,13 @@ import Link from "next/link";
 
 import { Logo } from "@/components/logo";
 import { navLinks } from "@/lib/landing-content";
-import { trackLandingCta, trackLandingNavClicked } from "@/lib/landing-analytics";
+import type { HeaderNavLink } from "@/components/landing/site-header";
+import {
+  sectionFromHref,
+  trackLandingCta,
+  trackLandingNavClicked,
+  type LandingAudience,
+} from "@/lib/landing-analytics";
 import {
   INSTAGRAM_HANDLE,
   INSTAGRAM_URL,
@@ -40,7 +46,21 @@ function InstagramGlyph() {
   );
 }
 
-export function SiteFooter() {
+type SiteFooterProps = {
+  links?: readonly HeaderNavLink[];
+  /** Short line under the logo. */
+  tagline?: string;
+  /** Pages that sell the self-serve trial hide "Agendar demonstração". */
+  showDemoLink?: boolean;
+  audience?: LandingAudience;
+};
+
+export function SiteFooter({
+  links = navLinks,
+  tagline = "Cobrança mensal via WhatsApp e comprovantes em um só lugar — sem processar pagamentos.",
+  showDemoLink = true,
+  audience,
+}: SiteFooterProps = {}) {
   const loginLink = getLoginLinkProps();
   const demoLink = getDemoLinkProps();
 
@@ -57,7 +77,7 @@ export function SiteFooter() {
               <Logo size="md" />
             </Link>
             <p className="max-w-xs text-sm leading-relaxed text-muted-foreground text-pretty">
-              Cobrança mensal via WhatsApp e comprovantes em um só lugar — sem processar pagamentos.
+              {tagline}
             </p>
             <div className="flex flex-col gap-2">
               <p className="font-heading text-sm font-semibold tracking-[-0.01em] text-foreground">
@@ -78,15 +98,16 @@ export function SiteFooter() {
           <div className="flex flex-col gap-3">
             <p className="font-heading text-sm font-semibold tracking-[-0.01em] text-foreground">Navegação</p>
             <nav aria-label="Links do rodapé" className="flex flex-col">
-              {navLinks.map((link) => (
+              {links.map((link) => (
                 <a
                   key={link.href}
                   href={link.href}
                   className={footerLinkClassName}
                   onClick={() =>
                     trackLandingNavClicked({
-                      target_section: link.href.replace("/#", ""),
+                      target_section: sectionFromHref(link.href),
                       source: "footer",
+                      audience,
                     })
                   }
                 >
@@ -108,23 +129,26 @@ export function SiteFooter() {
                   trackLandingCta({
                     cta: "login",
                     location: "footer",
+                    audience,
                   })
                 }
               >
                 Entrar
               </a>
-              <a
-                {...demoLink}
-                className={footerLinkClassName}
-                onClick={() =>
-                  trackLandingCta({
-                    cta: "demo",
-                    location: "footer",
-                  })
-                }
-              >
-                Agendar demonstração
-              </a>
+              {showDemoLink ? (
+                <a
+                  {...demoLink}
+                  className={footerLinkClassName}
+                  onClick={() =>
+                    trackLandingCta({
+                      cta: "demo",
+                      location: "footer",
+                    })
+                  }
+                >
+                  Agendar demonstração
+                </a>
+              ) : null}
             </nav>
           </div>
 

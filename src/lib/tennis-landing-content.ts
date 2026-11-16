@@ -31,6 +31,18 @@ export const tennisPlan = {
 
 export const tennisCtaLabel = "Começar meu teste grátis" as const;
 
+export const TENNIS_LANDING_PATH = "/professores-de-tenis" as const;
+
+export const tennisNavLinks = [
+  { label: "Como funciona", href: `${TENNIS_LANDING_PATH}#como-funciona` },
+  { label: "Painel", href: `${TENNIS_LANDING_PATH}#painel` },
+  { label: "Preço", href: `${TENNIS_LANDING_PATH}#preco` },
+  { label: "FAQ", href: `${TENNIS_LANDING_PATH}#faq` },
+] as const;
+
+export const tennisFooterTagline =
+  "Cobrança de alunos pelo WhatsApp e comprovantes no painel, para professores de tênis e beach tennis." as const;
+
 export const tennisTrialSummary = "14 dias grátis. Cancele quando quiser." as const;
 
 export const tennisTrialFacts = [
@@ -126,6 +138,8 @@ export type TennisTestimonial = {
   role: string;
   location?: string;
   photo?: { src: string; alt: string };
+  /** Exemplo de interface. Não aparece em produção. */
+  placeholder?: true;
 };
 
 /**
@@ -143,6 +157,7 @@ export const tennisTestimonials: {
   items: [
     {
       id: "marina",
+      placeholder: true,
       quote:
         "Eu parava a aula para lembrar quem estava devendo. Agora o Mensaliza cobra, e o comprovante aparece no painel.",
       name: "Marina Alves",
@@ -151,6 +166,7 @@ export const tennisTestimonials: {
     },
     {
       id: "rafael",
+      placeholder: true,
       quote: "Antes eu procurava o print no meio da conversa. Hoje eu abro a lista e vejo quem já pagou.",
       name: "Rafael Nunes",
       role: "Professor de beach tennis",
@@ -158,6 +174,7 @@ export const tennisTestimonials: {
     },
     {
       id: "camila",
+      placeholder: true,
       quote:
         "Cadastrei a turma uma vez. No dia 10 a cobrança sai sozinha, e o Pix continua caindo na minha conta.",
       name: "Camila Rocha",
@@ -177,7 +194,8 @@ export const tennisPricing = {
 } as const;
 
 export const tennisFaq = {
-  title: "Perguntas frequentes",
+  title: "Perguntas de quem dá aula",
+  lead: "Cobrança, WhatsApp, comprovante e o teste grátis, sem letra miúda.",
   items: [
     {
       question: "As cobranças saem do meu WhatsApp pessoal?",

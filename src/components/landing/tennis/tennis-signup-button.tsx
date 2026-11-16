@@ -9,7 +9,6 @@ import { tennisCtaLabel, tennisPlan } from "@/lib/tennis-landing-content";
 type TennisCtaLocation = Extract<
   LandingCtaLocation,
   | "tennis_hero"
-  | "tennis_header"
   | "tennis_final"
   | "tennis_mobile"
   | "tennis_pricing"
@@ -19,6 +18,7 @@ type TennisSignupButtonProps = {
   location: TennisCtaLocation;
   className?: string;
   size?: "default" | "sm" | "lg";
+  variant?: "default" | "outline" | "secondary";
   showIcon?: boolean;
 };
 
@@ -26,6 +26,7 @@ export function TennisSignupButton({
   location,
   className,
   size = "lg",
+  variant = "default",
   showIcon = true,
 }: TennisSignupButtonProps) {
   return (
@@ -38,6 +39,7 @@ export function TennisSignupButton({
       campaignRef={TENNIS_SIGNUP_CAMPAIGN_REF}
       className={className}
       size={size}
+      variant={variant}
       showIcon={showIcon}
     />
   );

@@ -39,7 +39,7 @@ export function TennisMobileBar() {
   return (
     <div
       className={cn(
-        "fixed inset-x-0 bottom-0 z-40 border-t border-border bg-background lg:hidden",
+        "fixed inset-x-0 bottom-0 z-40 border-t border-border bg-background/95 backdrop-blur-sm lg:hidden",
         !show && "hidden"
       )}
       aria-hidden={!show}
