@@ -142,14 +142,25 @@ export const studentSteps = [
 
 export const YEARLY_SAVINGS_PERCENT = 20;
 
+/** Mirrors `MENSALIZA_PLANS` in mensaliza-app (ADR-013): every plan has WhatsApp, only the quota changes. */
 export const pricingTiers = [
   {
     id: "basic",
     name: "Basic",
-    tagline: "Organização sem cobrança no WhatsApp",
-    maxSubscribers: 0,
-    priceMonthly: 4900,
-    priceYearly: 3900,
+    tagline: "Até 25 assinantes cobrados no WhatsApp",
+    maxSubscribers: 25,
+    priceMonthly: 2900,
+    priceYearly: 2300,
+    popular: false,
+    custom: false,
+  },
+  {
+    id: "plus",
+    name: "Plus",
+    tagline: "Até 50 assinantes cobrados no WhatsApp",
+    maxSubscribers: 50,
+    priceMonthly: 5900,
+    priceYearly: 4700,
     popular: false,
     custom: false,
   },
@@ -168,8 +179,8 @@ export const pricingTiers = [
     name: "Business",
     tagline: "Até 150 assinantes cobrados no WhatsApp",
     maxSubscribers: 150,
-    priceMonthly: 14900,
-    priceYearly: 11900,
+    priceMonthly: 13900,
+    priceYearly: 11100,
     popular: false,
     custom: false,
   },
@@ -178,8 +189,8 @@ export const pricingTiers = [
     name: "Scale",
     tagline: "Até 200 assinantes cobrados no WhatsApp",
     maxSubscribers: 200,
-    priceMonthly: 19900,
-    priceYearly: 15900,
+    priceMonthly: 17900,
+    priceYearly: 14300,
     popular: false,
     custom: false,
   },

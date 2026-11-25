@@ -283,7 +283,7 @@ function ChatHeader() {
         className="size-7 shrink-0 rounded-full border border-black/5 object-cover"
       />
       <p className="flex min-w-0 flex-1 items-center gap-1 text-[12px] leading-tight font-semibold tracking-[-0.01em] text-foreground">
-        <span className="truncate">Assistente do Mensaliza</span>
+        <span className="truncate">Mensaliza</span>
         <VerifiedBadge />
       </p>
       <svg
