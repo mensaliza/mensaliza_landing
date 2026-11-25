@@ -27,7 +27,12 @@ const includedInAll = [
  * One card instead of five look-alike ones: every plan charges on WhatsApp, so the only choice
  * is how many subscribers. Defaults to 100 (Essential), the plan most people land on.
  */
-export function PricingSection() {
+export function PricingSection({
+  title = "Cadastre quantos assinantes quiser. Pague só pelos que o Mensaliza cobra.",
+}: {
+  /** Heading for a campaign page; the home uses the default. */
+  title?: string;
+} = {}) {
   const [interval, setBillingInterval] = useState<BillingInterval>("monthly");
   const [stop, setStop] = useState(ESSENTIAL_STOP);
 
@@ -42,7 +47,7 @@ export function PricingSection() {
               id="precos-titulo"
               className="text-[clamp(1.75rem,3.2vw,2.5rem)] leading-[1.12] font-semibold tracking-[-0.025em] text-balance"
             >
-              Cadastre quantos assinantes quiser. Pague só pelos que o Mensaliza cobra.
+              {title}
             </h2>
             <p className="text-[15px] font-medium text-foreground/75">{TRIAL_TERMS}</p>
           </div>

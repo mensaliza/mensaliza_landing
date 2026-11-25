@@ -23,13 +23,13 @@ import {
 
 export const TENNIS_LANDING_PATH = "/professores-de-tenis" as const;
 
-/** Plan the sign-up buttons preselect: the first one that charges on WhatsApp. */
+/** Plan the sign-up buttons preselect: the same one the pricing slider starts on. */
 export const TENNIS_DEFAULT_PLAN = "essential" as const;
 
-const essential = pricingTiers.find((tier) => tier.id === "essential");
 const basic = pricingTiers.find((tier) => tier.id === "basic");
-if (!essential?.priceMonthly || !basic?.priceMonthly) {
-  throw new Error("Planos Essential e Basic precisam de preço.");
+const plus = pricingTiers.find((tier) => tier.id === "plus");
+if (!basic?.priceMonthly || !plus?.priceMonthly) {
+  throw new Error("Planos Basic e Plus precisam de preço.");
 }
 const reais = (cents: number) =>
   new Intl.NumberFormat("pt-BR", { style: "currency", currency: "BRL" }).format(cents / 100);
@@ -221,7 +221,7 @@ export const tennisFaq: FaqContent = {
     {
       question: "As cobranças saem do meu WhatsApp pessoal?",
       answer:
-        "Não. Saem do número do assistente do Mensaliza, com o seu nome na mensagem. Seu WhatsApp fica livre para combinar aula. Na primeira vez, o aluno responde “Sim” para autorizar; sem essa autorização, nenhuma cobrança é enviada.",
+        "Não. Saem do número do Mensaliza, com o seu nome na mensagem. Seu WhatsApp fica livre para combinar aula. Na primeira vez, o aluno responde “Sim” para autorizar; sem essa autorização, nenhuma cobrança é enviada.",
     },
     {
       question: "Meu aluno precisa baixar algum app?",
@@ -255,7 +255,7 @@ export const tennisFaq: FaqContent = {
     },
     {
       question: "Quanto custa depois do teste?",
-      answer: `O plano ${essential.name} custa ${reais(essential.priceMonthly)}/mês e cobra até ${essential.maxSubscribers} alunos no WhatsApp. Se você só quer organizar a turma e cobrar do seu jeito, o ${basic.name} custa ${reais(basic.priceMonthly)}/mês. Os outros planos estão em Preços.`,
+      answer: `Todos os planos cobram no WhatsApp; o que muda é quantos alunos. O ${basic.name} custa ${reais(basic.priceMonthly)}/mês e cobra até ${basic.maxSubscribers} alunos, e o ${plus.name} custa ${reais(plus.priceMonthly)}/mês para até ${plus.maxSubscribers}. Você cadastra quantos alunos quiser no painel. Os outros planos estão em Preços.`,
     },
     {
       question: "Como funciona o teste grátis e como cancelo?",
@@ -263,6 +263,9 @@ export const tennisFaq: FaqContent = {
     },
   ],
 };
+
+export const tennisPricingTitle =
+  "Cadastre quantos alunos quiser. Pague só pelos que o Mensaliza cobra.";
 
 export const tennisCta: CtaContent = {
   title: `Teste ${TRIAL_DAYS} dias com a sua turma`,

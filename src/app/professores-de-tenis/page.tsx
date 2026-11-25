@@ -23,6 +23,7 @@ import {
   tennisFooterTagline,
   tennisHowItWorks,
   tennisNavLinks,
+  tennisPricingTitle,
   tennisRelief,
 } from "@/lib/tennis-landing-content";
 
@@ -61,7 +62,7 @@ export default function ProfessoresDeTenisPage() {
         <HowItWorksSection content={tennisHowItWorks} />
         <FeaturesSection content={tennisFeatures} />
         <TennisTestimonials />
-        <PricingSection />
+        <PricingSection title={tennisPricingTitle} />
         <FaqSection content={tennisFaq} />
         <CtaSection content={tennisCta} />
       </main>
