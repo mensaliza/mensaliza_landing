@@ -1,12 +1,12 @@
 import type { Metadata } from "next";
 
 import {
-  clientSteps,
-  essentialFaqItems,
+  faqItems,
   pricingPlans,
   professionalSteps,
+  studentSteps,
+  TRIAL_DAYS,
 } from "@/lib/landing-content";
-import { tennisFaq } from "@/lib/tennis-landing-content";
 import {
   INSTAGRAM_URL,
   SUPPORT_EMAIL,
@@ -17,10 +17,10 @@ export const SITE_URL = "https://mensaliza.com";
 export const SITE_NAME = "Mensaliza";
 
 export const DEFAULT_TITLE =
-  "Mensaliza — Cobrança mensal automática via WhatsApp";
+  "Mensaliza: cobrança de mensalidade automática no WhatsApp";
 
 export const DEFAULT_DESCRIPTION =
-  "Organize assinantes, envie cobranças no dia certo pelo WhatsApp e aprove comprovantes — sem processar pagamentos.";
+  `Seus assinantes recebem a cobrança no WhatsApp, pagam no Pix direto na sua conta e mandam o comprovante na mesma conversa. Teste ${TRIAL_DAYS} dias grátis.`;
 
 export const OG_IMAGE = {
   url: "/og.jpeg",
@@ -203,11 +203,13 @@ export function buildSoftwareApplicationJsonLd(): JsonLd {
   };
 }
 
-export function buildFaqPageJsonLd(): JsonLd {
+export function buildFaqPageJsonLd(
+  items: ReadonlyArray<{ question: string; answer: string }> = faqItems
+): JsonLd {
   return {
     "@context": "https://schema.org",
     "@type": "FAQPage",
-    mainEntity: essentialFaqItems.map((item) => ({
+    mainEntity: items.map((item) => ({
       "@type": "Question",
       name: item.question,
       acceptedAnswer: {
@@ -222,9 +224,9 @@ export function buildHowToJsonLd(): JsonLd {
   const professionalHowTo = {
     "@context": "https://schema.org",
     "@type": "HowTo",
-    name: "Como usar o Mensaliza como profissional",
+    name: "Como começar a cobrar seus assinantes pelo Mensaliza",
     description:
-      "Do cadastro ao comprovante aprovado em poucos passos para o profissional.",
+      "Três passos para as cobranças de mensalidade saírem sozinhas no WhatsApp.",
     step: professionalSteps.map((step, index) => ({
       "@type": "HowToStep",
       position: index + 1,
@@ -236,14 +238,14 @@ export function buildHowToJsonLd(): JsonLd {
   const clientHowTo = {
     "@context": "https://schema.org",
     "@type": "HowTo",
-    name: "Como funciona o Mensaliza para o cliente",
+    name: "Como o assinante paga a mensalidade pelo Mensaliza",
     description:
-      "Do cadastro ao comprovante aprovado em poucos passos para o cliente.",
-    step: clientSteps.map((step, index) => ({
+      "Do aviso no WhatsApp ao pagamento confirmado, sem app e sem custo para o assinante.",
+    step: studentSteps.map((text, index) => ({
       "@type": "HowToStep",
       position: index + 1,
-      name: step.title,
-      text: step.description,
+      name: text,
+      text,
     })),
   };
 
@@ -280,26 +282,95 @@ export function buildLayoutJsonLd(): JsonLd[] {
   return [buildOrganizationJsonLd(), buildWebSiteJsonLd()];
 }
 
-export function buildTennisLandingJsonLd(): JsonLd[] {
-  return [
-    buildBreadcrumbJsonLd([
-      { name: "Início", path: "/" },
-      {
-        name: "Professores de tênis e beach tennis",
-        path: "/professores-de-tenis",
-      },
-    ]),
-    {
-      "@context": "https://schema.org",
-      "@type": "FAQPage",
-      mainEntity: tennisFaq.items.map((item) => ({
-        "@type": "Question",
-        name: item.question,
-        acceptedAnswer: {
-          "@type": "Answer",
-          text: item.answer,
-        },
-      })),
+/**
+ * Drops the default static OG/Twitter image so the route's generated
+ * `opengraph-image` / `twitter-image` files are the only ones in <head>.
+ */
+export function withGeneratedImages(metadata: Metadata): Metadata {
+  // The `images` key must be absent (not undefined), or it also hides the generated files.
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const { images: _ogImages, ...openGraph } = metadata.openGraph ?? {};
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const { images: _twitterImages, ...twitter } = metadata.twitter ?? {};
+  return { ...metadata, openGraph, twitter };
+}
+
+export function buildArticleMetadata(options: {
+  title: string;
+  description: string;
+  path: string;
+  publishedAt: string;
+  updatedAt?: string;
+  tags?: string[];
+}): Metadata {
+  const base = buildPageMetadata(options);
+
+  const { openGraph, ...rest } = withGeneratedImages(base);
+
+  return {
+    ...rest,
+    openGraph: {
+      ...openGraph,
+      type: "article",
+      publishedTime: options.publishedAt,
+      modifiedTime: options.updatedAt ?? options.publishedAt,
+      authors: [SITE_NAME],
+      tags: options.tags,
     },
-  ];
+  };
+}
+
+export function buildBlogPostingJsonLd(post: {
+  title: string;
+  description: string;
+  path: string;
+  publishedAt: string;
+  updatedAt?: string;
+  tags?: string[];
+}): JsonLd {
+  const url = absoluteUrl(post.path);
+
+  return {
+    "@context": "https://schema.org",
+    "@type": "BlogPosting",
+    headline: post.title,
+    description: post.description,
+    url,
+    mainEntityOfPage: { "@type": "WebPage", "@id": url },
+    datePublished: post.publishedAt,
+    dateModified: post.updatedAt ?? post.publishedAt,
+    inLanguage: "pt-BR",
+    image: absoluteUrl(`${post.path}/opengraph-image`),
+    keywords: post.tags?.join(", "),
+    author: { "@type": "Organization", name: SITE_NAME, url: SITE_URL },
+    publisher: {
+      "@type": "Organization",
+      name: SITE_NAME,
+      url: SITE_URL,
+      logo: { "@type": "ImageObject", url: absoluteUrl(OG_IMAGE.url) },
+    },
+  };
+}
+
+export function buildBlogJsonLd(options: {
+  name: string;
+  description: string;
+  path: string;
+  posts: ReadonlyArray<{ title: string; path: string; publishedAt: string }>;
+}): JsonLd {
+  return {
+    "@context": "https://schema.org",
+    "@type": "Blog",
+    name: options.name,
+    description: options.description,
+    url: absoluteUrl(options.path),
+    inLanguage: "pt-BR",
+    publisher: { "@type": "Organization", name: SITE_NAME, url: SITE_URL },
+    blogPost: options.posts.map((post) => ({
+      "@type": "BlogPosting",
+      headline: post.title,
+      url: absoluteUrl(post.path),
+      datePublished: post.publishedAt,
+    })),
+  };
 }

@@ -1,24 +1,21 @@
 "use client";
 
 import { ArrowRightIcon } from "lucide-react";
-import { useSearchParams } from "next/navigation";
-import { Suspense } from "react";
+import type { MouseEvent, SyntheticEvent } from "react";
 
+import { useLandingCampaign } from "@/components/landing/landing-campaign";
 import { Button } from "@/components/ui/button";
+import { withAttribution } from "@/lib/attribution";
+import { SIGNUP_CTA_LABEL } from "@/lib/landing-content";
 import {
   trackLandingCta,
   type BillingInterval,
-  type LandingAudience,
   type LandingCtaLocation,
 } from "@/lib/landing-analytics";
-import {
-  getSignupLinkProps,
-  type SignupCampaignRef,
-  type SignupSearchParams,
-} from "@/lib/site-urls";
+import { getSignupLinkProps } from "@/lib/site-urls";
 import { cn } from "cn";
 
-export type SignupButtonProps = {
+type SignupButtonProps = {
   className?: string;
   size?: "default" | "sm" | "lg";
   variant?: "default" | "outline" | "secondary" | "ghost";
@@ -27,73 +24,76 @@ export type SignupButtonProps = {
   location: LandingCtaLocation;
   plan?: string;
   billingInterval?: BillingInterval;
-  /** Omitted on home. Tennis page passes `"professores_tenis"`. */
-  audience?: LandingAudience;
-  /** Omitted on home. Tennis page passes `"professores-de-tenis"`. */
-  campaignRef?: SignupCampaignRef;
 };
 
-function SignupButtonLink({
+/** Every "start" button on the site: same tab, carrying the visit's UTMs to the app. */
+export function SignupButton({
   className,
   size = "lg",
   variant = "default",
   showIcon = true,
-  label = "Começar agora",
+  label = SIGNUP_CTA_LABEL,
   location,
-  plan,
-  billingInterval,
-  audience,
-  campaignRef,
-  searchParams,
-}: SignupButtonProps & { searchParams: SignupSearchParams | null }) {
+  plan: planProp,
+  billingInterval: intervalProp,
+}: SignupButtonProps) {
+  // Campaign pages preselect a plan and tag the sign-up with their `ref`.
+  const campaign = useLandingCampaign();
+  const plan = planProp ?? campaign?.plan;
+  const billingInterval = intervalProp ?? campaign?.billingInterval;
   const signupLink = getSignupLinkProps({
     plan,
     interval: billingInterval,
-    searchParams,
-    campaignRef,
+    ref: campaign?.signupRef,
   });
+
+  /**
+   * The UTMs live in the browser, so they go onto the href as late as possible: on pointer down
+   * (covers left, middle and right click, so "open in new tab" and "copy link" keep them too),
+   * on focus (keyboard), and again on click as a last resort.
+   */
+  function attachAttribution(event: SyntheticEvent<HTMLAnchorElement>) {
+    event.currentTarget.href = withAttribution(signupLink.href);
+  }
+
+  function track() {
+    trackLandingCta({
+      cta: "signup",
+      location,
+      plan,
+      billing_interval: billingInterval,
+    });
+  }
+
+  function handleClick(event: MouseEvent<HTMLAnchorElement>) {
+    attachAttribution(event);
+    track();
+  }
+
+  function handleAuxClick(event: MouseEvent<HTMLAnchorElement>) {
+    if (event.button !== 1) return;
+    attachAttribution(event);
+    track();
+  }
 
   return (
     <Button
       variant={variant}
       size={size}
-      className={cn("demo-cta-motion min-h-11", className)}
+      className={cn("min-h-11", className)}
       nativeButton={false}
       render={
         <a
-          {...signupLink}
-          aria-label={
-            signupLink.target === "_blank"
-              ? `${label} (abre em nova aba)`
-              : label
-          }
-          onClick={() =>
-            trackLandingCta({
-              cta: "signup",
-              location,
-              plan,
-              billing_interval: billingInterval,
-              ...(audience ? { audience } : {}),
-            })
-          }
+          href={signupLink.href}
+          onPointerDown={attachAttribution}
+          onFocus={attachAttribution}
+          onClick={handleClick}
+          onAuxClick={handleAuxClick}
         />
       }
     >
       {label}
       {showIcon ? <ArrowRightIcon data-icon="inline-end" /> : null}
     </Button>
-  );
-}
-
-function SignupButtonWithSearchParams(props: SignupButtonProps) {
-  const searchParams = useSearchParams();
-  return <SignupButtonLink {...props} searchParams={searchParams} />;
-}
-
-export function SignupButton(props: SignupButtonProps) {
-  return (
-    <Suspense fallback={<SignupButtonLink {...props} searchParams={null} />}>
-      <SignupButtonWithSearchParams {...props} />
-    </Suspense>
   );
 }

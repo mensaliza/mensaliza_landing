@@ -12,6 +12,18 @@ export const SUPPORT_WHATSAPP_DISPLAY = "+55 19 99264-7318";
 
 export const SUPPORT_WHATSAPP_URL = "https://wa.me/5519992647318";
 
+export const SUPPORT_WHATSAPP_DEFAULT_MESSAGE =
+  "Olá! Vim pelo site e gostaria de saber mais sobre o Mensaliza.";
+
+export const SUPPORT_WHATSAPP_ENTERPRISE_MESSAGE =
+  "Olá! Vim pelo site, tenho mais de 200 assinantes e quero saber do plano Enterprise do Mensaliza.";
+
+export function getWhatsAppHref(
+  message = SUPPORT_WHATSAPP_DEFAULT_MESSAGE,
+): string {
+  return `${SUPPORT_WHATSAPP_URL}?text=${encodeURIComponent(message)}`;
+}
+
 /** Legal notices, LGPD, data-subject rights, and the privacy team channel. */
 export const LEGAL_EMAIL = "contato@mensaliza.com";
 
@@ -34,96 +46,25 @@ function appHref(path = ""): string {
   return `${APP_ORIGIN}${normalized}`;
 }
 
-function externalLinkProps(href: string): {
-  href: string;
-  target?: "_blank";
-  rel?: "noopener noreferrer";
-} {
-  if (!isExternalUrl(href)) {
-    return { href };
-  }
-
-  return {
-    href,
-    target: "_blank",
-    rel: "noopener noreferrer",
-  };
-}
-
-export function getAppLinkProps(): {
-  href: string;
-  target?: "_blank";
-  rel?: "noopener noreferrer";
-} {
-  return externalLinkProps(appHref());
-}
-
 export function getLoginHref(): string {
   return appHref("/auth/login");
 }
 
-export function getLoginLinkProps(): {
-  href: string;
-  target?: "_blank";
-  rel?: "noopener noreferrer";
-} {
-  return externalLinkProps(getLoginHref());
+/** Login and sign-up open in the same tab: a new tab breaks "back" on phones. */
+export function getLoginLinkProps(): { href: string } {
+  return { href: getLoginHref() };
 }
 
-export function getDemoHref(assinantes?: string): string {
-  if (assinantes) {
-    return `/?assinantes=${encodeURIComponent(assinantes)}#agendar-demo`;
-  }
-
-  return `/#agendar-demo`;
-}
-
-export function getDemoLinkProps(assinantes?: string): {
-  href: string;
-  target?: "_blank";
-  rel?: "noopener noreferrer";
-} {
-  const href = getDemoHref(assinantes);
-
-  return { href };
-}
-
-/** Query keys copied from the current page onto the signup URL. */
-export const SIGNUP_CAMPAIGN_QUERY_KEYS = [
-  "utm_source",
-  "utm_medium",
-  "utm_campaign",
-  "utm_content",
-  "utm_term",
-  "fbclid",
-  "gclid",
-] as const;
-
-export type SignupCampaignQueryKey = (typeof SIGNUP_CAMPAIGN_QUERY_KEYS)[number];
-
-/** Added only when a campaign landing explicitly asks for it. */
+/** `ref` on the sign-up URL for each campaign page. Home links carry none. */
 export const TENNIS_SIGNUP_CAMPAIGN_REF = "professores-de-tenis" as const;
 
 export type SignupCampaignRef = typeof TENNIS_SIGNUP_CAMPAIGN_REF;
 
-export type SignupSearchParams = {
-  get(name: string): string | null;
-};
-
-export type SignupHrefOptions = {
+export function getSignupHref(options?: {
   plan?: string;
   interval?: "monthly" | "yearly";
-  /** Current page query string. Only `SIGNUP_CAMPAIGN_QUERY_KEYS` are copied. */
-  searchParams?: SignupSearchParams | null;
-  /** Sets `ref`. Home CTAs omit this. */
-  campaignRef?: SignupCampaignRef;
-};
-
-/**
- * Signup URL on the app. Keeps `plan` and `interval`, copies the campaign
- * allowlist from `searchParams`, and sets `ref` only when `campaignRef` is passed.
- */
-export function getSignupHref(options?: SignupHrefOptions): string {
+  ref?: SignupCampaignRef;
+}): string {
   const base = appHref("/auth/register");
 
   const params = new URLSearchParams();
@@ -133,29 +74,18 @@ export function getSignupHref(options?: SignupHrefOptions): string {
   if (options?.interval) {
     params.set("interval", options.interval);
   }
-
-  const searchParams = options?.searchParams;
-  if (searchParams) {
-    for (const key of SIGNUP_CAMPAIGN_QUERY_KEYS) {
-      const value = searchParams.get(key)?.trim();
-      if (value) {
-        params.set(key, value);
-      }
-    }
-  }
-
-  if (options?.campaignRef) {
-    params.set("ref", options.campaignRef);
+  if (options?.ref) {
+    params.set("ref", options.ref);
   }
 
   const query = params.toString();
   return query ? `${base}?${query}` : base;
 }
 
-export function getSignupLinkProps(options?: SignupHrefOptions): {
-  href: string;
-  target?: "_blank";
-  rel?: "noopener noreferrer";
-} {
-  return externalLinkProps(getSignupHref(options));
+export function getSignupLinkProps(options?: {
+  plan?: string;
+  interval?: "monthly" | "yearly";
+  ref?: SignupCampaignRef;
+}): { href: string } {
+  return { href: getSignupHref(options) };
 }

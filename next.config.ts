@@ -1,3 +1,4 @@
+import createMDX from "@next/mdx";
 import type { NextConfig } from "next";
 
 const POSTHOG_INGEST_HOST =
@@ -41,4 +42,13 @@ const nextConfig: NextConfig = {
   },
 };
 
-export default nextConfig;
+const withMDX = createMDX({
+  options: {
+    // Plugin names as strings so the config stays serializable for Turbopack.
+    remarkPlugins: ["remark-gfm"],
+    // Adds ids to headings so the table of contents can link to them.
+    rehypePlugins: ["rehype-slug"],
+  },
+});
+
+export default withMDX(nextConfig);

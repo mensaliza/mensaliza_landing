@@ -1,17 +1,16 @@
-import { Geist, Geist_Mono, Lexend } from "next/font/google";
-import { Analytics } from "@vercel/analytics/next"
-import { SpeedInsights } from "@vercel/speed-insights/next"
+import { Geist, Geist_Mono } from "next/font/google";
+import { GoogleTagManager } from "@next/third-parties/google";
+import { Analytics } from "@vercel/analytics/next";
+import { SpeedInsights } from "@vercel/speed-insights/next";
 
+import { MetaPixel } from "@/components/analytics/meta-pixel";
 import { JsonLd } from "@/components/seo/json-ld";
 import { Toaster } from "@/components/ui/sonner";
+import { getGtmId } from "@/lib/gtm-config";
+import { getMetaPixelId } from "@/lib/meta-pixel-config";
 import { buildLayoutJsonLd, buildRootMetadata } from "@/lib/seo";
 
 import "./globals.css";
-
-const lexend = Lexend({
-  variable: "--font-lexend",
-  subsets: ["latin"],
-});
 
 const geist = Geist({
   variable: "--font-geist",
@@ -30,11 +29,15 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const gtmId = getGtmId();
+  const metaPixelId = getMetaPixelId();
+
   return (
     <html
       lang="pt-BR"
-      className={`${lexend.variable} ${geist.variable} ${geistMono.variable} h-full antialiased`}
+      className={`${geist.variable} ${geistMono.variable} h-full antialiased`}
     >
+      {gtmId && <GoogleTagManager gtmId={gtmId} />}
       <body className="flex min-h-full flex-col">
         <JsonLd data={buildLayoutJsonLd()} />
         <a
@@ -47,6 +50,7 @@ export default function RootLayout({
         <Toaster position="top-center" richColors={false} closeButton />
         <Analytics />
         <SpeedInsights />
+        {metaPixelId && <MetaPixel pixelId={metaPixelId} />}
       </body>
     </html>
   );

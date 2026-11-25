@@ -3,16 +3,15 @@
 import { useRef } from "react";
 
 import { useSectionView } from "@/hooks/use-section-view";
-import type { LandingAudience, LandingSectionId } from "@/lib/landing-analytics";
+import type { LandingSectionId } from "@/lib/landing-analytics";
 
 type SectionViewTrackerProps = {
   section: LandingSectionId;
-  audience?: LandingAudience;
 };
 
-export function SectionViewTracker({ section, audience }: SectionViewTrackerProps) {
+export function SectionViewTracker({ section }: SectionViewTrackerProps) {
   const ref = useRef<HTMLDivElement>(null);
-  useSectionView(section, ref, audience);
+  useSectionView(section, ref);
 
   return (
     <div

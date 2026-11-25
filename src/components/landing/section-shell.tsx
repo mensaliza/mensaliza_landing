@@ -1,5 +1,5 @@
 import { SectionViewTracker } from "@/components/landing/section-view-tracker";
-import type { LandingAudience, LandingSectionId } from "@/lib/landing-analytics";
+import type { LandingSectionId } from "@/lib/landing-analytics";
 import { cn } from "cn";
 
 type SectionShellProps = React.ComponentProps<"section"> & {
@@ -7,7 +7,6 @@ type SectionShellProps = React.ComponentProps<"section"> & {
   labelledBy?: string;
   tinted?: boolean;
   analyticsSection?: LandingSectionId;
-  analyticsAudience?: LandingAudience;
 };
 
 export function SectionShell({
@@ -15,7 +14,6 @@ export function SectionShell({
   labelledBy,
   tinted = false,
   analyticsSection,
-  analyticsAudience,
   className,
   children,
   ...props
@@ -31,9 +29,7 @@ export function SectionShell({
       )}
       {...props}
     >
-      {analyticsSection ? (
-        <SectionViewTracker section={analyticsSection} audience={analyticsAudience} />
-      ) : null}
+      {analyticsSection ? <SectionViewTracker section={analyticsSection} /> : null}
       <div className="mx-auto flex w-full max-w-6xl flex-col gap-10">{children}</div>
     </section>
   );

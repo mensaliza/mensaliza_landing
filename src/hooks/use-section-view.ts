@@ -4,7 +4,6 @@ import { useEffect, useRef } from "react";
 
 import {
   trackLandingSectionViewed,
-  type LandingAudience,
   type LandingSectionId,
 } from "@/lib/landing-analytics";
 
@@ -13,7 +12,6 @@ const viewedSections = new Set<LandingSectionId>();
 export function useSectionView(
   section: LandingSectionId,
   ref: React.RefObject<HTMLElement | null>,
-  audience?: LandingAudience,
 ) {
   const hasFired = useRef(false);
 
@@ -29,10 +27,7 @@ export function useSectionView(
 
         hasFired.current = true;
         viewedSections.add(section);
-        trackLandingSectionViewed(
-          section,
-          audience ? { audience } : undefined,
-        );
+        trackLandingSectionViewed(section);
         observer.disconnect();
       },
       { threshold: 0.35 },
@@ -40,5 +35,5 @@ export function useSectionView(
 
     observer.observe(element);
     return () => observer.disconnect();
-  }, [audience, ref, section]);
+  }, [ref, section]);
 }

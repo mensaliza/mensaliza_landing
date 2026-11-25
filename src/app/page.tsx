@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
 
-import { AudienceSection } from "@/components/landing/audience-section";
 import { CtaSection } from "@/components/landing/cta-section";
 import { FaqSection } from "@/components/landing/faq-section";
 import { FeaturesSection } from "@/components/landing/features-section";
@@ -10,6 +9,7 @@ import { PricingSection } from "@/components/landing/pricing-section";
 import { ReliefSection } from "@/components/landing/relief-section";
 import { SiteFooter } from "@/components/landing/site-footer";
 import { SiteHeader } from "@/components/landing/site-header";
+import { WhatsAppFloatingButton } from "@/components/landing/whatsapp-floating-button";
 import { JsonLd } from "@/components/seo/json-ld";
 import {
   buildHomeJsonLd,
@@ -36,17 +36,15 @@ export default function Home() {
       <SiteHeader blendWithHero />
       <main id="conteudo-principal">
         <HeroSection />
-        <AudienceSection />
         <ReliefSection />
-        <FeaturesSection />
         <HowItWorksSection />
+        <FeaturesSection />
         <PricingSection />
         <FaqSection />
         <CtaSection />
       </main>
-      <div className="pb-24 lg:pb-0">
-        <SiteFooter />
-      </div>
+      <SiteFooter />
+      <WhatsAppFloatingButton />
     </>
   );
 }

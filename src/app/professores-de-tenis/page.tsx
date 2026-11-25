@@ -1,71 +1,72 @@
+import { CtaSection } from "@/components/landing/cta-section";
+import { FaqSection } from "@/components/landing/faq-section";
+import { FeaturesSection } from "@/components/landing/features-section";
+import { HowItWorksSection } from "@/components/landing/how-it-works-section";
+import { LandingCampaignProvider } from "@/components/landing/landing-campaign";
+import { PricingSection } from "@/components/landing/pricing-section";
+import { ReliefSection } from "@/components/landing/relief-section";
 import { SiteFooter } from "@/components/landing/site-footer";
 import { SiteHeader } from "@/components/landing/site-header";
-import { TennisFaq } from "@/components/landing/tennis/tennis-faq";
-import { TennisFinalCta } from "@/components/landing/tennis/tennis-final-cta";
 import { TennisHero } from "@/components/landing/tennis/tennis-hero";
-import { TennisHowItWorks } from "@/components/landing/tennis/tennis-how-it-works";
-import { TennisMobileBar } from "@/components/landing/tennis/tennis-mobile-bar";
-import { TennisPain } from "@/components/landing/tennis/tennis-pain";
-import { TennisPricing } from "@/components/landing/tennis/tennis-pricing";
-import { TennisProduct } from "@/components/landing/tennis/tennis-product";
 import { TennisTestimonials } from "@/components/landing/tennis/tennis-testimonials";
+import { WhatsAppFloatingButton } from "@/components/landing/whatsapp-floating-button";
 import { JsonLd } from "@/components/seo/json-ld";
 import { TENNIS_LANDING_AUDIENCE } from "@/lib/landing-analytics";
-import { buildPageMetadata, buildTennisLandingJsonLd } from "@/lib/seo";
+import { buildBreadcrumbJsonLd, buildFaqPageJsonLd, buildPageMetadata } from "@/lib/seo";
 import { TENNIS_SIGNUP_CAMPAIGN_REF } from "@/lib/site-urls";
 import {
+  TENNIS_DEFAULT_PLAN,
   TENNIS_LANDING_PATH,
+  tennisCta,
+  tennisFaq,
+  tennisFeatures,
   tennisFooterTagline,
+  tennisHowItWorks,
   tennisNavLinks,
-  tennisPlan,
+  tennisRelief,
 } from "@/lib/tennis-landing-content";
 
 export const metadata = buildPageMetadata({
   title: "Cobrança para professores de tênis e beach tennis",
-  openGraphTitle:
-    "Cobrança para professores de tênis e beach tennis — Mensaliza",
+  openGraphTitle: "Cobrança para professores de tênis e beach tennis — Mensaliza",
   description:
-    "Para professores de tênis e beach tennis: o Mensaliza cobra pelo WhatsApp, o comprovante chega na mesma conversa e você aprova no painel. O Pix cai direto na sua conta.",
+    "Para professores de tênis e beach tennis: o Mensaliza cobra seus alunos no WhatsApp, o comprovante chega na mesma conversa e você confirma no painel. O Pix cai direto na sua conta.",
   path: TENNIS_LANDING_PATH,
 });
 
+/** Campaign page: the home sections, in the home order, with copy for tennis teachers. */
 export default function ProfessoresDeTenisPage() {
   return (
-    <>
-      <JsonLd data={buildTennisLandingJsonLd()} />
-      <SiteHeader
-        blendWithHero
-        links={tennisNavLinks}
-        audience={TENNIS_LANDING_AUDIENCE}
-        signup={{
-          label: "Testar grátis",
-          location: "tennis_header",
-          mobileLocation: "tennis_header_mobile",
-          plan: tennisPlan.slug,
-          billingInterval: tennisPlan.interval,
-          audience: TENNIS_LANDING_AUDIENCE,
-          campaignRef: TENNIS_SIGNUP_CAMPAIGN_REF,
-        }}
+    <LandingCampaignProvider
+      campaign={{
+        audience: TENNIS_LANDING_AUDIENCE,
+        signupRef: TENNIS_SIGNUP_CAMPAIGN_REF,
+        plan: TENNIS_DEFAULT_PLAN,
+        billingInterval: "monthly",
+      }}
+    >
+      <JsonLd
+        data={[
+          buildBreadcrumbJsonLd([
+            { name: "Início", path: "/" },
+            { name: "Professores de tênis e beach tennis", path: TENNIS_LANDING_PATH },
+          ]),
+          buildFaqPageJsonLd(tennisFaq.items),
+        ]}
       />
+      <SiteHeader blendWithHero links={tennisNavLinks} />
       <main id="conteudo-principal">
         <TennisHero />
-        <TennisPain />
-        <TennisHowItWorks />
-        <TennisProduct />
+        <ReliefSection content={tennisRelief} />
+        <HowItWorksSection content={tennisHowItWorks} />
+        <FeaturesSection content={tennisFeatures} />
         <TennisTestimonials />
-        <TennisPricing />
-        <TennisFaq />
-        <TennisFinalCta />
+        <PricingSection />
+        <FaqSection content={tennisFaq} />
+        <CtaSection content={tennisCta} />
       </main>
-      <div className="pb-[calc(4.75rem+env(safe-area-inset-bottom))] lg:pb-0">
-        <SiteFooter
-          links={tennisNavLinks}
-          tagline={tennisFooterTagline}
-          showDemoLink={false}
-          audience={TENNIS_LANDING_AUDIENCE}
-        />
-      </div>
-      <TennisMobileBar />
-    </>
+      <SiteFooter links={tennisNavLinks} tagline={tennisFooterTagline} />
+      <WhatsAppFloatingButton />
+    </LandingCampaignProvider>
   );
 }

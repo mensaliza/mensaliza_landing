@@ -1,93 +1,56 @@
-"use client";
-
-import type { CSSProperties } from "react";
-
-import { HeroAtmosphere } from "@/components/landing/hero-atmosphere";
+import { HowItWorksLink } from "@/components/landing/how-it-works-link";
 import { SectionViewTracker } from "@/components/landing/section-view-tracker";
-import { TennisHeroScene } from "@/components/landing/tennis/tennis-hero-scene";
-import { TennisSignupButton } from "@/components/landing/tennis/tennis-signup-button";
-import { TennisTrialNote } from "@/components/landing/tennis/tennis-trial-note";
-import { Button } from "@/components/ui/button";
-import { TENNIS_LANDING_AUDIENCE, trackLandingCta } from "@/lib/landing-analytics";
-import { tennisHero } from "@/lib/tennis-landing-content";
+import { SignupButton } from "@/components/landing/signup-button";
+import { HeroShowcase } from "@/components/landing/whatsapp-demo/hero-showcase";
+import { TRIAL_TERMS } from "@/lib/landing-content";
+import { tennisConversation, tennisHero, tennisMonth } from "@/lib/tennis-landing-content";
 
+/** The home hero (same layout, motion and demo), told for tennis teachers. */
 export function TennisHero() {
   return (
     <section
       id="hero"
-      aria-labelledby="tennis-hero-titulo"
-      className="relative min-w-0 overflow-hidden px-4 pt-28 pb-10 sm:px-6 sm:pt-32 sm:pb-12 lg:px-8 lg:pb-14"
+      aria-labelledby="hero-titulo"
+      className="relative overflow-hidden px-4 pt-24 pb-16 sm:px-6 sm:pt-32 sm:pb-20 lg:px-8"
     >
-      <SectionViewTracker section="tennis_hero" audience={TENNIS_LANDING_AUDIENCE} />
-      <HeroAtmosphere />
+      <SectionViewTracker section="hero" />
 
-      <div className="relative z-10 mx-auto flex w-full max-w-4xl flex-col items-center gap-11 text-center lg:max-w-5xl lg:gap-14">
-        <div className="flex flex-col items-center gap-6 sm:gap-7 lg:gap-8">
-          <p
-            className="hero-enter text-sm font-medium text-foreground/72"
-            style={{ "--hero-i": 0 } as CSSProperties}
-          >
+      <div aria-hidden className="hero-plains">
+        <div className="hero-plain" />
+        <div className="hero-plain hero-plain--2" />
+        <div className="hero-plain hero-plain--3" />
+      </div>
+
+      <div className="relative z-10 mx-auto grid w-full max-w-6xl items-center gap-12 lg:grid-cols-2 lg:gap-16 xl:grid-cols-[minmax(0,1.1fr)_minmax(0,0.9fr)]">
+        <div className="flex min-w-0 flex-col gap-6">
+          <p className="hero-rise hero-step-1 text-[15px] font-medium text-primary">
             {tennisHero.eyebrow}
           </p>
           <h1
-            id="tennis-hero-titulo"
-            className="max-w-[20ch] font-heading text-[clamp(2.35rem,5vw,3.35rem)] leading-[1.08] font-semibold tracking-[-0.02em] text-balance sm:max-w-4xl"
+            id="hero-titulo"
+            className="hero-rise hero-step-1 max-w-[16ch] text-[clamp(2.25rem,6vw,3.75rem)] leading-[1.04] font-semibold tracking-[-0.035em] text-balance"
           >
-            <span className="hero-line" style={{ "--hero-i": 1 } as CSSProperties}>
-              {tennisHero.headline}
-            </span>
+            {tennisHero.headline}
           </h1>
 
-          <div
-            className="hero-enter flex max-w-2xl flex-col gap-3"
-            style={{ "--hero-i": 2 } as CSSProperties}
-          >
-            <p className="text-base leading-relaxed text-foreground/72 text-pretty sm:text-xl sm:leading-8">
-              {tennisHero.subheadline}
-            </p>
-            <p className="text-base font-medium text-foreground sm:text-lg">
-              {tennisHero.support}
-            </p>
-          </div>
+          <p className="hero-rise hero-step-2 max-w-[34rem] text-lg leading-relaxed text-foreground/75 text-pretty sm:text-xl sm:leading-8">
+            {tennisHero.subheadline}
+          </p>
 
-          <div
-            id="tennis-hero-cta"
-            className="hero-enter flex w-full flex-col items-center gap-3"
-            style={{ "--hero-i": 3 } as CSSProperties}
-          >
-            <div className="flex w-full flex-col items-center gap-3 sm:w-auto sm:flex-row">
-              <TennisSignupButton location="tennis_hero" className="w-full sm:w-auto" />
-              <Button
-                variant="outline"
-                size="lg"
-                className="w-full bg-background font-medium sm:w-auto"
-                nativeButton={false}
-                render={
-                  <a
-                    href="#como-funciona"
-                    onClick={() =>
-                      trackLandingCta({
-                        cta: "how_it_works",
-                        location: "tennis_hero",
-                        audience: TENNIS_LANDING_AUDIENCE,
-                      })
-                    }
-                  />
-                }
-              >
-                Ver como funciona
-              </Button>
+          <div className="flex flex-col gap-3">
+            <div className="hero-rise hero-step-3 flex flex-col gap-3 sm:flex-row sm:items-center">
+              <SignupButton className="w-full sm:w-auto" location="hero" />
+              <HowItWorksLink />
             </div>
-            <TennisTrialNote variant="summary" className="text-center" />
+            <p className="hero-rise hero-step-4 text-sm text-foreground/70">{TRIAL_TERMS}</p>
           </div>
         </div>
 
-        <div
-          className="hero-enter w-full max-w-[26rem]"
-          style={{ "--hero-i": 4 } as CSSProperties}
-        >
-          <TennisHeroScene className="max-w-none text-left" />
-        </div>
+        <HeroShowcase
+          conversation={tennisConversation}
+          month={tennisMonth}
+          className="mx-auto w-full max-w-68 sm:max-w-70 lg:mr-0 lg:justify-self-end"
+        />
       </div>
     </section>
   );

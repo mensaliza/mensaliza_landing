@@ -1,135 +1,167 @@
-import { formatCurrencyFromCents } from "@/lib/format-currency";
-import { pricingTiers } from "@/lib/landing-content";
-import { SUPPORT_EMAIL, SUPPORT_WHATSAPP_DISPLAY } from "@/lib/site-urls";
-
-function requirePricedTier(id: "essential" | "business" | "scale") {
-  const tier = pricingTiers.find((item) => item.id === id);
-  if (!tier || tier.priceMonthly == null || tier.priceYearly == null || tier.maxSubscribers == null) {
-    throw new Error(`Plano ${id} sem preço ou limite de alunos.`);
-  }
-
-  return {
-    name: tier.name,
-    priceMonthly: tier.priceMonthly,
-    priceYearly: tier.priceYearly,
-    maxSubscribers: tier.maxSubscribers,
-  };
-}
-
-const essentialTier = requirePricedTier("essential");
-const businessTier = requirePricedTier("business");
-const scaleTier = requirePricedTier("scale");
-
-export const tennisPlan = {
-  slug: "essential" as const,
-  interval: "monthly" as const,
-  name: essentialTier.name,
-  monthlyLabel: formatCurrencyFromCents(essentialTier.priceMonthly),
-  yearlyLabel: formatCurrencyFromCents(essentialTier.priceYearly),
-  maxSubscribers: essentialTier.maxSubscribers,
-};
-
-export const tennisCtaLabel = "Começar meu teste grátis" as const;
+/**
+ * Copy for /professores-de-tenis. The page reuses the home sections as they are; only the words
+ * (and the example in the demos) change, so a teacher reads "aluno" and sees tennis prices.
+ *
+ * Product facts must match the app: billing days are 1, 5, 10, 15, 20 or 25
+ * (`PAYMENT_DAYS` in mensaliza-app), and the trial terms come from `landing-content`.
+ */
+import type { CtaContent } from "@/components/landing/cta-section";
+import type { FaqContent } from "@/components/landing/faq-section";
+import type { FeaturesContent } from "@/components/landing/features-section";
+import type { HowItWorksContent } from "@/components/landing/how-it-works-section";
+import type { ReliefContent } from "@/components/landing/relief-section";
+import type { PanelMonth } from "@/components/landing/whatsapp-demo/panel-card";
+import type { Conversation } from "@/components/landing/whatsapp-demo/whatsapp-messages";
+import {
+  SUPPORT_EMAIL,
+  SUPPORT_WHATSAPP_DISPLAY,
+  TRIAL_DAYS,
+  features,
+  pricingTiers,
+  studentSteps,
+} from "@/lib/landing-content";
 
 export const TENNIS_LANDING_PATH = "/professores-de-tenis" as const;
 
+/** Plan the sign-up buttons preselect: the first one that charges on WhatsApp. */
+export const TENNIS_DEFAULT_PLAN = "essential" as const;
+
+const essential = pricingTiers.find((tier) => tier.id === "essential");
+const basic = pricingTiers.find((tier) => tier.id === "basic");
+if (!essential?.priceMonthly || !basic?.priceMonthly) {
+  throw new Error("Planos Essential e Basic precisam de preço.");
+}
+const reais = (cents: number) =>
+  new Intl.NumberFormat("pt-BR", { style: "currency", currency: "BRL" }).format(cents / 100);
+
 export const tennisNavLinks = [
   { label: "Como funciona", href: `${TENNIS_LANDING_PATH}#como-funciona` },
-  { label: "Painel", href: `${TENNIS_LANDING_PATH}#painel` },
-  { label: "Preço", href: `${TENNIS_LANDING_PATH}#preco` },
-  { label: "FAQ", href: `${TENNIS_LANDING_PATH}#faq` },
+  { label: "Painel", href: `${TENNIS_LANDING_PATH}#funcionalidades` },
+  { label: "Preços", href: `${TENNIS_LANDING_PATH}#precos` },
+  { label: "Dúvidas", href: `${TENNIS_LANDING_PATH}#faq` },
 ] as const;
 
 export const tennisFooterTagline =
-  "Cobrança de alunos pelo WhatsApp e comprovantes no painel, para professores de tênis e beach tennis." as const;
-
-export const tennisTrialSummary = "14 dias grátis. Cancele quando quiser." as const;
-
-export const tennisTrialFacts = [
-  "14 dias grátis. Nada é cobrado hoje.",
-  `Precisa de cartão. Depois do teste, ${tennisPlan.monthlyLabel}/mês no plano ${tennisPlan.name}, cobrado na data mostrada no cadastro.`,
-  "Cancele antes pelo suporte e você não paga nada.",
-] as const;
+  "Cobrança de mensalidade no WhatsApp para professores de tênis e beach tennis. O Pix cai direto na sua conta.";
 
 export const tennisHero = {
-  eyebrow: "Professores de tênis e beach tennis",
-  headline: "Você dá aula. O Mensaliza cobra.",
+  eyebrow: "Para professores de tênis e beach tennis",
+  headline: "Você dá aula. O Mensaliza cobra seus alunos.",
   subheadline:
-    "O Mensaliza cobra seus alunos pelo WhatsApp no dia certo. O comprovante chega na mesma conversa e você só aprova.",
-  support: "O Pix cai direto na sua conta. Sem taxa sobre o Pix.",
-  ctaLabel: tennisCtaLabel,
+    "No dia combinado, o Mensaliza manda a cobrança no WhatsApp de cada aluno. Ele paga no Pix, direto na sua conta, e manda o comprovante na mesma conversa.",
 } as const;
 
-export const tennisPain = {
-  title: "Sua rotina já é corrida demais para ficar cobrando mensalidade.",
-  lead: "A aula ocupa o dia. A cobrança, quando fica na mão, aparece no intervalo e no meio da quadra.",
-  situations: [
+/** The same chat as the home, with a tennis teacher and a tennis monthly fee. */
+export const tennisConversation: Conversation = {
+  providerName: "Lucas Tênis",
+  subscriberName: "Ana",
+  value: "R$ 280,00",
+  dueDate: "dia 5",
+};
+
+/** 20 students at R$ 280: Ana's payment takes the month from 70% to 75%. */
+export const tennisMonth: PanelMonth = {
+  subscriberName: "Ana",
+  amount: 280,
+  receivedBefore: 3920,
+  expected: 5600,
+};
+
+export const tennisRelief: ReliefContent = {
+  title: "Para quem dá aula e ainda cobra a mensalidade na mão",
+  professions: [
+    "Aula particular de tênis",
+    "Beach tennis",
+    "Turma de adultos",
+    "Escolinha infantil",
+    "Clínica de tênis",
+    "Aula em arena",
+    "Aula em clube",
+    "Aula em condomínio",
+    "Treino de competição",
+    "Aula em dupla",
+  ],
+  audienceLine:
+    "Para professores de tênis e beach tennis que dão aula particular, em dupla ou em turma, em clube, arena ou condomínio.",
+  painPoints: [
     {
-      id: "court",
-      title: "Interrupção na quadra",
-      body: "Parar a aula para resolver uma dúvida de pagamento.",
+      before: "Parar a aula para responder se o Pix daquele aluno chegou.",
+      after: "A cobrança e o comprovante ficam na conversa do aluno com o Mensaliza, longe da quadra.",
     },
     {
-      id: "lost-receipt",
-      title: "Comprovante perdido",
-      body: "Procurar um print antigo no WhatsApp para saber se aquele Pix chegou.",
+      before: "Procurar o print do Pix no meio das conversas para saber quem pagou.",
+      after: "O comprovante chega organizado no painel. Você confere e confirma.",
     },
     {
-      id: "who-paid",
-      title: "Quem já pagou",
-      body: "Conferir, de cabeça ou na conversa, quem está em dia e quem ainda está pendente.",
+      before: 'Mandar "e aí, tudo certo com a mensalidade?" para cada aluno, todo mês.',
+      after: "No dia combinado, o Mensaliza manda a cobrança no WhatsApp por você.",
     },
   ],
-  closing: "Você não precisa transformar sua rotina de aulas em uma rotina de cobranças manuais.",
-} as const;
+};
 
-export const tennisHowItWorks = {
-  title: "Como o Mensaliza cobra por você.",
-  lead: "Do cadastro à aprovação do comprovante, em quatro passos.",
+export const tennisHowItWorks: HowItWorksContent = {
+  title: "Pronto em três passos",
+  description: "Depois disso, a cobrança da turma sai sozinha todo mês.",
   steps: [
     {
-      title: "Cadastre o aluno uma vez",
-      description: "Nome, WhatsApp, valor e o dia da cobrança: 1, 5, 10, 15, 20 ou 25.",
+      title: "Cadastre seus alunos",
+      description:
+        "Nome, WhatsApp, valor e o dia da cobrança: 1, 5, 10, 15, 20 ou 25. Pode começar com um só.",
     },
     {
-      title: "O aluno autoriza as mensagens",
+      title: "Cadastre sua chave Pix",
       description:
-        "Você envia o convite pelo painel. Sem o sim do aluno, nenhuma cobrança automática é enviada.",
+        "Ela aparece no link de pagamento com o Pix copia e cola. O dinheiro cai direto na sua conta.",
     },
     {
-      title: "A cobrança sai no dia",
+      title: "Ligue o WhatsApp do aluno",
       description:
-        "A mensagem sai pelo WhatsApp do Mensaliza, não pelo seu, e se repete todo mês na data configurada.",
-    },
-    {
-      title: "O comprovante chega e você aprova",
-      description:
-        "O aluno manda a foto ou o PDF nessa mesma conversa. Se você rejeitar, ele recebe um aviso para reenviar.",
+        "Ele recebe uma mensagem de boas-vindas e responde “Sim” para autorizar. Sem esse sim, nenhuma cobrança sai.",
     },
   ],
-} as const;
+  // The form mirrors the app, which calls everyone "assinante".
+  example: {
+    formTitle: "Novo assinante",
+    name: "Ana",
+    value: "R$ 280,00",
+    whatsapp: "(19) 98765-4321",
+    day: "Dia 5",
+    pixKey: "lucastenis@email.com",
+  },
+  studentTitle: "E para o seu aluno?",
+  studentDescription:
+    "Tudo acontece no WhatsApp dele: recebe a cobrança, paga no Pix, manda o comprovante e recebe a confirmação. Sem app, sem cadastro e sem custo para ele.",
+  studentSteps,
+  conversation: tennisConversation,
+};
 
-export const tennisProduct = {
-  title: "Veja quem pagou sem abrir nenhuma conversa.",
-  lead: "A lista mostra o status de cada aluno. O comprovante fica ligado a ele, e a cobrança se repete no dia combinado.",
-  points: [
-    {
-      id: "status",
-      title: "Status de cada aluno",
-      body: "Dá para ver quem está em dia, quem está em aberto, quem atrasou e quem já mandou comprovante.",
-    },
-    {
-      id: "receipt",
-      title: "Comprovante ligado ao aluno",
-      body: "A foto ou o PDF fica no painel, em vez de se perder no seu WhatsApp.",
-    },
-    {
-      id: "repeat",
-      title: "Cobrança que se repete",
-      body: "No dia combinado, o Mensaliza envia de novo. Você não monta a lista de mensagens.",
-    },
-  ],
-} as const;
+const featureCopy: Record<(typeof features)[number]["id"], { title: string; description: string }> = {
+  alunos: {
+    title: "Todos os seus alunos num lugar só",
+    description:
+      "Valor, dia da cobrança e histórico de cada um. Aluno viajou ou se machucou? Desligue a cobrança dele.",
+  },
+  mes: {
+    title: "Quanto já entrou no mês",
+    description: "O recebido sobe a cada pagamento que você confirma, sem planilha.",
+  },
+  comprovantes: {
+    title: "Comprovante chega, você confirma com um toque",
+    description:
+      "Ele aparece no painel para você conferir entre uma aula e outra. Se algo não bater, recuse e o aluno é avisado.",
+  },
+  atrasados: {
+    title: "Quem atrasou, todo dia às 8h no seu WhatsApp",
+    description: "Um resumo com o que falta receber, quem está atrasado e quem vence amanhã.",
+  },
+};
+
+export const tennisFeatures: FeaturesContent = {
+  title: "Veja quem pagou sem abrir nenhuma conversa",
+  description:
+    "Enquanto o WhatsApp cobra, você acompanha a turma toda num lugar só, no celular ou no computador.",
+  items: features.map((feature) => ({ id: feature.id, ...featureCopy[feature.id] })),
+};
 
 export type TennisTestimonial = {
   id: string;
@@ -143,17 +175,16 @@ export type TennisTestimonial = {
 };
 
 /**
- * Itens com `placeholder: true` são exemplos de interface.
- * Eles só aparecem fora de produção. Para publicar um depoimento real,
- * troque o texto e apague `placeholder`.
+ * Itens com `placeholder: true` são exemplos de interface e só aparecem fora de produção.
+ * Para publicar um depoimento real, troque o texto e apague `placeholder`.
  */
 export const tennisTestimonials: {
   title: string;
-  lead: string;
+  description: string;
   items: TennisTestimonial[];
 } = {
-  title: "Professores que já cobram com o Mensaliza.",
-  lead: "Menos cobrança no intervalo. O comprovante fica no painel.",
+  title: "Professores que já cobram com o Mensaliza",
+  description: "Menos cobrança no intervalo. O comprovante fica no painel.",
   items: [
     {
       id: "marina",
@@ -184,87 +215,57 @@ export const tennisTestimonials: {
   ],
 };
 
-export const tennisPricing = {
-  title: "14 dias para testar com a sua turma.",
-  lead: `O plano ${tennisPlan.name} é o que inclui cobrança e comprovante pelo WhatsApp.`,
-  feature: `Cobrança automática e comprovantes pelo WhatsApp para até ${tennisPlan.maxSubscribers} alunos.`,
-  comparison: "Menos que a mensalidade de um aluno.",
-  yearlyNote: `ou ${tennisPlan.yearlyLabel}/mês no anual`,
-  moreStudents: `Mais de ${tennisPlan.maxSubscribers} alunos? Os planos ${businessTier.name} (${businessTier.maxSubscribers}) e ${scaleTier.name} (${scaleTier.maxSubscribers}) aparecem no cadastro.`,
-} as const;
-
-export const tennisFaq = {
-  title: "Perguntas de quem dá aula",
-  lead: "Cobrança, WhatsApp, comprovante e o teste grátis, sem letra miúda.",
+export const tennisFaq: FaqContent = {
+  title: "Dúvidas de quem dá aula",
   items: [
     {
       question: "As cobranças saem do meu WhatsApp pessoal?",
       answer:
-        "Não. As mensagens saem pelo WhatsApp do Mensaliza, depois que o aluno autoriza. Nada sai do seu WhatsApp pessoal.",
+        "Não. Saem do número do assistente do Mensaliza, com o seu nome na mensagem. Seu WhatsApp fica livre para combinar aula. Na primeira vez, o aluno responde “Sim” para autorizar; sem essa autorização, nenhuma cobrança é enviada.",
     },
     {
       question: "Meu aluno precisa baixar algum app?",
       answer:
-        "Não. Ele recebe a cobrança no WhatsApp que já usa e responde nessa mesma conversa com a foto ou o PDF do comprovante. Não precisa criar conta nem instalar nada.",
+        "Não. Ele recebe a cobrança no WhatsApp que já usa, paga no Pix e manda a foto ou o PDF do comprovante na mesma conversa. Não cria conta e não paga nada a mais.",
     },
     {
-      question: "Meus alunos já me pagam por Pix na hora. Ainda faz sentido?",
+      question: "Meus alunos já me pagam por Pix. Ainda faz sentido?",
       answer:
-        "Sim, se a cobrança ainda depende de você lembrar e de procurar o comprovante depois. O aluno continua pagando o Pix direto para você. O Mensaliza envia o lembrete e guarda o comprovante no painel.",
-    },
-    {
-      question: "Preciso cadastrar cada aluno?",
-      answer:
-        "Sim, uma vez. Você informa o nome, o WhatsApp, o valor e o dia da cobrança: 1, 5, 10, 15, 20 ou 25.",
-    },
-    {
-      question: "O aluno precisa autorizar as mensagens?",
-      answer:
-        "Sim. O Mensaliza pede autorização no WhatsApp. Sem o sim do aluno, nenhuma cobrança automática é enviada.",
-    },
-    {
-      question: "O aluno vê meu número?",
-      answer:
-        "Não. A conversa acontece no WhatsApp do Mensaliza. O aluno vê o seu nome na cobrança, não o seu número pessoal.",
+        "Sim, se a cobrança ainda depende de você lembrar e de procurar o comprovante depois. O aluno continua pagando o Pix direto para você. O Mensaliza manda a cobrança no dia e guarda o comprovante no painel.",
     },
     {
       question: "Posso cobrar valores diferentes por aluno?",
       answer:
-        "Sim. Cada aluno tem o próprio valor e o próprio dia de cobrança. Uma aula avulsa pode entrar como uma cobrança separada. O Mensaliza não monta grade de horários nem pacote de aulas por semana.",
-    },
-    {
-      question: "Quanto tempo leva para configurar?",
-      answer:
-        "O cadastro do aluno pede nome, WhatsApp, valor e um dia de cobrança: 1, 5, 10, 15, 20 ou 25. A cobrança automática começa depois que ele autoriza.",
+        "Sim. Cada aluno tem o próprio valor e o próprio dia de cobrança: 1, 5, 10, 15, 20 ou 25. Uma aula avulsa entra como cobrança avulsa para o aluno. O Mensaliza não monta grade de horários nem pacote de aulas.",
     },
     {
       question: "Dou aula em arena ou clube. Funciona?",
       answer:
-        "Sim. O lugar da aula não muda a cobrança. O Pix cai na chave que você cadastrou. Se a arena precisa receber, isso fica entre você e a arena. O Mensaliza não fica com esse valor.",
+        "Sim. O lugar da aula não muda a cobrança: o Pix cai na chave que você cadastrou. Se a arena precisa receber uma parte, isso fica entre você e a arena. O Mensaliza não recebe nem segura nenhum valor.",
     },
     {
       question: "E se chover, o aluno viajar ou se machucar?",
       answer:
-        "O Mensaliza não remarca aula. Se o aluno for pausar o mês, desative o aluno no painel. Aluno inativo não recebe cobrança. Quando voltar, você ativa de novo.",
+        "O Mensaliza não remarca aula. Se o aluno vai pausar o mês, desligue a cobrança dele no painel. Quando ele voltar, você liga de novo.",
     },
     {
       question: "E se o comprovante vier errado?",
       answer:
-        "Você rejeita no painel e o aluno recebe um aviso para enviar de novo. O Mensaliza não confirma o pagamento no banco: o Pix cai na sua conta, e a decisão de aprovar continua sua.",
+        "Todo comprovante passa pela sua conferência. Se algo não bater, você recusa e o aluno recebe uma mensagem pedindo um novo.",
     },
     {
       question: "Quanto custa depois do teste?",
-      answer: `O plano ${tennisPlan.name} custa ${tennisPlan.monthlyLabel}/mês, ou ${tennisPlan.yearlyLabel}/mês no anual. Ele inclui cobrança automática e comprovantes pelo WhatsApp para até ${tennisPlan.maxSubscribers} alunos.`,
+      answer: `O plano ${essential.name} custa ${reais(essential.priceMonthly)}/mês e cobra até ${essential.maxSubscribers} alunos no WhatsApp. Se você só quer organizar a turma e cobrar do seu jeito, o ${basic.name} custa ${reais(basic.priceMonthly)}/mês. Os outros planos estão em Preços.`,
     },
     {
-      question: "Como funciona o teste e como cancelo?",
-      answer: `São 14 dias grátis. É preciso cadastrar um cartão, e nada é cobrado hoje. A cobrança começa na data mostrada no cadastro. Se cancelar antes pelo e-mail ${SUPPORT_EMAIL} ou pelo WhatsApp ${SUPPORT_WHATSAPP_DISPLAY}, você não paga nada.`,
+      question: "Como funciona o teste grátis e como cancelo?",
+      answer: `Você cria a conta, cadastra seus alunos e, no fim do cadastro, informa o cartão no checkout seguro do Asaas. Nada é cobrado hoje: a primeira cobrança acontece depois dos ${TRIAL_DAYS} dias. Para cancelar, use o painel, o e-mail ${SUPPORT_EMAIL} ou o WhatsApp ${SUPPORT_WHATSAPP_DISPLAY}. Sem fidelidade e sem multa.`,
     },
   ],
-} as const;
+};
 
-export const tennisFinalCta = {
-  title: "Passe menos tempo cobrando. Aproveite mais tempo na quadra.",
-  ctaLabel: tennisCtaLabel,
-  supportLabel: "Tirar dúvida no WhatsApp",
-} as const;
+export const tennisCta: CtaContent = {
+  title: `Teste ${TRIAL_DAYS} dias com a sua turma`,
+  description:
+    "Cadastre um aluno, ligue o WhatsApp dele e veja a cobrança sair e o pagamento chegar no painel.",
+};

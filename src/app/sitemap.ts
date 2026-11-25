@@ -1,8 +1,12 @@
 import type { MetadataRoute } from "next";
 
-import { SITE_URL } from "@/lib/seo";
+import { BLOG_PATH, getAllPosts } from "@/lib/blog";
+import { SITE_URL, absoluteUrl } from "@/lib/seo";
 
-export default function sitemap(): MetadataRoute.Sitemap {
+export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
+  const posts = await getAllPosts();
+  const latestPostDate = posts[0]?.updatedAt ?? posts[0]?.publishedAt;
+
   return [
     {
       url: SITE_URL,
@@ -11,11 +15,23 @@ export default function sitemap(): MetadataRoute.Sitemap {
       priority: 1,
     },
     {
-      url: `${SITE_URL}/professores-de-tenis`,
+      url: absoluteUrl("/professores-de-tenis"),
       lastModified: new Date(),
       changeFrequency: "weekly",
       priority: 0.8,
     },
+    {
+      url: absoluteUrl(BLOG_PATH),
+      lastModified: latestPostDate ? new Date(latestPostDate) : new Date(),
+      changeFrequency: "weekly",
+      priority: 0.8,
+    },
+    ...posts.map((post) => ({
+      url: absoluteUrl(post.path),
+      lastModified: new Date(post.updatedAt ?? post.publishedAt),
+      changeFrequency: "monthly" as const,
+      priority: 0.7,
+    })),
     {
       url: `${SITE_URL}/termos-de-uso`,
       lastModified: new Date(),

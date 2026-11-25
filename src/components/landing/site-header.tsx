@@ -1,262 +1,350 @@
 "use client";
 
-import { MenuIcon } from "lucide-react";
-import { useSearchParams } from "next/navigation";
-import { Suspense, useEffect, useState } from "react";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
+import { useCallback, useEffect, useId, useLayoutEffect, useMemo, useRef, useState } from "react";
 
 import { LoginLink } from "@/components/landing/login-link";
-import { SignupButton, type SignupButtonProps } from "@/components/landing/signup-button";
+import { SignupButton } from "@/components/landing/signup-button";
+import { WhatsAppIcon, trackWhatsAppClick } from "@/components/landing/whatsapp-floating-button";
 import { Logo } from "@/components/logo";
-import { Button } from "@/components/ui/button";
+import { SIGNUP_CTA_LABEL, SIGNUP_CTA_SHORT_LABEL, headerNavLinks } from "@/lib/landing-content";
+import { trackLandingCta, trackLandingNavClicked } from "@/lib/landing-analytics";
 import {
-  Sheet,
-  SheetClose,
-  SheetContent,
-  SheetDescription,
-  SheetHeader,
-  SheetTitle,
-  SheetTrigger,
-} from "@/components/ui/sheet";
-import { navLinks } from "@/lib/landing-content";
-import {
-  sectionFromHref,
-  trackLandingCta,
-  trackLandingNavClicked,
-  type LandingAudience,
-  type LandingCtaLocation,
-} from "@/lib/landing-analytics";
-import { getSignupLinkProps, type SignupSearchParams } from "@/lib/site-urls";
+  getLoginLinkProps,
+  getWhatsAppHref,
+  SUPPORT_WHATSAPP_DISPLAY,
+} from "@/lib/site-urls";
 import { cn } from "cn";
-import Link from "next/link";
-import { useIsMobile } from "@/hooks/use-mobile";
-
-const headerLinkClassName =
-  "rounded-sm text-sm text-muted-foreground transition-colors hover:text-foreground focus-visible:outline-none focus-visible:ring-3 focus-visible:ring-ring/50";
 
 export type HeaderNavLink = { label: string; href: string };
 
-/** Signup target and tracking for the header CTAs. Home uses the defaults. */
-export type HeaderSignup = Pick<
-  SignupButtonProps,
-  "plan" | "billingInterval" | "audience" | "campaignRef"
-> & {
-  label?: string;
-  location?: LandingCtaLocation;
-  mobileLocation?: LandingCtaLocation;
-};
+type HeaderHref = string;
 
 type SiteHeaderProps = {
-  /** When true, header starts flush/transparent over the hero and becomes a floating cell on scroll. */
+  /** When true, header starts flush/transparent over the hero and becomes a floating bar on scroll. */
   blendWithHero?: boolean;
+  /** Campaign pages pass their own sections (`/pagina#secao`). Defaults to the home's. */
   links?: readonly HeaderNavLink[];
-  signup?: HeaderSignup;
-  audience?: LandingAudience;
 };
 
-function MobileHeaderSignupLink({
-  searchParams,
-  signup,
-}: {
-  searchParams: SignupSearchParams | null;
-  signup: HeaderSignup;
-}) {
-  const label = signup.label ?? "Começar";
-  return (
-    <SheetClose
-      render={
-        <Button
-          className="min-h-11 w-full"
-          nativeButton={false}
-          render={
-            <a
-              {...getSignupLinkProps({
-                searchParams,
-                plan: signup.plan,
-                interval: signup.billingInterval,
-                campaignRef: signup.campaignRef,
-              })}
-              aria-label={label}
-              onClick={() =>
-                trackLandingCta({
-                  cta: "signup",
-                  location: signup.mobileLocation ?? "header_mobile",
-                  plan: signup.plan,
-                  billing_interval: signup.billingInterval,
-                  audience: signup.audience,
-                })
-              }
-            />
-          }
-        />
-      }
-    >
-      {label}
-    </SheetClose>
+/** `"/#precos"` → `"/"`, `"/professores-de-tenis#faq"` → `"/professores-de-tenis"`. */
+function pagePath(href: string) {
+  const hash = href.indexOf("#");
+  return hash === -1 ? href : href.slice(0, hash) || "/";
+}
+
+/** The section whose box crosses a line at 35% of the viewport height. */
+function getActiveSectionHref(sectionLinks: readonly HeaderNavLink[]): HeaderHref | null {
+  const probe = window.innerHeight * 0.35;
+  let current: HeaderHref | null = null;
+
+  for (const link of sectionLinks) {
+    const section = document.getElementById(link.href.slice(link.href.indexOf("#") + 1));
+    if (!section) continue;
+    const rect = section.getBoundingClientRect();
+    if (rect.top <= probe && rect.bottom > probe) current = link.href;
+  }
+
+  return current;
+}
+
+function toAnalyticsTarget(href: string) {
+  const hash = href.indexOf("#");
+  return hash === -1 ? href.replace(/^\//, "") : href.slice(hash + 1);
+}
+
+export function SiteHeader({ blendWithHero = false, links = headerNavLinks }: SiteHeaderProps) {
+  const pathname = usePathname();
+  const menuId = useId();
+  // In-page section links of the current page drive the scrollspy.
+  const sectionLinks = useMemo(
+    () => links.filter((link) => link.href.includes("#") && pagePath(link.href) === pathname),
+    [links, pathname]
   );
-}
+  const hasSections = sectionLinks.length > 0;
 
-function MobileHeaderSignupLinkWithParams({ signup }: { signup: HeaderSignup }) {
-  const searchParams = useSearchParams();
-  return <MobileHeaderSignupLink searchParams={searchParams} signup={signup} />;
-}
-
-export function SiteHeader({
-  blendWithHero = false,
-  links = navLinks,
-  signup = {},
-  audience,
-}: SiteHeaderProps) {
-  const isMobile = useIsMobile();
-  const [open, setOpen] = useState(false);
   const [atTop, setAtTop] = useState(blendWithHero);
+  const [sectionHref, setSectionHref] = useState<HeaderHref | null>(null);
+  const [menuOpen, setMenuOpen] = useState(false);
 
+  const triggerRef = useRef<HTMLButtonElement>(null);
+  const navRef = useRef<HTMLElement>(null);
+  const linkRefs = useRef(new Map<string, HTMLAnchorElement>());
+  const [indicator, setIndicator] = useState({ x: 0, visible: false, instant: true });
+
+  const activeHref: HeaderHref | null = pathname.startsWith("/blog")
+    ? "/blog"
+    : hasSections
+      ? sectionHref
+      : null;
+
+  /* Scroll state: blend over the hero + scrollspy for in-page sections. */
   useEffect(() => {
-    if (!blendWithHero) {
-      setAtTop(false);
-      return;
-    }
+    let frame = 0;
 
     const sync = () => {
-      setAtTop(window.scrollY < 8);
+      frame = 0;
+      setAtTop(blendWithHero && window.scrollY < 8);
+      setSectionHref(hasSections ? getActiveSectionHref(sectionLinks) : null);
+    };
+
+    const onScroll = () => {
+      if (!frame) frame = requestAnimationFrame(sync);
     };
 
     sync();
-    window.addEventListener("scroll", sync, { passive: true });
-    return () => window.removeEventListener("scroll", sync);
-  }, [blendWithHero]);
+    window.addEventListener("scroll", onScroll, { passive: true });
+    window.addEventListener("resize", onScroll);
+    return () => {
+      cancelAnimationFrame(frame);
+      window.removeEventListener("scroll", onScroll);
+      window.removeEventListener("resize", onScroll);
+    };
+  }, [blendWithHero, hasSections, sectionLinks]);
 
-  const transparent = blendWithHero && atTop;
-  const floating = !transparent;
+  /* Active-section capsule: slides between links, fades when nothing is active. */
+  const measureIndicator = useCallback(() => {
+    const nav = navRef.current;
+    const link = activeHref ? linkRefs.current.get(activeHref) : undefined;
+
+    setIndicator((prev) => {
+      // offsetWidth is 0 while the desktop nav is display:none (below lg).
+      if (!nav || !link || link.offsetWidth === 0) return { ...prev, visible: false };
+      const x = link.offsetLeft + link.offsetWidth / 2;
+      // Jump into place when appearing, slide when moving between links.
+      return { x, visible: true, instant: !prev.visible };
+    });
+  }, [activeHref]);
+
+  useLayoutEffect(() => {
+    measureIndicator();
+  }, [measureIndicator]);
+
+  useEffect(() => {
+    const nav = navRef.current;
+    if (!nav) return;
+    // Nav width changes (font load, breakpoint switch from display:none).
+    const observer = new ResizeObserver(() => measureIndicator());
+    observer.observe(nav);
+    window.addEventListener("resize", measureIndicator);
+    return () => {
+      observer.disconnect();
+      window.removeEventListener("resize", measureIndicator);
+    };
+  }, [measureIndicator]);
+
+  /* Mobile menu: scroll lock, Escape, and auto-close at desktop width. */
+  const closeMenu = useCallback(() => {
+    // Unlock synchronously so in-page hash navigation can scroll right away.
+    document.documentElement.style.overflow = "";
+    setMenuOpen(false);
+  }, []);
+
+  useEffect(() => {
+    if (!menuOpen) return;
+
+    document.documentElement.style.overflow = "hidden";
+
+    const onKeyDown = (event: KeyboardEvent) => {
+      if (event.key === "Escape") {
+        closeMenu();
+        triggerRef.current?.focus();
+      }
+    };
+
+    const desktop = window.matchMedia("(min-width: 64rem)");
+    const onBreakpoint = () => {
+      if (desktop.matches) closeMenu();
+    };
+
+    window.addEventListener("keydown", onKeyDown);
+    desktop.addEventListener("change", onBreakpoint);
+    return () => {
+      document.documentElement.style.overflow = "";
+      window.removeEventListener("keydown", onKeyDown);
+      desktop.removeEventListener("change", onBreakpoint);
+    };
+  }, [menuOpen, closeMenu]);
+
+  const transparent = atTop && !menuOpen;
+  const loginLink = getLoginLinkProps();
 
   return (
     <header
       data-at-top={transparent ? "true" : "false"}
-      data-floating={floating ? "true" : "false"}
+      data-floating={transparent ? "false" : "true"}
       className={cn(
-        "z-40 w-full px-4 pt-3 sm:px-6 sm:pt-3.5",
-        blendWithHero ? "fixed top-0" : "sticky top-0"
+        "top-0 w-full px-4 pt-3 sm:px-6",
+        blendWithHero ? "fixed" : "sticky",
+        menuOpen ? "z-50" : "z-40"
       )}
     >
       <div
         className={cn(
-          "site-header-bar relative mx-auto flex w-full max-w-5xl items-center justify-between gap-3 rounded-2xl border px-3 sm:px-5 py-2 md:py-3",
-          floating
-            ? "border-border bg-background/95 backdrop-blur-sm"
-            : "border-transparent bg-transparent"
+          "site-header-bar relative mx-auto grid w-full grid-cols-[1fr_auto] items-center gap-4 rounded-2xl border lg:grid-cols-[1fr_auto_1fr]",
+          transparent
+            ? "max-w-6xl border-transparent bg-transparent py-3 pr-0 pl-0"
+            : "site-header-bar--floating max-w-5xl border-border/70 bg-background/85 py-2 pr-2 pl-4 backdrop-blur-md sm:pl-5"
         )}
       >
-        <div className="flex flex-1 items-center md:items-end justify-between gap-12">
-          <Link
-            href="/"
-            className="flex-none rounded-sm text-foreground focus-visible:outline-none focus-visible:ring-3 focus-visible:ring-ring/50"
-            aria-label="Mensaliza — início"
-          >
-            <Logo size={isMobile ? "md" : "md"} />
-          </Link>
+        <Link
+          href="/"
+          className="justify-self-start rounded-md text-foreground focus-visible:outline-none focus-visible:ring-3 focus-visible:ring-ring/50"
+          aria-label="Mensaliza — início"
+          onClick={closeMenu}
+        >
+          <Logo size="md" />
+        </Link>
 
-          <nav
-            aria-label="Navegação principal"
-            className="hidden mt-1 items-end gap-4 lg:flex xl:gap-5"
-          >
-            {links.map((link) => (
+        <nav
+          ref={navRef}
+          aria-label="Navegação principal"
+          className="relative hidden items-center gap-1 lg:flex"
+        >
+          {links.map((link) => {
+            const active = link.href === activeHref;
+            return (
               <Link
                 key={link.href}
+                ref={(node) => {
+                  if (node) linkRefs.current.set(link.href, node);
+                  else linkRefs.current.delete(link.href);
+                }}
                 href={link.href}
-                className={headerLinkClassName}
+                aria-current={active ? (link.href === "/blog" ? "page" : "location") : undefined}
+                className={cn(
+                  "inline-flex min-h-11 items-center rounded-md px-3 text-sm font-medium transition-colors duration-200 focus-visible:outline-none focus-visible:ring-3 focus-visible:ring-ring/50",
+                  active ? "text-foreground" : "text-muted-foreground hover:text-foreground"
+                )}
                 onClick={() =>
                   trackLandingNavClicked({
-                    target_section: sectionFromHref(link.href),
+                    target_section: toAnalyticsTarget(link.href),
                     source: "header",
-                    audience,
                   })
                 }
               >
                 {link.label}
               </Link>
-            ))}
-          </nav>
+            );
+          })}
+          <span
+            aria-hidden
+            data-instant={indicator.instant ? "true" : "false"}
+            className="site-header-indicator pointer-events-none absolute bottom-0 left-0 h-[3px] w-4 rounded-full bg-primary"
+            style={{
+              transform: `translate3d(${indicator.x - 8}px, 0, 0) scaleX(${indicator.visible ? 1 : 0.4})`,
+              opacity: indicator.visible ? 1 : 0,
+            }}
+          />
+        </nav>
 
-          <div className="flex flex-none items-center gap-2 sm:gap-3">
-            <LoginLink
-              variant="secondary"
-              className="hidden min-h-8 px-3 sm:inline-flex"
-              location={signup.location ?? "header"}
-            />
-            <SignupButton
-              size="sm"
-              showIcon={false}
-              label={signup.label ?? "Começar"}
-              className="hidden min-h-8 px-3 sm:inline-flex"
-              location={signup.location ?? "header"}
-              plan={signup.plan}
-              billingInterval={signup.billingInterval}
-              audience={signup.audience}
-              campaignRef={signup.campaignRef}
-            />
+        <div className="flex items-center gap-1 justify-self-end sm:gap-2">
+          <LoginLink
+            variant="ghost"
+            className="hidden h-9 min-h-9 px-3 text-sm text-muted-foreground hover:bg-transparent hover:text-foreground sm:inline-flex"
+            location="header"
+          />
+          {/* Visible on phones too: after the hero this is the only sign-up button in view. */}
+          <SignupButton
+            size="default"
+            showIcon={false}
+            label={SIGNUP_CTA_SHORT_LABEL}
+            className="h-10 min-h-10 px-3.5 sm:px-4"
+            location="header"
+          />
 
-            <Sheet open={open} onOpenChange={setOpen}>
-              <SheetTrigger
-                render={
-                  <Button
-                    variant="ghost"
-                    size="icon-lg"
-                    className={cn(
-                      "size-9 lg:hidden",
-                      transparent && "border-border/70 bg-background/70"
-                    )}
-                    aria-label="Abrir menu"
-                  />
-                }
-              >
-                <MenuIcon />
-              </SheetTrigger>
-              <SheetContent side="right" className="w-full max-w-xs">
-                <SheetHeader>
-                  <SheetTitle>Menu</SheetTitle>
-                  <SheetDescription className="sr-only">
-                    Navegação do site Mensaliza
-                  </SheetDescription>
-                </SheetHeader>
-                <nav className="flex flex-col gap-1 px-4" aria-label="Menu mobile">
-                  {links.map((link) => (
-                    <SheetClose
-                      key={link.href}
-                      render={
-                        <a
-                          href={link.href}
-                          className={cn(
-                            "min-h-11 rounded-lg px-3 py-2.5 text-sm font-medium text-foreground transition-colors hover:bg-muted focus-visible:outline-none focus-visible:ring-3 focus-visible:ring-ring/50"
-                          )}
-                          onClick={() =>
-                            trackLandingNavClicked({
-                              target_section: sectionFromHref(link.href),
-                              source: "header_mobile",
-                              audience,
-                            })
-                          }
-                        />
-                      }
-                    >
-                      {link.label}
-                    </SheetClose>
-                  ))}
-                </nav>
-                <div className="mt-auto flex flex-col gap-2 border-t p-4">
-                  <LoginLink
-                    variant="secondary"
-                    fullWidth
-                    className="min-h-11"
-                    location={signup.mobileLocation ?? "header_mobile"}
-                  />
-                  <Suspense
-                    fallback={<MobileHeaderSignupLink searchParams={null} signup={signup} />}
+          <button
+            ref={triggerRef}
+            type="button"
+            aria-expanded={menuOpen}
+            aria-controls={menuId}
+            aria-label={menuOpen ? "Fechar menu" : "Abrir menu"}
+            onClick={() => (menuOpen ? closeMenu() : setMenuOpen(true))}
+            className="grid size-11 place-items-center rounded-xl text-foreground transition-colors hover:bg-muted focus-visible:outline-none focus-visible:ring-3 focus-visible:ring-ring/50 lg:hidden"
+          >
+            <span aria-hidden className="relative block h-4 w-5">
+              <span
+                className="site-header-burger-line absolute top-1/2 left-0 -mt-px h-0.5 w-5 rounded-full bg-current"
+                style={{ transform: menuOpen ? "rotate(45deg)" : "translate3d(0, -4px, 0)" }}
+              />
+              <span
+                className="site-header-burger-line absolute top-1/2 left-0 -mt-px h-0.5 w-5 rounded-full bg-current"
+                style={{ transform: menuOpen ? "rotate(-45deg)" : "translate3d(0, 4px, 0)" }}
+              />
+            </span>
+          </button>
+        </div>
+      </div>
+
+      <div
+        id={menuId}
+        inert={!menuOpen}
+        data-open={menuOpen ? "true" : "false"}
+        className="site-header-menu fixed inset-0 -z-10 flex flex-col overflow-y-auto bg-background px-4 pt-24 sm:px-6 lg:hidden"
+      >
+        <nav aria-label="Menu mobile" className="mx-auto w-full max-w-5xl">
+          <ul className="flex flex-col">
+            {links.map((link) => {
+              const active = link.href === activeHref;
+              return (
+                <li key={link.href} className="border-b border-border/70">
+                  {/* Plain anchor: native hash scrolling runs after the scroll lock is released. */}
+                  <a
+                    href={link.href}
+                    aria-current={active ? (link.href === "/blog" ? "page" : "location") : undefined}
+                    className="flex min-h-16 items-center gap-3 rounded-md font-heading text-2xl font-medium tracking-[-0.01em] text-foreground focus-visible:outline-none focus-visible:ring-3 focus-visible:ring-ring/50"
+                    onClick={() => {
+                      trackLandingNavClicked({
+                        target_section: toAnalyticsTarget(link.href),
+                        source: "header_mobile",
+                      });
+                      closeMenu();
+                    }}
                   >
-                    <MobileHeaderSignupLinkWithParams signup={signup} />
-                  </Suspense>
-                </div>
-              </SheetContent>
-            </Sheet>
+                    {link.label}
+                    {active ? (
+                      <span aria-hidden className="h-[3px] w-4 rounded-full bg-primary" />
+                    ) : null}
+                  </a>
+                </li>
+              );
+            })}
+          </ul>
+        </nav>
+
+        <div className="mx-auto mt-auto flex w-full max-w-5xl flex-col gap-4 pt-10 pb-[max(1.5rem,env(safe-area-inset-bottom))]">
+          <div onClickCapture={closeMenu}>
+            <SignupButton
+              label={SIGNUP_CTA_LABEL}
+              className="w-full text-base"
+              location="header_mobile"
+            />
           </div>
+          <p className="text-center text-sm text-muted-foreground">
+            Já tem conta?{" "}
+            <a
+              {...loginLink}
+              className="rounded-sm font-medium text-foreground underline-offset-4 hover:underline focus-visible:outline-none focus-visible:ring-3 focus-visible:ring-ring/50"
+              onClick={() => {
+                trackLandingCta({ cta: "login", location: "header_mobile" });
+                closeMenu();
+              }}
+            >
+              Entrar
+            </a>
+          </p>
+          <a
+            href={getWhatsAppHref()}
+            target="_blank"
+            rel="noopener noreferrer"
+            onClick={() => trackWhatsAppClick("header_mobile")}
+            className="mt-2 flex items-center justify-center gap-2 rounded-xl border border-border/70 px-4 py-3 text-sm text-muted-foreground transition-colors hover:text-foreground focus-visible:outline-none focus-visible:ring-3 focus-visible:ring-ring/50"
+          >
+            <WhatsAppIcon className="size-4 text-success" />
+            Dúvidas? Fale com a gente no WhatsApp
+            <span className="sr-only">({SUPPORT_WHATSAPP_DISPLAY}, abre em nova aba)</span>
+          </a>
         </div>
       </div>
     </header>

@@ -1,0 +1,105 @@
+export const meta = {
+  title: "Planilha de controle de mensalidades: modelo grátis e quando ela deixa de funcionar",
+  ogTitle: "Planilha de controle de mensalidades grátis",
+  description:
+    "Baixe grátis uma planilha de controle de mensalidades em Excel, com status de pagamento e resumo do mês, e veja quando vale trocar a planilha por automação.",
+  publishedAt: "2026-11-08",
+  category: "gestao",
+  tags: [
+    "planilha de controle de mensalidades",
+    "planilha de mensalidade",
+    "controle de pagamentos",
+    "modelo de planilha grátis",
+  ],
+  faq: [
+    {
+      question: "A planilha funciona no Google Planilhas?",
+      answer:
+        "Sim. Faça o upload do arquivo no Google Drive e abra com o Google Planilhas. As fórmulas, listas de seleção e cores continuam funcionando.",
+    },
+    {
+      question: "Como controlar mensalidade de clientes no Excel?",
+      answer:
+        "Separe o cadastro de clientes (valor e dia de vencimento) do lançamento mensal de pagamentos. A cada mês, lance uma linha por cliente e marque a data em que o valor caiu na conta. Fórmulas calculam o status (pago, pendente ou atrasado) e o resumo do mês.",
+    },
+    {
+      question: "Quando a planilha de mensalidades deixa de ser suficiente?",
+      answer:
+        "Quando lançar os pagamentos e mandar os lembretes começa a tomar horas por mês, geralmente a partir de algumas dezenas de clientes, ou quando você esquece de cobrar alguém porque a planilha não avisa sozinha.",
+    },
+  ],
+};
+
+Uma boa planilha de controle de mensalidades precisa de **três partes: o cadastro dos clientes (valor e dia de vencimento), o lançamento dos pagamentos de cada mês e um resumo com o previsto, o recebido e quem está atrasado**. O modelo abaixo já vem pronto com essa estrutura e fórmulas. É só baixar e preencher.
+
+<DownloadButton
+  href="/downloads/planilha-controle-de-mensalidades.xlsx"
+  label="Baixar planilha grátis"
+  meta="Excel (.xlsx) · funciona no Google Planilhas"
+/>
+
+## O que tem na planilha
+
+A planilha tem quatro abas:
+
+| Aba | Para que serve |
+| --- | --- |
+| Como usar | Passo a passo e legenda das cores |
+| Assinantes | Cadastro: nome, WhatsApp, valor, dia de vencimento, status e início |
+| Pagamentos | Uma linha por cliente por mês, com status calculado |
+| Resumo do mês | Ativos, previsto, recebido, pendente, em atraso e % recebido |
+
+As células em amarelo são as que você preenche. As brancas são calculadas por fórmula.
+
+## Como usar, passo a passo
+
+### 1. Cadastre os assinantes
+
+Na aba **Assinantes**, preencha uma linha por cliente. Use um dia de vencimento entre 1 e 28, para que ele exista em todos os meses (inclusive fevereiro).
+
+### 2. Lance o mês na aba Pagamentos
+
+No início de cada mês, adicione uma linha por assinante ativo: o **mês** (sempre o dia 1, por exemplo 01/11/2026) e o **nome**, escolhido na lista. O valor e o vencimento são preenchidos sozinhos a partir do cadastro.
+
+### 3. Marque os pagamentos
+
+Quando o valor cair na sua conta, preencha a **data do pagamento**. O status muda de *Pendente* para *Pago*. Se a data de vencimento passar sem pagamento, o status vira *Atrasado*, em vermelho.
+
+<Callout title="Confira no extrato, não no comprovante">
+Só preencha a data de pagamento depois de ver o valor no extrato do banco. Comprovantes podem ser de Pix agendado ou até editados. Veja [como identificar comprovante Pix falso](/blog/como-identificar-comprovante-pix-falso).
+</Callout>
+
+### 4. Acompanhe o resumo
+
+Na aba **Resumo do mês**, troque o mês na célula amarela para ver quanto estava previsto, quanto já entrou e quanto está em atraso.
+
+<BlogCta
+  title="Quando a planilha ficar pequena, o Mensaliza assume"
+  description="Cadastre seus assinantes uma vez. O Mensaliza envia a cobrança pelo WhatsApp no vencimento, recebe os comprovantes e mostra o mês inteiro num painel. O Pix vai direto para você."
+/>
+
+## Boas práticas para a planilha não virar bagunça
+
+- **Atualize no mesmo dia em que confirmar o pagamento.** Planilha atrasada é pior que nenhuma, porque passa uma informação errada.
+- **Não apague meses antigos.** O histórico ajuda a ver quem costuma atrasar e como a receita evolui.
+- **Mantenha o status do cadastro em dia.** Cliente que saiu deve virar *Inativo*, para não entrar no previsto.
+- **Faça backup.** No Google Planilhas o histórico de versões ajuda; no Excel, salve na nuvem.
+
+## Quando a planilha deixa de funcionar
+
+A planilha organiza, mas não age. Ela não manda lembrete para ninguém, não recebe comprovante e depende de você lembrar de abri-la. Esses são os sinais de que ela ficou pequena:
+
+- você passa **mais de uma hora por mês** lançando pagamentos e conferindo quem pagou;
+- você **esquece de cobrar** alguém porque não abriu a planilha naquele dia;
+- os **comprovantes** chegam por várias conversas e você não sabe quais já lançou;
+- você **cobra quem já pagou**, porque a planilha estava desatualizada.
+
+| | Planilha | Cobrança automatizada |
+| --- | --- | --- |
+| Custo | Grátis | Assinatura mensal |
+| Lembretes | Você envia, um por um | Enviados no vencimento |
+| Comprovantes | Chegam espalhados | Numa fila para aprovar |
+| Atualização | Manual | Automática ao aprovar |
+| Funciona bem até | Poucas dezenas de clientes | Centenas de clientes |
+
+Com poucos clientes, a planilha resolve muito bem. Quando a base cresce, automatizar a parte repetitiva (lembrar, receber o comprovante e atualizar o status) devolve horas do seu mês. Para organizar a sequência de lembretes, veja também [como montar uma régua de cobrança](/blog/regua-de-cobranca).

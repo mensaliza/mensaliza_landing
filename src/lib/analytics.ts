@@ -12,6 +12,26 @@ export function captureEvent(event: string, properties?: AnalyticsProperties) {
   }
 }
 
+/**
+ * Sends `properties` with every event until cleared. Campaign pages use it to
+ * tag the whole visit (e.g. `audience`) without threading it through each call.
+ */
+export function registerEventProperties(properties: AnalyticsProperties) {
+  try {
+    posthog.register(properties);
+  } catch {
+    // analytics must never break the product
+  }
+}
+
+export function unregisterEventProperty(property: string) {
+  try {
+    posthog.unregister(property);
+  } catch {
+    // analytics must never break the product
+  }
+}
+
 export function captureClientException(
   error: unknown,
   properties?: AnalyticsProperties,

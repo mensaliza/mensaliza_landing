@@ -1,10 +1,12 @@
 import Image from "next/image";
 
-import { Reveal } from "@/components/landing/motion/reveal";
-import { SectionHeading } from "@/components/landing/section-heading";
 import { SectionShell } from "@/components/landing/section-shell";
-import { TENNIS_LANDING_AUDIENCE } from "@/lib/landing-analytics";
 import { tennisTestimonials } from "@/lib/tennis-landing-content";
+
+/** Example quotes (`placeholder: true`) only render in development. */
+const visibleTestimonials = tennisTestimonials.items.filter(
+  (item) => !item.placeholder || process.env.NODE_ENV !== "production"
+);
 
 function initials(name: string) {
   return name
@@ -16,38 +18,31 @@ function initials(name: string) {
     .toUpperCase();
 }
 
-/** Example quotes (`placeholder: true`) only render in development. */
-const visibleTestimonials = tennisTestimonials.items.filter(
-  (item) => !item.placeholder || process.env.NODE_ENV !== "production"
-);
-
+/** Quotes on the same bento cards as the panel section. Hidden until there are real ones. */
 export function TennisTestimonials() {
   if (visibleTestimonials.length === 0) return null;
 
   return (
-    <SectionShell
-      id="depoimentos"
-      labelledBy="tennis-depoimentos-titulo"
-      analyticsSection="tennis_depoimentos"
-      analyticsAudience={TENNIS_LANDING_AUDIENCE}
-    >
-      <Reveal>
-        <SectionHeading
-          align="center"
-          titleId="tennis-depoimentos-titulo"
-          title={tennisTestimonials.title}
-          description={tennisTestimonials.lead}
-          className="mx-auto"
-        />
-      </Reveal>
-      <Reveal delay={60}>
-      <ul className="grid w-full min-w-0 gap-4 lg:grid-cols-3">
+    <SectionShell id="depoimentos" labelledBy="depoimentos-titulo" analyticsSection="depoimentos">
+      <div className="flex max-w-3xl flex-col gap-3">
+        <h2
+          id="depoimentos-titulo"
+          className="text-[clamp(1.75rem,3.2vw,2.5rem)] leading-[1.12] font-semibold tracking-[-0.025em] text-balance"
+        >
+          {tennisTestimonials.title}
+        </h2>
+        <p className="text-lg leading-relaxed text-foreground/75 text-pretty">
+          {tennisTestimonials.description}
+        </p>
+      </div>
+
+      <ul className="grid list-none gap-4 p-0 lg:grid-cols-3">
         {visibleTestimonials.map((item) => (
           <li
             key={item.id}
-            className="flex min-w-0 flex-col gap-6 rounded-xl border border-border bg-card p-6"
+            className="bento-stage flex min-w-0 flex-col gap-6 rounded-[1.75rem] p-6 sm:p-7"
           >
-            <blockquote className="text-lg leading-relaxed wrap-break-word text-foreground text-pretty">
+            <blockquote className="text-lg leading-relaxed font-medium tracking-[-0.01em] text-foreground text-pretty">
               “{item.quote}”
             </blockquote>
             <footer className="mt-auto flex min-w-0 items-center gap-3">
@@ -61,15 +56,15 @@ export function TennisTestimonials() {
                 />
               ) : (
                 <span
-                  className="flex size-10 shrink-0 items-center justify-center rounded-full bg-primary/10 font-mono text-sm font-bold text-primary"
                   aria-hidden
+                  className="flex size-10 shrink-0 items-center justify-center rounded-full bg-primary text-sm font-semibold text-primary-foreground"
                 >
                   {initials(item.name)}
                 </span>
               )}
               <div className="min-w-0">
-                <p className="text-sm font-semibold wrap-break-word text-foreground">{item.name}</p>
-                <p className="text-sm wrap-break-word text-foreground/72">
+                <p className="text-[15px] font-semibold text-foreground">{item.name}</p>
+                <p className="text-sm text-foreground/70">
                   {item.role}
                   {item.location ? ` · ${item.location}` : ""}
                 </p>
@@ -78,7 +73,6 @@ export function TennisTestimonials() {
           </li>
         ))}
       </ul>
-      </Reveal>
     </SectionShell>
   );
 }
